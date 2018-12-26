@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="managementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="document">
+    <Key>
+      <PropertyRef Name="seq" />
+    </Key>
+    <Property Name="seq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="pathFileJP" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="docNoJP" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="pathFileTH" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="docNoTH" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="updateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="updateLast" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="kind" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="nameFileJP" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="nameFileTH" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="UserProfile">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IsActive" Type="Boolean" />
+  </EntityType>
+  <EntityContainer Name="managementEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="documents" EntityType="Self.document" />
+    <EntitySet Name="UserProfiles" EntityType="Self.UserProfile" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="managementModelStoreContainer" CdmEntityContainer="managementEntities">
+    <EntitySetMapping Name="documents">
+      <EntityTypeMapping TypeName="managementModel.document">
+        <MappingFragment StoreEntitySet="document">
+          <ScalarProperty Name="seq" ColumnName="seq" />
+          <ScalarProperty Name="pathFileJP" ColumnName="pathFileJP" />
+          <ScalarProperty Name="docNoJP" ColumnName="docNoJP" />
+          <ScalarProperty Name="pathFileTH" ColumnName="pathFileTH" />
+          <ScalarProperty Name="docNoTH" ColumnName="docNoTH" />
+          <ScalarProperty Name="updateBy" ColumnName="updateBy" />
+          <ScalarProperty Name="updateLast" ColumnName="updateLast" />
+          <ScalarProperty Name="kind" ColumnName="kind" />
+          <ScalarProperty Name="nameFileJP" ColumnName="nameFileJP" />
+          <ScalarProperty Name="nameFileTH" ColumnName="nameFileTH" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserProfiles">
+      <EntityTypeMapping TypeName="managementModel.UserProfile">
+        <MappingFragment StoreEntitySet="UserProfile">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
