@@ -37,9 +37,9 @@ End Code
                         <th>Document No.(JP)</th>
                         <th>Document Name(TH)</th>
                         <th>Document No.(TH)</th>
-                        <th>Update Last</th>
                         <th>Update By</th>
-                        <th>Action</th>
+                        <th>Update Last</th>
+                        @if(Session("GroupId") = 1 Or Session("GroupId") = 8) Then @<th>Action</th> End if
                     </tr>
                 </thead>
                 <tbody id="dataRow">
@@ -254,7 +254,7 @@ End Code
 
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <div class="text-left text-danger">กรุณาเช็คเอกสารที่ต้องการลบ</div>
+                            <div class="text-left text-danger">กรุณาเลือกเอกสารที่ต้องการลบ</div>
                             <p> </p>
                             <div class="row">
                                 <div class="col"> </div>
@@ -554,9 +554,9 @@ End Code
                     var sessiongroupid = @Session("GroupId")
                     console.log(sessiongroupid);
                     if(sessiongroupid == 1 || sessiongroupid == 8){
-                        tblSomething += '<td><div class="btn-group"><button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Edit" data-target="#docEdit" data-book-id=' + seq + '><i class="fas fa-edit"></i></button><button type="button" class="btn btn-danger btn-sm" data-tooltip="tooltip" data-placement="right" title="Delete" data-toggle="modal" data-target="#docDel" data-book-id=' + seq + '><i class="fas fa-trash-alt"></i></button></div></td>'
+                        tblSomething += '<td class="text-center"><div class="btn-group"><button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Edit" data-target="#docEdit" data-book-id=' + seq + '><i class="fas fa-edit"></i></button><button type="button" class="btn btn-danger btn-sm" data-tooltip="tooltip" data-placement="right" title="Delete" data-toggle="modal" data-target="#docDel" data-book-id=' + seq + '><i class="fas fa-trash-alt"></i></button></div></td>'
                     }else{
-                        tblSomething += '<td><div class="btn-group"><button disabled type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Edit" data-target="#docEdit" data-book-id=' + seq + '><i class="fas fa-edit"></i></button><button disabled type="button" class="btn btn-danger btn-sm" data-tooltip="tooltip" data-placement="right" title="Delete" data-toggle="modal" data-target="#docDel" data-book-id=' + seq + '><i class="fas fa-trash-alt"></i></button></div></td>'
+                        //tblSomething += '<td><div class="btn-group"><button disabled type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Edit" data-target="#docEdit" data-book-id=' + seq + '><i class="fas fa-edit"></i></button><button disabled type="button" class="btn btn-danger btn-sm" data-tooltip="tooltip" data-placement="right" title="Delete" data-toggle="modal" data-target="#docDel" data-book-id=' + seq + '><i class="fas fa-trash-alt"></i></button></div></td>'
                     }
                     
                     tblSomething += '</tr>';

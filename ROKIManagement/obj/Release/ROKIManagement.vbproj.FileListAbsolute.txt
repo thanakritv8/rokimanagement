@@ -51,3 +51,4 @@ C:\Users\thanakrit.j\documents\visual studio 2015\Projects\ROKIManagement\ROKIMa
 C:\Users\thanakrit.j\documents\visual studio 2015\Projects\ROKIManagement\ROKIManagement\obj\Release\ROKIManagement.dll
 C:\Users\thanakrit.j\documents\visual studio 2015\Projects\ROKIManagement\ROKIManagement\obj\Release\ROKIManagement.xml
 C:\Users\thanakrit.j\documents\visual studio 2015\Projects\ROKIManagement\ROKIManagement\obj\Release\ROKIManagement.pdb
+C:\Users\thanakrit.j\documents\visual studio 2015\Projects\ROKIManagement\ROKIManagement\obj\Release\ROKIManagement.vbprojResolveAssemblyReference.cache

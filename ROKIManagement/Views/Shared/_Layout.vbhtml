@@ -51,7 +51,7 @@
                  @<li Class="nav-item dropdown">
                      <a Class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                          <i Class="fas fa-user-circle"></i>
-                         <span> Premission</span>
+                         <span> Permission</span>
                      </a>
                      <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
                          <a Class="dropdown-item" href="../Account/Group">Group</a>

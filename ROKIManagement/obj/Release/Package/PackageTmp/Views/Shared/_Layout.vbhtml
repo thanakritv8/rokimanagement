@@ -38,22 +38,36 @@
     <div id="wrapper">
         @If Session("StatusLogin") = "OK" Then
             @<ul Class="sidebar navbar-nav">
-            <li Class="nav-item dropdown">
-                <a Class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i Class="fas fa-fw fa-folder"></i>
-                    <span> Document</span>
-                </a>
-                <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a Class="dropdown-item" href="../Home/DocQms">QMS</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="../Account/Logout">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </li>
-        </ul>
+                <li Class="nav-item dropdown">
+                    <a Class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i Class="fas fa-fw fa-folder"></i>
+                        <span> Document</span>
+                    </a>
+                    <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
+                        <a Class="dropdown-item" href="../Home/DocQms">QMS</a>
+                    </div>
+                </li>
+                @if Session("GroupId") = 1 Then
+                 @<li Class="nav-item dropdown">
+                     <a Class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         <i Class="fas fa-user-circle"></i>
+                         <span> Premission</span>
+                     </a>
+                     <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
+                         <a Class="dropdown-item" href="../Account/Group">Group</a>
+                         <a Class="dropdown-item" href="../Account/Account">Account</a>
+                         <a Class="dropdown-item" href="../Account/Application">Application</a>
+                     </div>
+                     
+                 </li>
+                End If
+                <li Class="nav-item">
+                    <a Class="nav-link" href="../Account/Logout">
+                        <i Class="fas fa-sign-out-alt"></i>
+                        <span> Logout</span>
+                    </a>
+                </li>
+            </ul>
         End If
         <!-- Sidebar -->
         @*<ul Class="sidebar navbar-nav">

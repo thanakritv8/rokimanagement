@@ -55,14 +55,17 @@ Namespace Controllers
                         noTH = Request.Form(i)
                     End If
                 Next
+
                 For i As Integer = 0 To Request.Files.Count - 1
                     Dim file = Request.Files(i)
                     Dim path As String = String.Empty
                     Try
+                        Dim p As String = file.FileName
+                        Dim extension As String = System.IO.Path.GetExtension(p)
                         If i = 0 And nameJP <> String.Empty Then
-                            path = Server.MapPath("../Files/Doc/QMS/JP/") & nameJP & ".pdf"
+                            path = Server.MapPath("../Files/Doc/QMS/JP/") & nameJP & extension
                         Else
-                            path = Server.MapPath("../Files/Doc/QMS/TH/") & nameTH & ".pdf"
+                            path = Server.MapPath("../Files/Doc/QMS/TH/") & nameTH & extension
                         End If
                         file.SaveAs(path)
                     Catch ex As Exception

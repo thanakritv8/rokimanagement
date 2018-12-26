@@ -1,7 +1,16 @@
 ﻿@Code
     ViewData("Title") = "QMS"
 End Code
-
+<style>
+    .toast-top-center {
+        top: 50%;
+        margin: 0 auto;
+        margin-left: -150px;
+    }
+    #dataTable {
+        width: 100%;
+    }
+</style>
 <!-- Breadcrumbs-->
 <ol class="breadcrumb">
     <li class="breadcrumb-item">
@@ -10,92 +19,107 @@ End Code
     <li class="breadcrumb-item active">QMS</li>
 </ol>
 
-<!-- DataTables Example -->
+<!-- DataTables -->
 <div class="card mb-3">
     <div class="card-header">
         <i class="fas fa-table"></i>
-        Document QMS 
-        <button type="button" class="btn btn-success btn-sm float-sm-right" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Add" data-target="#docAdd"><i class="fas fa-plus-circle"></i></button>
+        Document QMS
+        @If (Session("GroupId") = 1 Or Session("GroupId") = 8) Then @<button type="button" class="btn btn-success btn-sm float-sm-right" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Add" data-target="#docAdd"><i class="fas fa-plus-circle"></i></button> End If
+        
     </div>
-
-    <!-- The Modal docAdd-->
-    <div class="modal" id="docAdd">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Document Add</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <div class="card mb-2">
-                        <div class="card-header">
-                            JP
-                        </div>
-                        <div class="card-body">
-                            <div class="row mb-2">
-                                <div class="col-sm">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="customFileJP">
-                                        <label class="custom-file-label" for="customFile" id="lbPathJP">Choose file</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-sm">
-                                    <input type="text" class="form-control" style="background-color: #FCFBC8" id="nameDocJP" placeholder="document name" value="" required>
-                                </div> 
-                                <div class="col-sm">
-                                    <input type="text" class="form-control" style="background-color: #FCFBC8" id="noDocJP" placeholder="document no." value="" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            TH
-                        </div>
-                        <div class="card-body">
-                            <div class="row mb-2">
-                                <div class="col-sm">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="customFileTH">
-                                        <label class="custom-file-label" for="customFile" id="lbPathTH">Choose file</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-sm">
-                                    <input type="text" class="form-control" style="background-color: #FCFBC8" id="nameDocTH" placeholder="document name" value="" required>
-                                </div>
-                                <div class="col-sm">
-                                    <input type="text" class="form-control" style="background-color: #FCFBC8" id="noDocTH" placeholder="document no." value="" required>
-                                </div>
-                            </div>                            
-                        </div>
-                    </div>
-                    
-                    
-                </div>
-
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" id="btnSave" class="btn btn-success" data-dismiss="modal">Save</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!--End Modal docAdd-->
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0"></table>
+            <table class="table table-bordered" id="dataTable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Document Name(JP)</th>
+                        <th>Document No.(JP)</th>
+                        <th>Document Name(TH)</th>
+                        <th>Document No.(TH)</th>
+                        <th>Update Last</th>
+                        <th>Update By</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="dataRow">
+                </tbody>
+            </table>
+
+            <!-- The Modal docAdd-->
+            <div class="modal" id="docAdd">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Document Add</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="card mb-2">
+                                <div class="card-header">
+                                    JP
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-2">
+                                        <div class="col-sm">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="customFileJP">
+                                                <label class="custom-file-label" for="customFile" id="lbPathJP">Choose file</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control" style="background-color: #FCFBC8" id="nameDocJP" placeholder="document name" value="" required>
+                                        </div>
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control" style="background-color: #FCFBC8" id="noDocJP" placeholder="document no." value="" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    TH
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mb-2">
+                                        <div class="col-sm">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" id="customFileTH">
+                                                <label class="custom-file-label" for="customFile" id="lbPathTH">Choose file</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control" style="background-color: #FCFBC8" id="nameDocTH" placeholder="document name" value="" required>
+                                        </div>
+                                        <div class="col-sm">
+                                            <input type="text" class="form-control" style="background-color: #FCFBC8" id="noDocTH" placeholder="document no." value="" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" id="btnSave" class="btn btn-success" data-dismiss="modal">Save</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--End Modal docAdd-->
 
             <!--Modal Edit-->
             <div class="modal" id="docEdit">
@@ -230,6 +254,12 @@ End Code
 
                         <!-- Modal footer -->
                         <div class="modal-footer">
+                            <div class="text-left text-danger">กรุณาเช็คเอกสารที่ต้องการลบ</div>
+                            <p> </p>
+                            <div class="row">
+                                <div class="col"> </div>
+                                <div class="col"> </div>
+                            </div>
                             <button type="button" id="btnDel" class="btn btn-success" data-dismiss="modal">Delete</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
@@ -244,15 +274,8 @@ End Code
         <div class="row">
             <div class="col">
                 Updated yesterday at 11:59 PM
-            </div>
-            @*<div class="col">
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    <strong>Success!</strong> This alert box could indicate a successful or positive action.
-                </div>
-            </div>*@            
+            </div>          
         </div>
-        
     </div>
 </div>
 <script>
@@ -301,7 +324,7 @@ End Code
                 });
             }
 
-            
+
         });
 
         $("#btnEdit").click(function () {
@@ -364,8 +387,8 @@ End Code
                 contentType: false,
                 processData: false,
                 success: function (response) {
-                    document.getElementById('cbDelJP').checked = false;
-                    document.getElementById('cbDelTH').checked = false;
+                    document.getElementById('cbDelJP').checked = true;
+                    document.getElementById('cbDelTH').checked = true;
                     document.getElementById('seqDel').innerHTML = '';
                     getDoc();
                     showToast(2);
@@ -388,7 +411,7 @@ End Code
     $('#customFileJP').on('change', function () {
         var fileName = $(this).val();
         document.getElementById("lbPathJP").innerHTML = fileName;
-        document.getElementById("nameDocJP").value = document.getElementById('customFileJP').files[0].name.substring(0,document.getElementById('customFileJP').files[0].name.indexOf('.'));
+        document.getElementById("nameDocJP").value = document.getElementById('customFileJP').files[0].name.substring(0, document.getElementById('customFileJP').files[0].name.indexOf('.'));
     })
 
     $('#customFileTHe').on('change', function () {
@@ -492,7 +515,7 @@ End Code
         });
     });
 
-    function getDoc() {  
+    function getDoc() {
         $.ajax({
             type: "POST",
             url: "../Home/GetDoc",
@@ -500,7 +523,7 @@ End Code
             data: "{Kind:'QMS'}",
             dataType: "json",
             success: function (data) {
-                var tblSomething = '<thead><tr><th>Document Name(JP)</th><th>Document No.(JP)</th><th>Document Name(TH)</th><th>Document No.(TH)</th><th>Update Last</th><th>Update By</th><th>Action</th></tr></thead><tbody>';
+                var tblSomething = '';
 
                 $.each(data, function (idx, obj) {
                     tblSomething += '<tr>';
@@ -518,26 +541,28 @@ End Code
                             strNameTH = value;
                             tblSomething += "<td><a href='" + strPathTH + "' target='_blank'>" + strNameTH + "</a></td>";
                         } else if (key == "pathFileJP") {
-                            strPathJP = value;                            
+                            strPathJP = value;
                         } else if (key == "pathFileTH") {
-                            strPathTH = value;                            
+                            strPathTH = value;
                         } else if (key == "seq") {
                             seq = value;
                         } else {
                             tblSomething += "<td>" + value + "</td>";
                         }
-                        
-                    });
-                    
-                    tblSomething += '<td><div class="btn-group"><button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Edit" data-target="#docEdit" data-book-id=' + seq + '><i class="fas fa-edit"></i></button><button type="button" class="btn btn-danger btn-sm" data-tooltip="tooltip" data-placement="right" title="Delete" data-toggle="modal" data-target="#docDel" data-book-id=' + seq + '><i class="fas fa-trash-alt"></i></button></div></td>'
-                    //tblSomething += '<td><a><i class="fas fa-edit"></i></a> <a><i class="fas fa-trash-alt"></i></a></td>'
-                    tblSomething += '</tr>';
-                    
-                });
 
-                tblSomething += '</tbody>';
-                //console.log(tblSomething);
-                $('#dataTable').html(tblSomething);
+                    });
+                    var sessiongroupid = @Session("GroupId")
+                    console.log(sessiongroupid);
+                    if(sessiongroupid == 1 || sessiongroupid == 8){
+                        tblSomething += '<td><div class="btn-group"><button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Edit" data-target="#docEdit" data-book-id=' + seq + '><i class="fas fa-edit"></i></button><button type="button" class="btn btn-danger btn-sm" data-tooltip="tooltip" data-placement="right" title="Delete" data-toggle="modal" data-target="#docDel" data-book-id=' + seq + '><i class="fas fa-trash-alt"></i></button></div></td>'
+                    }else{
+                        tblSomething += '<td><div class="btn-group"><button disabled type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Edit" data-target="#docEdit" data-book-id=' + seq + '><i class="fas fa-edit"></i></button><button disabled type="button" class="btn btn-danger btn-sm" data-tooltip="tooltip" data-placement="right" title="Delete" data-toggle="modal" data-target="#docDel" data-book-id=' + seq + '><i class="fas fa-trash-alt"></i></button></div></td>'
+                    }
+                    
+                    tblSomething += '</tr>';
+
+                });
+                $('#dataRow').html(tblSomething);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Hey, something went wrong because: ' + errorThrown);
@@ -552,13 +577,13 @@ End Code
     }
 
     var toasts = [
-        new Toast('error', 'toast-bottom-center', 'Please check the filling.'),
-        new Toast('warning', 'toast-bottom-center', 'warning'),
-        new Toast('success', 'toast-bottom-center', 'success')
+        new Toast('error', 'toast-top-center', 'Please check the filling.'),
+        new Toast('warning', 'toast-top-center', 'warning'),
+        new Toast('success', 'toast-top-center', 'success')
     ];
 
     //toastr.options.extendedTimeOut = 0; //1000;
-    
+
 
     var i = 0;
 
