@@ -1,7 +1,14 @@
 ﻿@Code
     ViewData("Title") = "QMS"
 End Code
-<div class="text-center mt-5">
-    <img src="~/img/roki-th-01.jpg" alt="Responsive image">
-</div>
+<style>
+    
+    #imglogo {
+        opacity: 0.2;
+        filter: alpha(opacity=50); /* For IE8 and earlier */
+    }
+</style>
+@*<div class="bg-success">
+    <img id="imglogo" src="~/img/index.png" alt="Responsive image">
+</div>*@
 

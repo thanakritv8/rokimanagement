@@ -23,11 +23,11 @@ End Code
 <div class="card mb-3">
     <div class="card-header">
         <i class="fas fa-layer-group"></i>
-        Select Group
+        Select Username
     </div>
 
     <div class="card-body">
-        <select onchange="GroupChange()" class="form-control" id="nameGroup">
+        <select onchange="UserChange()" class="form-control" id="cbUsername">
             
         </select>
     </div>
@@ -42,14 +42,16 @@ End Code
     </div>
 
     <div class="card-body">
+
         <div class="table-responsive">
             
             <table class="table table-bordered" id="dataTable" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>No.</th>
+                        <th>Id</th>
                         <th>Application</th>
-                        <th>Checked</th>
+                        <th>Group</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="dataRow"></tbody>
@@ -63,149 +65,111 @@ End Code
             </div>
         </div>
     </div>
+    <!--Modal Del-->
+    <div class="modal" id="PerDel">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    Permission Delete ID <label id="PerId"></label>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="btnDel" class="btn btn-success" data-dismiss="modal">Delete</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--End Modal Del-->
 </div>
 <script>
-    getApplication(1);
-    getGroup();
+    $(document).ready(function () {
+        $('[data-tooltip="tooltip"]').tooltip();
+        getUser();
+    });
+    //getApplication(1);
+    $('#PerDel').on('show.bs.modal', function (e) {
+        var bookId = $(e.relatedTarget).data('book-id');
+        document.getElementById("PerId").innerHTML = bookId;
+    });
     
-
-    function GroupChange() {
-        var groupid = document.getElementById("nameGroup").value;
-        getApplication(groupid);
-    }
-
-    function getGroup() {
+    function getUser() {
         $.ajax({
             type: "POST",
-            url: "../Account/GetGroup",
+            url: "../Account/GetUsername",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                var tblSomething = "<option value='0'>Select Group</option>";
+                var cbSomething = "<option value='0'>Select Username</option>";
                 $.each(data, function (idx, obj) {
-                    var groupid = 0;
+                    var UserId = 0;
                     $.each(obj, function (key, value) {
-                        if (key == "nameGroup") {
-                            tblSomething += "<option value='" + groupid + "'>" + value + "</option>";
-                        } else if (key == "GroupId") {
-                            groupid = value;
+                        if (key == "Username") {
+                            cbSomething += "<option value='" + UserId + "'>" + value + "</option>";
+                        } else if (key == "UserId") {
+                            UserId = value;
                         }
                     });
                 });
-                
-                $('#nameGroup').html(tblSomething);
+
+                $('#cbUsername').html(cbSomething);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Hey, something went wrong because: ' + errorThrown);
             }
         });
-    }
+    };
 
-    function checkAll(ele) {
-        var checkboxes = document.getElementsByTagName('input');
-        
-        if (ele.checked) {
-            var appid = ele.value;
-            var groupid = document.getElementById('nameGroup').value
-            $.ajax({
-                type: "POST",
-                url: "../Account/UploadApplication",
-                contentType: "application/json; charset=utf-8",
-                data: "{AppId:'" + appid + "', GroupId:'" + groupid + "'}",
-                dataType: "json",
-                success: function (data) {
-                    
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert('Hey, something went wrong because: ' + errorThrown);
-                }
-            });
-        } else {
-            var appid = ele.value;
-            var groupid = document.getElementById('nameGroup').value
-            $.ajax({
-                type: "POST",
-                url: "../Account/DeleteApplication",
-                contentType: "application/json; charset=utf-8",
-                data: "{AppId:'" + appid + "', GroupId:'" + groupid + "'}",
-                dataType: "json",
-                success: function (data) {
+    function UserChange() {
+        var UserId = document.getElementById("cbUsername").value;
+        getApplication(UserId);
+    };
 
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert('Hey, something went wrong because: ' + errorThrown);
-                }
-            });
-        }
-    }
-
-    function getApplication(groupid) {
-        //$.ajax({
-        //    type: "POST",
-        //    url: "../Account/GetApplication",
-        //    contentType: "application/json; charset=utf-8",
-        //    data: "{GroupId:'" + groupid + "'}",
-        //    dataType: "json",
-        //    success: function (data) {
-        //        var tblSomething = '';
-        //        $.each(data, function (idx, obj) {
-        //            tblSomething += '<tr>';
-        //            $.each(obj, function (key, value) {
-        //                tblSomething += "<td>12</td>";
-        //            });
-        //            tblSomething += '</tr>';
-        //        });
-        //        console.log(tblSomething);
-        //        $('#dataRow').html(tblSomething);
-        //    },
-        //    error: function (jqXHR, textStatus, errorThrown) {
-        //        alert('Hey, something went wrong because: ' + errorThrown);
-        //    }
-        //});
+    function getApplication(UserId) {
+        console.log(UserId);
         $.ajax({
             type: "POST",
             url: "../Account/GetApplication",
             contentType: "application/json; charset=utf-8",
-            data: "{GroupId:'" + groupid + "'}",
+            data: "{UserId:'" + UserId + "'}",
             dataType: "json",
             success: function (data) {
-
-                var i = 1;
-                var tblSomething = '';
+                console.log(data);
+                var tblSomething = "";
+                var AppId = "";
                 $.each(data, function (idx, obj) {
-                    tblSomething += '<tr>';
-                    var AppId = 0;
-                    var ck = 0;
-                    tblSomething += "<td>" + i + "</td>";
+                    tblSomething += "<tr>";
+
                     $.each(obj, function (key, value) {
-                        if (key == "nameApp") {
-                            tblSomething += "<td>" + value + "</td>";
-                        } else if (key == "AppId") {
+                        if (key == "id") {
                             AppId = value;
-                        } else if (key == "ck") {
-                            ck = value;
+                            tblSomething += "<td>" + value + "</td>";
+                        } else {
+                            tblSomething += "<td>" + value + "</td>";
                         }
                     });
-                    if (ck > 0) {
-
-                        //tblSomething += "<td>12</td>";
-                        tblSomething += "<td><div class='form-check'><input checked class='form-check-input' type='checkbox' value='" + AppId + "' onchange='checkAll(this)' name='chk[]'> </div> </td>";
-                    } else {
-                        //tblSomething += "<td>12</td>";
-                        tblSomething += "<td><div class='form-check'><input class='form-check-input' type='checkbox' value='" + AppId + "' onchange='checkAll(this)' name='chk[]'> </div> </td>";
-                    }
-
-                    tblSomething += '</tr>';
-                    i++;
+                    tblSomething += '<td class="text-center"><div class="btn-group"><button type="button" class="btn btn-danger btn-sm" data-tooltip="tooltip" data-placement="right" title="Delete" data-toggle="modal" data-target="#PerDel" data-book-id=' + AppId + '><i class="fas fa-trash-alt"></i></button></div></td>';
+                    tblSomething += "</tr>";
                 });
-                //console.log(tblSomething);
+                
+                console.log(tblSomething);
                 $('#dataRow').html(tblSomething);
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert('Hey, something went wrong because: ' + errorThrown);
             }
         });
-    }
+    };
         
 
 

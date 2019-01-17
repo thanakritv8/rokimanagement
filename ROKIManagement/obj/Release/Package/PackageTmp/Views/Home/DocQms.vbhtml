@@ -24,7 +24,7 @@ End Code
     <div class="card-header">
         <i class="fas fa-table"></i>
         Document QMS
-        @If (Session("GroupId") = 1 Or Session("GroupId") = 8) Then @<button type="button" class="btn btn-success btn-sm float-sm-right" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Add" data-target="#docAdd"><i class="fas fa-plus-circle"></i></button> End If
+        @If Session("QMS") = 3 Or Session("Admin") = 1 Then @<button type="button" class="btn btn-success btn-sm float-sm-right" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Add" data-target="#docAdd"><i class="fas fa-plus-circle"></i></button> End If  
         
     </div>
 
@@ -37,9 +37,9 @@ End Code
                         <th>Document No.(JP)</th>
                         <th>Document Name(TH)</th>
                         <th>Document No.(TH)</th>
-                        <th>Update Last</th>
                         <th>Update By</th>
-                        <th>Action</th>
+                        <th>Update Last</th>
+                        @If Session("QMS") = 3 Or Session("Admin") = 1 Then @<th>Action</th>End If
                     </tr>
                 </thead>
                 <tbody id="dataRow">
@@ -61,7 +61,7 @@ End Code
                         <div class="modal-body">
                             <div class="card mb-2">
                                 <div class="card-header">
-                                    JP
+                                    Japanese
                                 </div>
                                 <div class="card-body">
                                     <div class="row mb-2">
@@ -85,7 +85,7 @@ End Code
 
                             <div class="card">
                                 <div class="card-header">
-                                    TH
+                                    Thai
                                 </div>
                                 <div class="card-body">
                                     <div class="row mb-2">
@@ -106,14 +106,12 @@ End Code
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="button" id="btnSave" class="btn btn-success" data-dismiss="modal">Save</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            <button type="button" id="btnSave" class="btn btn-success">Save</button>
+                            <button type="button" id="btnClose" class="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
 
                     </div>
@@ -128,7 +126,7 @@ End Code
 
                         <!-- Modal Header -->
                         <div class="modal-header">
-                            <h4 class="modal-title">Document Edit ID <label id="seq"></label></h4>
+                            <h4 class="modal-title">Document Edit ID <label hidden id="seq"></label></h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
 
@@ -136,7 +134,7 @@ End Code
                         <div class="modal-body">
                             <div class="card mb-2">
                                 <div class="card-header">
-                                    JP
+                                    Japanese
                                 </div>
                                 <div class="card-body">
                                     <div class="row mb-2">
@@ -160,7 +158,7 @@ End Code
 
                             <div class="card">
                                 <div class="card-header">
-                                    TH
+                                    Thai
                                 </div>
                                 <div class="card-body">
                                     <div class="row mb-2">
@@ -203,7 +201,7 @@ End Code
 
                         <!-- Modal Header -->
                         <div class="modal-header">                            
-                            <h4 class="modal-title">Document Delete ID <label id="seqDel"></label></h4>
+                            <h4 class="modal-title">Document Delete ID <label hidden id="seqDel"></label></h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
 
@@ -213,7 +211,7 @@ End Code
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="col ml-3">
-                                            <input class="form-check-input" type="checkbox" value="" id="cbDelJP" checked>JP
+                                            <input class="form-check-input" type="checkbox" value="" id="cbDelJP" checked>Japanese
                                         </div>
                                     </div>
                                 </div>
@@ -233,7 +231,7 @@ End Code
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="col ml-3">
-                                            <input class="form-check-input" type="checkbox" value="" id="cbDelTH" checked>TH
+                                            <input class="form-check-input" type="checkbox" value="" id="cbDelTH" checked>Thai
                                         </div>
                                     </div>
                                 </div>
@@ -248,13 +246,11 @@ End Code
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <div class="text-left text-danger">กรุณาเช็คเอกสารที่ต้องการลบ</div>
+                            <div class="text-left text-danger">กรุณาเลือกเอกสารที่ต้องการลบ</div>
                             <p> </p>
                             <div class="row">
                                 <div class="col"> </div>
@@ -277,11 +273,64 @@ End Code
             </div>          
         </div>
     </div>
+
+    <!--Modal Alert Show-->
+    <div class="modal" id="AlertShow">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Information</h4>
+                    @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <label id="idAlert">Recorded file success</label> 
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+
+                    <button type="button" id="btnRe" class="btn btn-success">OK</button>
+                    @*<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>*@
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 <script>
+    getDoc();
+
+    
+    $("#btnClose").click(function () {
+        document.getElementById('lbPathJP').innerHTML = 'Choose file';
+        document.getElementById('nameDocJP').value = '';
+        document.getElementById('noDocJP').value = '';
+        document.getElementById('lbPathTH').innerHTML = 'Choose file';
+        document.getElementById('nameDocTH').value = '';
+        document.getElementById('noDocTH').value = '';
+    });
+
+    //window.location.href = '../Home/DocQms';
+    function myReload(){
+        $('#AlertShow').modal('hide');
+        //getDoc();
+        window.location.href = '../Home/DocQms';
+    }
+    $("#btnRe").click(function () {
+        myReload();
+    });
+
     $(document).ready(function () {
+        //$('#dataTable').DataTable( {
+        //    "scrollX": true
+        //} );
         $('[data-tooltip="tooltip"]').tooltip();
         $("#btnSave").click(function () {
+            $('#docAdd').modal('hide');
             var formData = new FormData();
             var strPathJP = document.getElementById('customFileJP').files[0];
             var strNameJP = document.getElementById('nameDocJP').value;
@@ -305,6 +354,7 @@ End Code
                     url: '../Home/UploadDocQMS',
                     data: formData,
                     dataType: 'json',
+                    //async: false,
                     contentType: false,
                     processData: false,
                     success: function (response) {
@@ -314,17 +364,21 @@ End Code
                         document.getElementById('lbPathTH').innerHTML = 'Choose file';
                         document.getElementById('nameDocTH').value = '';
                         document.getElementById('noDocTH').value = '';
-
-                        getDoc();
-                        showToast(2);
+                        //showToast(2);
+                        document.getElementById('idAlert').innerHTML = "Recorded file success.";
+                        $("#AlertShow").modal();
+                        //setTimeout(myReload, 15000)
+                        //getDoc();
                     },
                     error: function (error) {
                         alert(error);
-                    }
+                    },
+                    
                 });
+
+                //getDoc();
+                //window.location.href = '../Home/DocQms';
             }
-
-
         });
 
         $("#btnEdit").click(function () {
@@ -360,13 +414,16 @@ End Code
                     document.getElementById('nameDocTHe').value = '';
                     document.getElementById('noDocTHe').value = '';
                     document.getElementById('seq').innerHTML = '';
-                    getDoc();
-                    showToast(2);
+                    //getDoc();
+                    //showToast(2);
+                    document.getElementById('idAlert').innerHTML = "Update file success.";
+                    $("#AlertShow").modal();
                 },
                 error: function (error) {
                     alert(error);
                 }
             });
+            //window.location.href = '../Home/DocQms';
         });
 
         $("#btnDel").click(function () {
@@ -390,17 +447,19 @@ End Code
                     document.getElementById('cbDelJP').checked = true;
                     document.getElementById('cbDelTH').checked = true;
                     document.getElementById('seqDel').innerHTML = '';
-                    getDoc();
-                    showToast(2);
+                    document.getElementById('idAlert').innerHTML = "Delete file success.";
+                    $("#AlertShow").modal();
+                    //showToast(2);
+                    //getDoc();
+                    //setTimeout(myReload, 3000)
                 },
                 error: function (error) {
                     alert(error);
                 }
             });
+            //window.location.href = '../Home/DocQms';
         });
     });
-
-    getDoc();
 
     $('#customFileTH').on('change', function () {
         var fileName = $(this).val();
@@ -435,6 +494,7 @@ End Code
             contentType: "application/json; charset=utf-8",
             data: "{Kind:'QMS', Seq:'" + bookId + "'}",
             dataType: "json",
+            async: false,
             success: function (data) {
                 $.each(data, function (idx, obj) {
                     var strNameJP = "";
@@ -483,6 +543,7 @@ End Code
             contentType: "application/json; charset=utf-8",
             data: "{Kind:'QMS', Seq:'" + bookId + "'}",
             dataType: "json",
+            async: false,
             success: function (data) {
                 $.each(data, function (idx, obj) {
                     var strNameJP = "";
@@ -516,14 +577,16 @@ End Code
     });
 
     function getDoc() {
+        var tblSomething = '';
         $.ajax({
             type: "POST",
             url: "../Home/GetDoc",
             contentType: "application/json; charset=utf-8",
             data: "{Kind:'QMS'}",
             dataType: "json",
+            async: false,
             success: function (data) {
-                var tblSomething = '';
+                //var tblSomething = '';
 
                 $.each(data, function (idx, obj) {
                     tblSomething += '<tr>';
@@ -546,22 +609,26 @@ End Code
                             strPathTH = value;
                         } else if (key == "seq") {
                             seq = value;
+                        } else if (key == "updateLast") {
+                            tblSomething += "<td>" + value.substring(0, 10) + "</br>" + value.substring(11, 19); + "</td>";
                         } else {
                             tblSomething += "<td>" + value + "</td>";
                         }
 
                     });
-                    var sessiongroupid = @Session("GroupId")
-                    console.log(sessiongroupid);
-                    if(sessiongroupid == 1 || sessiongroupid == 8){
-                        tblSomething += '<td><div class="btn-group"><button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Edit" data-target="#docEdit" data-book-id=' + seq + '><i class="fas fa-edit"></i></button><button type="button" class="btn btn-danger btn-sm" data-tooltip="tooltip" data-placement="right" title="Delete" data-toggle="modal" data-target="#docDel" data-book-id=' + seq + '><i class="fas fa-trash-alt"></i></button></div></td>'
+
+                    var qms = @Session("QMS");
+                    var admin = @Session("Admin");
+                    if(qms == 3 || admin == 1){
+                        tblSomething += '<td class="text-center"><div class="btn-group"><button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Edit" data-target="#docEdit" data-book-id=' + seq + '><i class="fas fa-edit"></i></button><button type="button" class="btn btn-danger btn-sm" data-tooltip="tooltip" data-placement="right" title="Delete" data-toggle="modal" data-target="#docDel" data-book-id=' + seq + '><i class="fas fa-trash-alt"></i></button></div></td>';
                     }else{
-                        tblSomething += '<td><div class="btn-group"><button disabled type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Edit" data-target="#docEdit" data-book-id=' + seq + '><i class="fas fa-edit"></i></button><button disabled type="button" class="btn btn-danger btn-sm" data-tooltip="tooltip" data-placement="right" title="Delete" data-toggle="modal" data-target="#docDel" data-book-id=' + seq + '><i class="fas fa-trash-alt"></i></button></div></td>'
+                        //tblSomething += '<td><div class="btn-group"><button disabled type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-tooltip="tooltip" data-placement="right" title="Edit" data-target="#docEdit" data-book-id=' + seq + '><i class="fas fa-edit"></i></button><button disabled type="button" class="btn btn-danger btn-sm" data-tooltip="tooltip" data-placement="right" title="Delete" data-toggle="modal" data-target="#docDel" data-book-id=' + seq + '><i class="fas fa-trash-alt"></i></button></div></td>'
                     }
-                    
+
                     tblSomething += '</tr>';
 
                 });
+                //console.log("111111111111111" + tblSomething);
                 $('#dataRow').html(tblSomething);
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -569,6 +636,8 @@ End Code
             }
         });
     }
+
+    
 
     function Toast(type, css, msg) {
         this.type = type;

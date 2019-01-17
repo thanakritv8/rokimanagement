@@ -11,19 +11,14 @@ ROKIManagement
 Represents a strongly typed in-memory cache of data.
 </summary>
 </member>
-<member name="T:ROKIManagement.DataSetManagement.sp_GetDocDataTable">
-<summary>
-Represents the strongly named DataTable class.
-</summary>
-</member>
 <member name="T:ROKIManagement.DataSetManagement.sp_GetDocWithSeqDataTable">
 <summary>
 Represents the strongly named DataTable class.
 </summary>
 </member>
-<member name="T:ROKIManagement.DataSetManagement.sp_GetDocRow">
+<member name="T:ROKIManagement.DataSetManagement.sp_GetDocDataTable">
 <summary>
-Represents strongly named DataRow class.
+Represents the strongly named DataTable class.
 </summary>
 </member>
 <member name="T:ROKIManagement.DataSetManagement.sp_GetDocWithSeqRow">
@@ -31,9 +26,9 @@ Represents strongly named DataRow class.
 Represents strongly named DataRow class.
 </summary>
 </member>
-<member name="T:ROKIManagement.DataSetManagement.sp_GetDocRowChangeEvent">
+<member name="T:ROKIManagement.DataSetManagement.sp_GetDocRow">
 <summary>
-Row event argument class
+Represents strongly named DataRow class.
 </summary>
 </member>
 <member name="T:ROKIManagement.DataSetManagement.sp_GetDocWithSeqRowChangeEvent">
@@ -41,12 +36,17 @@ Row event argument class
 Row event argument class
 </summary>
 </member>
-<member name="T:ROKIManagement.DataSetManagementTableAdapters.sp_GetDocTableAdapter">
+<member name="T:ROKIManagement.DataSetManagement.sp_GetDocRowChangeEvent">
+<summary>
+Row event argument class
+</summary>
+</member>
+<member name="T:ROKIManagement.DataSetManagementTableAdapters.sp_GetDocWithSeqTableAdapter">
 <summary>
 Represents the connection and commands used to retrieve and save data.
 </summary>
 </member>
-<member name="T:ROKIManagement.DataSetManagementTableAdapters.sp_GetDocWithSeqTableAdapter">
+<member name="T:ROKIManagement.DataSetManagementTableAdapters.sp_GetDocTableAdapter">
 <summary>
 Represents the connection and commands used to retrieve and save data.
 </summary>
