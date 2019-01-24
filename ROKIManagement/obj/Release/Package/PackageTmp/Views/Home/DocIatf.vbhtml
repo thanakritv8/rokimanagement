@@ -35,9 +35,6 @@ End Code
         padding-left:10px;
 
     }
-
-
-
     #items :hover{
         color: white;
         background:#284570;
@@ -78,15 +75,18 @@ End Code
     </li>
     <li class="breadcrumb-item active">IATF</li>
 </ol>
-<div class="row mb-3">
+<div class="row mb-2">
     <div class="col">
         <div class="card">
-            @*<div class="card-header">
-                Location : <label id="idPath"></label>
-            </div>*@
-            <div class="card-body context-menu-one">
-                <ul id="root" class="nodefile"></ul>
-                
+            <div class="row">
+                <div class="col" >
+                    @*<div class="card-header">
+                        Location : <label id="idPath"></label>
+                    </div>*@
+                    <div class="card-body" id="menu">
+                        <ul id="root" class="nodefile"></ul>
+                    </div>
+                </div>                
             </div>
         </div>
         @*<div class="card mb-3 mt-3">
@@ -98,6 +98,17 @@ End Code
     </div>
     
 </div>
+<div style="margin-bottom:90px"></div>
+
+@*<ul id="menu">
+    <li data-icon-cls="fa fa-play">Play Movie</li>
+    <li data-role="separator"></li>
+    <li data-icon-cls="fa fa-plus">Add to Favorites</li>
+    <li data-icon-cls="fa fa-star">Rate</li>
+    <li data-icon-cls="fa fa-thumbs-o-up">Recommend</li>
+    <li data-icon-cls="fa fa-edit">Write a Review</li>
+    <li data-role="separator"></li>
+</ul>*@
 <div id='cntnr'>
     <ul id='items'>
         <li>New File</li>
@@ -118,7 +129,7 @@ End Code
         <div class="modal-content">
             <!-- Modal body -->
             <div class="modal-header">
-                <label id="idPath"></label>
+                <label hidden id="idPath"></label>
             </div>
             <div class="modal-body">
                 <div class="row mb-2">
@@ -139,7 +150,7 @@ End Code
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" id="btnRename" class="btn btn-success">Rename</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" id="btnClose" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
 
         </div>
@@ -150,7 +161,7 @@ End Code
         <div class="modal-content">
             <!-- Modal body -->
             <div class="modal-header">
-                <label id="idPath"></label>
+                <label hidden id="idPath"></label>
             </div>
             <div class="modal-body">
                 <div class="row mb-2">
@@ -171,7 +182,7 @@ End Code
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" id="btnNewFolder" class="btn btn-success">New Folder</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" onclick="clearModal();" class="btn btn-danger">Close</button>
             </div>
 
         </div>
@@ -182,7 +193,7 @@ End Code
         <div class="modal-content">
             <!-- Modal body -->
             <div class="modal-header">
-                <label id="idPath"></label>
+                <label hidden id="idPath"></label>
             </div>
             <div class="modal-body">
                 <div class="row mb-2">
@@ -203,7 +214,7 @@ End Code
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" id="btnDelete" class="btn btn-danger">Delete</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" id="btnClose" class="btn btn-danger" data-dismiss="modal">Close</button>
             </div>
 
         </div>
@@ -214,7 +225,7 @@ End Code
         <div class="modal-content">
             <!-- Modal body -->
             <div class="modal-header">
-                <label id="idPath"></label>
+                <label hidden id="idPath"></label>
             </div>
             <div class="modal-body">
                 <div class="row mb-2">
@@ -237,7 +248,7 @@ End Code
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" id="btnNewFile" class="btn btn-success">New File</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" onclick="clearModal();" class="btn btn-danger">Close</button>
             </div>
 
         </div>
@@ -245,43 +256,102 @@ End Code
 </div>
 
 <script type="text/javascript">
+    //jQuery(document).click(function (e) {
+    //    e.preventDefault();
+    //    return false;
+    //});
 
     
+
+    function clearModal () {
+        document.getElementById('lbPath').innerHTML = 'Choose file';
+        document.getElementById('lbNewFile').value = '';
+        document.getElementById('lbNewFolder').value = '';
+        $("#mdNewFile").modal('hide');
+        $("#mdNewFolder").modal('hide');
+    };
+
     var listArr;
     jQuery(function ($) {
+        
         var treeview = $("#root").shieldTreeView({
+            //dragDrop: true,
             events: {
                 select: function (e) {                    
                     listArr = this.getPath(e.element);
+                    e.preventDefault();
+                    // code
+                    return false;
                 },
+                //drop: function (e) {
+                //    var valid = e.valid;
+                //    if (valid) {
+                //        if (e.sourceNode) {
+                //            // dropping a treeview node - move it
+                //            this.append(e.sourceNode, e.targetNode);
+                //            console.log(treeview.getItem(e.sourceNode));
+                //            console.log(treeview.getItem(e.targetNode));
+                //        }
+                        
+                //        // disable the animation
+                //        e.skipAnimation = true;
+                //    }
+                //}
             },
         }).swidget();
 
-        $(document).bind("contextmenu", function (e) {
+        
+
+        $("#menu").contextmenu(function (e) {
             e.preventDefault();
-            console.log(treeview.getDataSourceIndex(listArr));
-            //console.log(e.pageX + "," + e.pageY);
-            var href = treeview.getItem(listArr).href;
-            //console.log(href);
-            //var numCut = name.indexOf('<a');
-            if (typeof href !== "undefined") {
-                $("#cntnrFile").css("left", e.pageX);
-                $("#cntnrFile").css("top", e.pageY);               
-                $("#cntnr").hide();
-                $("#cntnrFile").fadeIn(200, startFocusOut());
-            } else {
-                $("#cntnr").css("left", e.pageX);
-                $("#cntnr").css("top", e.pageY);
-                $("#cntnrFile").hide();
-                $("#cntnr").fadeIn(200, startFocusOut());
+           // e.stopPropagation();
+            console.log(e);
+            if (typeof listArr !== "undefined") {
+                var href = treeview.getItem(listArr).href;
+                if (typeof href !== "undefined") {
+                    $("#cntnrFile").css("left", e.screenX);
+                    $("#cntnrFile").css("top", e.screenY - (e.screenY - e.clientY));
+                    $("#cntnr").hide();
+                    $("#cntnrFile").fadeIn(200, startFocusOut());
+                } else {
+                    $("#cntnr").css("left", e.screenX);
+                    $("#cntnr").css("top", e.screenY - (e.screenY - e.clientY));
+                    $("#cntnrFile").hide();
+                    $("#cntnr").fadeIn(200, startFocusOut());
+                }
             }
         });
+        //$(document).bind("contextmenu", function (e) {
+        //    e.preventDefault();
+        //    console.log(treeview.getDataSourceIndex(listArr));
+        //    console.log(e);
+            
+            
+        //    console.log(treeview.getItem(listArr).text);
+        //    //var numCut = name.indexOf('<a');
+        //    if (typeof listArr !== "undefined") {
+        //        var href = treeview.getItem(listArr).href;
+        //        if (typeof href !== "undefined") {
+        //            $("#cntnrFile").css("left", e.screenX);
+        //            $("#cntnrFile").css("top", e.screenY - (e.screenY - e.clientY));
+        //            $("#cntnr").hide();
+        //            $("#cntnrFile").fadeIn(200, startFocusOut());
+        //        } else {
+        //            $("#cntnr").css("left", e.screenX);
+        //            $("#cntnr").css("top", e.screenY - (e.screenY - e.clientY));
+        //            $("#cntnrFile").hide();
+        //            $("#cntnr").fadeIn(200, startFocusOut());
+        //        }
+        //    }
+            
+        //});
 
         function startFocusOut() {
             $(document).on("click", function () {
+                console.log();
                 $("#cntnr").hide();
                 $("#cntnrFile").hide();
-                $(document).off("click");
+               // $(document).off("click");
             });
         }
 
@@ -343,67 +413,75 @@ End Code
             } else if (typeClick == "Open new tab") {
                 var href = treeview.getItem(listArr).href
                 window.open(href, '_blank');
-                console.log(href);
+                //console.log(href);
             }
         });
 
-        $("#btnRename").click(function () {
+        function rename() {
             var name = document.getElementById('hiddenfile').innerHTML;
             var path = document.getElementById('hiddenpath').innerHTML;
             var newName = document.getElementById('lbRename').value;
 
-            $.ajax({
-                type: "POST",
-                url: "../Home/RenameItem",
-                contentType: "application/json; charset=utf-8",
-                data: "{name:'" + name + "', path:'" + path + "', newName:'" + newName + "', id:'" + treeview.getItem(listArr).cls + "'}",
-                dataType: "json",
-                async: false,
-                success: function (data) {
-                    document.getElementById('lbRename').value = '';
-                    document.getElementById('hiddenfile').innerHTML = '';
-                    document.getElementById('hiddenpath').innerHTML = '';
-                    $('#mdRename').modal('hide');
-                    getMenu();
-                    treeview.refresh();
-                    treeview.expanded(true, listArr)
-                    console.log(listArr);
-                },
-                error: function (error) {
-                    alert(error);
-                }
-            });
-        });
-
-        $("#btnNewFolder").click(function () {
+            if (newName != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "../Home/RenameItem",
+                    contentType: "application/json; charset=utf-8",
+                    data: "{name:'" + name + "', path:'" + path + "', newName:'" + newName + "', id:'" + treeview.getItem(listArr).cls + "'}",
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        document.getElementById('lbRename').value = '';
+                        document.getElementById('hiddenfile').innerHTML = '';
+                        document.getElementById('hiddenpath').innerHTML = '';
+                        $('#mdRename').modal('hide');
+                        getMenu();
+                        treeview.refresh();
+                        treeview.expanded(true, listArr)
+                        console.log(listArr);
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            } else {
+                $('#mdNewFolder').modal('hide');
+                alert("กรุณากรอกข้อมูลให้ครบ");
+            }
+        }
+        function newFolder() {
             var name = document.getElementById('hiddenfile').innerHTML;
             var path = document.getElementById('hiddenpath').innerHTML;
             var newName = document.getElementById('lbNewFolder').value;
-            console.log(treeview.getItem(listArr).cls);
-            $.ajax({
-                type: "POST",
-                url: "../Home/fnAddFolder",
-                contentType: "application/json; charset=utf-8",
-                data: "{Name:'" + name + "', Path:'" + path + "', NewName:'" + newName + "', id:'" + treeview.getItem(listArr).cls + "'}",
-                dataType: "json",
-                async: false,
-                success: function (data) {
-                    document.getElementById('lbNewFolder').value = '';
-                    document.getElementById('hiddenfile').innerHTML = '';
-                    document.getElementById('hiddenpath').innerHTML = '';
-                    $('#mdNewFolder').modal('hide');
-                    getMenu();
-                    treeview.refresh();
-                    treeview.expanded(true, listArr)
-                    console.log(listArr);
-                },
-                error: function (error) {
-                    alert(error);
-                }
-            });
-        });
-
-        $("#btnDelete").click(function () {
+            if (newName != '') {
+                console.log(treeview.getItem(listArr).cls);
+                $.ajax({
+                    type: "POST",
+                    url: "../Home/fnAddFolder",
+                    contentType: "application/json; charset=utf-8",
+                    data: "{Name:'" + name + "', Path:'" + path + "', NewName:'" + newName + "', id:'" + treeview.getItem(listArr).cls + "'}",
+                    dataType: "json",
+                    async: false,
+                    success: function (data) {
+                        document.getElementById('lbNewFolder').value = '';
+                        document.getElementById('hiddenfile').innerHTML = '';
+                        document.getElementById('hiddenpath').innerHTML = '';
+                        $('#mdNewFolder').modal('hide');
+                        getMenu();
+                        treeview.refresh();
+                        treeview.expanded(true, listArr)
+                        console.log(listArr);
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            } else {
+                $('#mdNewFolder').modal('hide');
+                alert("กรุณากรอกข้อมูลให้ครบ");
+            }
+        }
+        function fndelete(){
             var name = document.getElementById('hiddenfile').innerHTML;
             var path = document.getElementById('hiddenpath').innerHTML;
 
@@ -411,7 +489,7 @@ End Code
                 type: "POST",
                 url: "../Home/fnDeleteItem",
                 contentType: "application/json; charset=utf-8",
-                data: "{Name:'" + name + "', Path:'" + path + "'}",
+                data: "{Name:'" + name + "', Path:'" + path + "', idDel:'" + treeview.getItem(listArr).cls + "'}",
                 dataType: "json",
                 async: false,
                 success: function (data) {
@@ -419,20 +497,24 @@ End Code
                     document.getElementById('hiddenfile').innerHTML = '';
                     document.getElementById('hiddenpath').innerHTML = '';
                     $('#mdDelete').modal('hide');
-                    //treeview.remove(listArr);
-                    //treeview.destroy();
                     getMenu();
-
-                    //treeview.load([0])
-                    treeview.refresh();
-                    treeview.expanded(true, listArr)
-                    //treeview.selected(listArr);
-                    console.log(listArr);
                 },
                 error: function (error) {
                     alert(error);
                 }
             });
+        }
+
+        $("#btnRename").click(function () {
+            rename();
+        });
+
+        $("#btnNewFolder").click(function () {
+            newFolder();
+        });
+
+        $("#btnDelete").click(function () {
+            fndelete();
         });
 
         $('#customFile').on('change', function () {
@@ -441,43 +523,54 @@ End Code
             document.getElementById("lbNewFile").value = document.getElementById('customFile').files[0].name;
         });
 
+
+
         $("#btnNewFile").click(function () {
             var name = document.getElementById('hiddenfile').innerHTML;
             var path = document.getElementById('hiddenpath').innerHTML;
             var newName = document.getElementById('lbNewFile').value;
             var strPath = document.getElementById('customFile').files[0];
-            var formData = new FormData();
-            formData.append("name", name);
-            formData.append("path", path);
-            formData.append("newName", newName);
-            formData.append("strPath", strPath);
+            console.log(strPath);
+            if (newName != '') {
+                var id = treeview.getItem(listArr).cls
+                var formData = new FormData();
+                formData.append("name", name);
+                formData.append("path", path);
+                formData.append("newName", newName);
+                formData.append("strPath", strPath);
+                formData.append("id", id);
 
-            $.ajax({
-                type: "POST",
-                url: "../Home/fnAddFile",
-                data: formData,
-                dataType: 'json',
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    document.getElementById('lbNewFile').value = '';
-                    document.getElementById('hiddenfile').innerHTML = '';
-                    document.getElementById('hiddenpath').innerHTML = '';
-                    $('#mdNewFile').modal('hide');
-                    //treeview.remove(listArr);
-                    //treeview.destroy();
-                    getMenu();
+                $.ajax({
+                    type: "POST",
+                    url: "../Home/fnAddFile",
+                    data: formData,
+                    dataType: 'json',
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        document.getElementById('lbNewFile').value = '';
+                        document.getElementById('hiddenfile').innerHTML = '';
+                        document.getElementById('hiddenpath').innerHTML = '';
+                        document.getElementById('lbPath').innerHTML = 'Choose file';
+                        $('#mdNewFile').modal('hide');
+                        //treeview.remove(listArr);
+                        //treeview.destroy();
+                        getMenu();
 
-                    //treeview.load([0])
-                    treeview.refresh();
-                    treeview.expanded(true, listArr)
-                    //treeview.selected(listArr);
-                    console.log(listArr);
-                },
-                error: function (error) {
-                    alert(error);
-                }
-            });
+                        //treeview.load([0])
+                        treeview.refresh();
+                        treeview.expanded(true, listArr)
+                        //treeview.selected(listArr);
+                        console.log(listArr);
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            } else {
+                $('#mdNewFile').modal('hide');
+                alert("กรุณากรอกข้อมูลให้ครบ");
+            }
         });
     });
 

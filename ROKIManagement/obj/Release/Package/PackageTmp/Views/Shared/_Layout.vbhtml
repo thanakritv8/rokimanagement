@@ -19,6 +19,22 @@
     
     <!-- Custom styles for this template-->
     <link href="~/Content/sb-admin.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.common.css" />
+    <link rel="dx-theme" data-theme="generic.light" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.light.css" />
+    <script src="https://cdn3.devexpress.com/jslib/18.2.4/js/dx.all.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/event.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/supplemental.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/unresolved.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/message.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/number.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/currency.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/globalize/1.1.1/globalize/date.min.js"></script>
+
+
     <style>
         .bg-custom {
             background-color: #1a52c6;
@@ -54,7 +70,7 @@
                     <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
                         @If Session("QMS") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Home/DocQms">QMS</a> End If
                         @If Session("ISO") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="#">ISO14001-2015</a> End If
-                        @If Session("IATF") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Home/DocIatf">IATF16949-2016</a> End If
+                        @If Session("IATF") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Home/IATF">IATF16949-2016</a> End If
                     </div>
                 </li>
                 @If Session("Admin") = 1 Then
@@ -136,7 +152,7 @@
     @*<script src="../js/demo/chart-area-demo.js"></script>*@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="http://www.shieldui.com/shared/components/latest/css/light-bootstrap/all.min.css" />
-    <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>
+    @*<link rel="stylesheet" type="text/css" href="http://www.shieldui.com/shared/components/latest/css/light-bootstrap/all.min.css" />
+    <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>*@
 </body>
 </html>

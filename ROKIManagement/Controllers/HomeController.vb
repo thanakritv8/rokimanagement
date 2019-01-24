@@ -8,7 +8,7 @@ Namespace Controllers
         Inherits Controller
 
         Function Index() As ActionResult
-            fnMove("O3M/61iUpsdNVTLmzWFiMt6hCbgPpOxZqs+XGQM4MuM=", "/e1m9jxhN4/mGl8cqC121Kden4SITXkekrtj1bfEmYE=")
+            'fnMove("O3M/61iUpsdNVTLmzWFiMt6hCbgPpOxZqs+XGQM4MuM=", "/e1m9jxhN4/mGl8cqC121Kden4SITXkekrtj1bfEmYE=")
             If Session("StatusLogin") = "OK" Then
                 Return View()
             Else
@@ -325,7 +325,7 @@ Namespace Controllers
 
 #End Region
 
-#Region "IATF"
+#Region "DocIATF"
         Function DocIatf() As ActionResult
             If Session("StatusLogin") = "OK" Then
                 Return View()
@@ -354,28 +354,7 @@ Namespace Controllers
             cn.Open()
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
-            'Dim _SQLid As String = String.Empty
-
-            'If path = String.Empty Then
-            '    _SQLid = "SELECT id FROM [management].[dbo].[iatf] where name = N'" & name & "'"
-            'Else
-            '    Dim arr() As String = path.Split("/")
-            '    Dim bracket As String = String.Empty
-            '    _SQLid &= "select id from [management].[dbo].[iatf] where name = N'" & name & "' and parentDirId in ("
-            '    For i As Integer = arr.Length - 1 To 0 Step -1
-            '        If arr(i) <> String.Empty Then
-            '            bracket &= ")"
-            '            If i = 0 Then
-            '                _SQLid &= "select id from [management].[dbo].[iatf] where name = N'Root'"
-            '            Else
-            '                _SQLid &= "select id from [management].[dbo].[iatf] where name = N'" & arr(i) & "' and parentDirId in ("
-            '            End If
-            '        End If
-            '    Next
-            '    _SQLid &= bracket
-            'End If
-
-            Dim PathServer As String = Server.MapPath("../Files/Doc/IATF/" & path & name)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/" & path & name)
 
             Try
                 If Directory.Exists(PathServer) Then
@@ -391,8 +370,8 @@ Namespace Controllers
             End Try
             _SQL = "Update [management].[dbo].[iatf] SET name = N'" & newName & "' WHERE id = '" & id & "'"
             objDB.ExecuteSQL(_SQL, cn)
-            Dim pathUpdate As String = "../Files/Doc/IATF/" & path & name
-            Dim pathNew As String = "../Files/Doc/IATF/" & path & newName
+            Dim pathUpdate As String = "../Files/Doc/" & path & name
+            Dim pathNew As String = "../Files/Doc/" & path & newName
             _SQL = "Update [management].[dbo].[iatf] SET path = REPLACE(path,N'" & pathUpdate & "', N'" & pathNew & "') WHERE path like N'" & pathUpdate & "%'"
             objDB.ExecuteSQL(_SQL, cn)
             dtStatus.Rows.Add("OK")
@@ -420,36 +399,18 @@ Namespace Controllers
         End Function
 
         Public Function fnAddFolder(ByVal Path As String, ByVal Name As String, ByVal NewName As String, ByVal id As String)
+
             Dim dtStatus As DataTable = New DataTable
             dtStatus.Columns.Add("Status")
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
-            Dim _SQLid As String = String.Empty
 
-            Dim PathServer As String = Server.MapPath("../Files/Doc/IATF/" & Path & Name & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/" & Path & Name & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
-            'If Path = String.Empty Then
-            '    _SQLid = "SELECT id FROM [management].[dbo].[iatf] where name = N'" & Name & "'"
-            'Else
-            '    Dim arr() As String = Path.Split("/")
-            '    Dim bracket As String = String.Empty
-            '    _SQLid &= "select id from [management].[dbo].[iatf] where name = N'" & Name & "' and parentDirId in ("
-            '    For i As Integer = arr.Length - 1 To 0 Step -1
-            '        If arr(i) <> String.Empty Then
-            '            bracket &= ")"
-            '            If i = 0 Then
-            '                _SQLid &= "select id from [management].[dbo].[iatf] where name = 'Root'"
-            '            Else
-            '                _SQLid &= "select id from [management].[dbo].[iatf] where name = N'" & arr(i) & "' and parentDirId in ("
-            '            End If
-            '        End If
-            '    Next
-            '    _SQLid &= bracket
-            'End If
             _SQL = "INSERT INTO [management].[dbo].[iatf] ([name],[id],[parentDirId],[type],[path]) VALUES (N'" & NewName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '0','')"
             objDB.ExecuteSQL(_SQL, cn)
             dtStatus.Rows.Add("OK")
@@ -457,7 +418,7 @@ Namespace Controllers
             Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
         End Function
 
-        Public Function fnDeleteItem(ByVal Path As String, ByVal Name As String)
+        Public Function fnDeleteItem(ByVal Path As String, ByVal Name As String, ByVal idDel As String)
 
             Dim dtStatus As DataTable = New DataTable
             dtStatus.Columns.Add("Status")
@@ -465,26 +426,8 @@ Namespace Controllers
             cn.Open()
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
-            Dim _SQLid As String = String.Empty
-            If Path = String.Empty Then
-                _SQLid = "SELECT id FROM [management].[dbo].[iatf] where name = N'" & Name & "'"
-            Else
-                Dim arr() As String = Path.Split("/")
-                Dim bracket As String = String.Empty
-                _SQLid &= "select id from [management].[dbo].[iatf] where name = N'" & Name & "' and parentDirId in ("
-                For i As Integer = arr.Length - 1 To 0 Step -1
-                    If arr(i) <> String.Empty Then
-                        bracket &= ")"
-                        If i = 0 Then
-                            _SQLid &= "select id from [management].[dbo].[iatf] where name = 'Root'"
-                        Else
-                            _SQLid &= "select id from [management].[dbo].[iatf] where name = N'" & arr(i) & "' and parentDirId in ("
-                        End If
-                    End If
-                Next
-                _SQLid &= bracket
-            End If
-            _SQL = "SELECT id FROM [management].[dbo].[iatf] where id in (" & _SQLid & ")"
+
+            _SQL = "SELECT id FROM [management].[dbo].[iatf] where id = '" & idDel & "'"
             Dim dtId As DataTable = objDB.SelectSQL(_SQL, cn)
             While dtId.Rows.Count > 0
                 Dim id As String = String.Empty
@@ -500,7 +443,7 @@ Namespace Controllers
                 _SQL = "DELETE [management].[dbo].[iatf] WHERE id in (" & id & ")"
                 objDB.ExecuteSQL(_SQL, cn)
             End While
-            Dim PathServer As String = Server.MapPath("../Files/Doc/IATF/" & Path & Name)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/" & Path & Name)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
             Else
@@ -528,6 +471,7 @@ Namespace Controllers
             Dim name As String = String.Empty
             Dim path As String = String.Empty
             Dim newName As String = String.Empty
+            Dim id As String = String.Empty
 
             For i As Integer = 0 To Request.Form.AllKeys.Length - 1
                 If Request.Form.AllKeys(i) = "name" Then
@@ -536,37 +480,20 @@ Namespace Controllers
                     path = Request.Form(i)
                 ElseIf Request.Form.AllKeys(i) = "newName" Then
                     newName = Request.Form(i)
+                ElseIf Request.Form.AllKeys(i) = "id" Then
+                    id = Request.Form(i)
                 End If
             Next
             Dim pathServer As String = String.Empty
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
-                pathServer = Server.MapPath("../Files/Doc/IATF/" & path & name & "/") & newName
+                pathServer = Server.MapPath("../Files/Doc/" & path & name & "/") & newName
                 file.SaveAs(pathServer)
                 Dim a = 0
             Next
             Dim _SQL As String = String.Empty
-            Dim _SQLid As String = String.Empty
-            If path = String.Empty Then
-                _SQLid = "SELECT id FROM [management].[dbo].[iatf] where name = N'" & name & "'"
-            Else
-                Dim arr() As String = path.Split("/")
-                Dim bracket As String = String.Empty
-                _SQLid &= "select id from [management].[dbo].[iatf] where name = N'" & name & "' and parentDirId in ("
-                For i As Integer = arr.Length - 1 To 0 Step -1
-                    If arr(i) <> String.Empty Then
-                        bracket &= ")"
-                        If i = 0 Then
-                            _SQLid &= "select id from [management].[dbo].[iatf] where name = 'Root'"
-                        Else
-                            _SQLid &= "select id from [management].[dbo].[iatf] where name = N'" & arr(i) & "' and parentDirId in ("
-                        End If
-                    End If
-                Next
-                _SQLid &= bracket
-            End If
-            Dim pathfile As String = "../Files/Doc/IATF/" & path & name & "/" & newName
-            _SQL = "INSERT INTO [management].[dbo].[iatf] ([name],[id],[parentDirId],[type],[path]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', (" & _SQLid & "), '1',N'" & pathfile & "')"
+            Dim pathfile As String = "../Files/Doc/" & path & name & "/" & newName
+            _SQL = "INSERT INTO [management].[dbo].[iatf] ([name],[id],[parentDirId],[type],[path]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & pathfile & "')"
             objDB.ExecuteSQL(_SQL, cn)
             dtStatus.Rows.Add("OK")
             objDB.DisconnectDB(cn)
@@ -630,6 +557,188 @@ Namespace Controllers
             End While
             path = Server.MapPath("../Files/Doc/IATF/" & Mid(path, 1, path.Length - 1))
             Return path
+        End Function
+#End Region
+
+#Region "IATF"
+        Function IATF() As ActionResult
+            If Session("StatusLogin") = "OK" Then
+                Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+                cn.Open()
+                Dim _SQL As String = "UPDATE [management].[dbo].[iatf] SET expanded = NULL WHERE parentDirId <> ''"
+                objDB.ExecuteSQL(_SQL, cn)
+                objDB.DisconnectDB(cn)
+                Return View()
+            Else
+                Return View("../Account/Login")
+            End If
+
+        End Function
+
+        Public Function GetMenuIATF() As String
+            Dim dtMenu As DataTable = New DataTable
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim _SQL As String = "SELECT * FROM [management].[dbo].[iatf] order by type desc, seq asc"
+            dtMenu = objDB.SelectSQL(_SQL, cn)
+            objDB.DisconnectDB(cn)
+
+            Dim strJson = New JavaScriptSerializer().Serialize(From dr As DataRow In dtMenu.Rows Select dtMenu.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+            Return strJson.Replace("""parentDirId"":"""",", "")
+        End Function
+
+        Private Function fnGetPath(ByVal Id As String) As String
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim _Path As String = String.Empty
+            Dim _SQL As String = "SELECT parentDirId, name FROM [management].[dbo].[iatf] WHERE id = '" & Id & "'"
+            Dim dtPdi As DataTable = objDB.SelectSQL(_SQL, cn)
+            If dtPdi.Rows.Count > 0 Then
+                _Path = dtPdi.Rows(0)("name")
+                While dtPdi.Rows.Count > 0
+                    _SQL = "SELECT parentDirId, name FROM [management].[dbo].[iatf] WHERE id = '" & dtPdi.Rows(0)("parentDirId") & "'"
+                    dtPdi = objDB.SelectSQL(_SQL, cn)
+                    If dtPdi.Rows.Count > 0 Then
+                        _Path = dtPdi.Rows(0)("name") & "/" & _Path
+                    End If
+                End While
+            End If
+            objDB.DisconnectDB(cn)
+            Return _Path
+        End Function
+
+        Public Function fnNewFolder(ByVal Id As String, ByVal NewName As String) As String
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim dtSeq As DataTable = New DataTable
+            Dim _SQL As String = String.Empty
+            Dim Path As String = fnGetPath(Id)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/" & Path & "/" & NewName)
+            If (Not System.IO.Directory.Exists(PathServer)) Then
+                System.IO.Directory.CreateDirectory(PathServer)
+            End If
+            _SQL = "INSERT INTO [management].[dbo].[iatf] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & NewName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & Id & "', '0','', '../img/fd.png', 1)"
+            objDB.ExecuteSQL(_SQL, cn)
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+
+        Public Function fnRename(ByVal Id As String, ByVal NewName As String) As String
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim Path As String = fnGetPath(Id)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/" & Path)
+            Try
+                If Directory.Exists(PathServer) Then
+                    FileIO.FileSystem.RenameDirectory(PathServer, NewName)
+                Else
+                    If System.IO.File.Exists(PathServer) Then
+                        FileIO.FileSystem.RenameFile(PathServer, NewName)
+                    End If
+                End If
+            Catch ex As Exception
+
+            End Try
+
+            Dim ArrPath() As String = Path.Split("/")
+            Dim PathNew As String = String.Empty
+            For i As Integer = 0 To ArrPath.Length - 2
+                If i = ArrPath.Length - 2 Then
+                    PathNew &= ArrPath(i) & "/" & NewName
+                Else
+                    PathNew &= ArrPath(i) & "/"
+                End If
+            Next
+            Dim _SQL As String = "Update [management].[dbo].[iatf] SET name = N'" & NewName & "', expanded = 1 WHERE id = '" & Id & "'"
+            objDB.ExecuteSQL(_SQL, cn)
+
+            _SQL = "Update [management].[dbo].[iatf] SET path = REPLACE(path,N'" & Path & "', N'" & PathNew & "') WHERE path like N'%" & Path & "%'"
+            objDB.ExecuteSQL(_SQL, cn)
+
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+
+        Public Function fnNewFile()
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim newName As String = String.Empty
+            Dim id As String = String.Empty
+
+            For i As Integer = 0 To Request.Form.AllKeys.Length - 1
+                If Request.Form.AllKeys(i) = "newName" Then
+                    newName = Request.Form(i)
+                ElseIf Request.Form.AllKeys(i) = "id" Then
+                    id = Request.Form(i)
+                End If
+            Next
+            Dim Path As String = fnGetPath(id)
+            Dim PathToDb As String = "../Files/Doc/" & Path & "/" & newName
+            Dim PathServer As String = Server.MapPath(PathToDb)
+            For i As Integer = 0 To Request.Files.Count - 1
+                Dim file = Request.Files(i)
+                file.SaveAs(PathServer)
+            Next
+            Dim arrFile() As String = PathToDb.Split("/")
+            Dim strIcon As String = "doc"
+            If arrFile(arrFile.Length - 1).Contains(".pdf") Then
+                strIcon = "../img/pdf.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".doc") Then
+                strIcon = "../img/word.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
+                strIcon = "../img/excel.png"
+            End If
+            Dim _SQL As String = "INSERT INTO [management].[dbo].[iatf] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
+            objDB.ExecuteSQL(_SQL, cn)
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+
+        Public Function fnDelete(ByVal idDel As String)
+
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim dtSeq As DataTable = New DataTable
+            Dim _SQL As String = String.Empty
+            Dim Path As String = fnGetPath(idDel)
+            Dim PathToDb As String = "../Files/Doc/" & Path
+            Dim PathServer As String = Server.MapPath(PathToDb)
+            If System.IO.File.Exists(PathServer) = True Then
+                System.IO.File.Delete(PathServer)
+            Else
+                Directory.Delete(PathServer, True)
+            End If
+            _SQL = "SELECT id FROM [management].[dbo].[iatf] where id = '" & idDel & "'"
+            Dim dtId As DataTable = objDB.SelectSQL(_SQL, cn)
+            While dtId.Rows.Count > 0
+                Dim id As String = String.Empty
+                For i As Integer = 0 To dtId.Rows.Count - 1
+                    If i = dtId.Rows.Count - 1 Then
+                        id &= "'" & dtId.Rows(i)("id") & "'"
+                    Else
+                        id &= "'" & dtId.Rows(i)("id") & "',"
+                    End If
+                Next
+                _SQL = "SELECT id FROM [management].[dbo].[iatf] where parentDirId in (" & id & ")"
+                dtId = objDB.SelectSQL(_SQL, cn)
+                _SQL = "DELETE [management].[dbo].[iatf] WHERE id in (" & id & ")"
+                objDB.ExecuteSQL(_SQL, cn)
+            End While
+
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
         End Function
 #End Region
 
