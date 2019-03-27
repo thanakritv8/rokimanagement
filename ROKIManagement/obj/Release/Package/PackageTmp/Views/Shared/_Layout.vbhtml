@@ -24,6 +24,8 @@
     <link rel="dx-theme" data-theme="generic.light" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.light.css" />
     <script src="https://cdn3.devexpress.com/jslib/18.2.4/js/dx.all.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/event.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cldrjs/0.4.4/cldr/supplemental.min.js"></script>
@@ -63,14 +65,14 @@
         @If Session("StatusLogin") = "OK" Then
             @<ul Class="sidebar navbar-nav" style="background-color:rgb(0,79,162)">
                 <li Class="nav-item dropdown">
-                    <a Class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a Class="nav-link dropdown-toggle doctest" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i Class="fas fa-fw fa-folder"></i>
                         <span class="text-light"> Document</span>
                     </a>
                     <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
-                        @If Session("QMS") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Home/DocQms">QMS</a> End If
-                        @If Session("ISO") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="#">ISO14001-2015</a> End If
-                        @If Session("IATF") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Home/IATF">IATF16949-2016</a> End If
+                        @If Session("QMS") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item QMS" id="h1" href="../Home/DocQms">QMS</a> End If
+                        @If Session("ISO") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Home/ISO">ISO 14001-2015</a> End If
+                        @If Session("IATF") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Home/IATF">IATF 16949-2016</a> End If
                     </div>
                 </li>
                 @If Session("Admin") = 1 Then
@@ -156,3 +158,5 @@
     <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>*@
 </body>
 </html>
+
+

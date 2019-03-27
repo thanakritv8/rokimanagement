@@ -1,19 +1,16 @@
 ﻿@Code
-    ViewData("Title") = "IATF"
+    ViewData("Title") = "ISO"
 End Code
 
 <style>
-.icon {
-    font-size: 28px;
-    color: #FCC33E;
-}
-.badge-custom {
-    background-color: rgb(0,79,162);
-    color: #ffffff;
-}
-.bg{
-    background-color: rgb(0,79,162);
-}
+    .icon {
+        font-size: 28px;
+        color: #FCC33E;
+    }
+    .badge-custom {
+        background-color: rgb(0,79,162);
+        color: #ffffff;
+    }
 </style>
 
 <div class="demo-container mb-2">
@@ -23,20 +20,20 @@ End Code
             <div id="context-menu"></div>
         </div>
         @*<div class="col-6">
-            <div id="product-details" class="hidden">
-                <div class="name"></div>
-                <div class="price"></div>
-            </div>
-        </div>*@
+                <div id="product-details" class="hidden">
+                    <div class="name"></div>
+                    <div class="price"></div>
+                </div>
+            </div>*@
         <div class="col-1">
             <div class="btn-group" role="group">
-                
+
                 <div class="btn" id="btnExpand"></div>
                 <div class="btn" id="btnCompress"></div>
-                
+
             </div>
         </div>
-        
+
     </div>
 </div>
 
@@ -130,6 +127,7 @@ End Code
         </div>
     </div>
 </div>
+
 <!--New File-->
 <div class="modal" id="mdNewFile">
     <div class="modal-dialog modal-dialog-centered">
@@ -155,7 +153,7 @@ End Code
                 <div class="row mb-2">
                     <div class="col-sm">
                         <div id="wgDate"></div>
-                    </div>
+                    </div>                                       
                 </div>
                 <div class="row mb-2">
                     <div class="col-sm">
@@ -205,20 +203,18 @@ End Code
                 <button type="button" id="btnChangeDate" class="btn btn-success">Save</button>
                 <button type="button" onclick="clearModal();" class="btn btn-danger">Close</button>
             </div>
-
+            
         </div>
     </div>
 </div>
-<script>
-    var permission_status = '@Session("StatusLogin")';
-    console.log(permission_status);
-</script>
-<script src="~/js/test.js"></script>
+
 <script>
     function clearModal() {
         document.getElementById('lbFile').innerHTML = 'Choose file';
         document.getElementById('lbNewFile').value = '';
         document.getElementById('lbNewFolder').value = '';
+        document.getElementById('wgDate').value = '';
+        document.getElementById('wgDateChange').value = '';
         $("#mdNewFile").modal('hide');
         $("#mdNewFolder").modal('hide');
         $("#mdChangeDate").modal('hide');
@@ -233,7 +229,7 @@ End Code
     var contextMenuItemsFile = [
         { text: 'Rename' },
         { text: 'Delete' },
-        { text: 'Change Detail'}
+        { text: 'Change Date' },
     ];
     var OptionsMenu = contextMenuItemsFolder;
     var idItem = '';
@@ -242,17 +238,10 @@ End Code
     var firstReLoad = true;
 
     $(function () {
-        //ConvertId('P8N+ZfR948WkEH7UWalbLqi__47__H__47__43x8g9KLv01DCYzag__61__');
-        function ConvertId(str) {
-            //var str = '1__43__ZpPHZC__47__PLK5VEuX5l3qJk37uCBHk3ubjzyyN6xTCw__61__';
-            for (i = 32; i <= 127; i++) {
-                var strRep = '__' + i.toString() + '__';
-                str = str.replace(new RegExp(strRep, 'g'), String.fromCharCode(i));
-            }
-            return str;
-        }
 
 
+        //var permission_status = '@Session("")';
+        //console.log(permission_status);
         var st_date = $("#wgDate").dxDateBox({
 
         }).dxDateBox('instance');
@@ -263,62 +252,50 @@ End Code
         var st_date_change = $("#wgDateChange").dxDateBox({
 
         }).dxDateBox('instance');
-        //function ConvertId(str) {
-        //    str = str.replace('____', '__');
-        //    var res = str.split("__");
-
-        //    //console.log(res);
-        //    var strConvert = '';
-        //    var start_position = 0;
-        //    if (str.substring(0, 2) == "__") {
-        //        start_position = 1;
-        //    }
-        //    for (var i = start_position; i < res.length - 1; i++) {
-        //        //console.log(res[i].length);
-        //        if (!isNaN(res[i]) && res[i].length != 0) {
-        //            var strCode = String.fromCharCode(res[i]);
-        //            strConvert += strCode;
-        //        } else if (res[i].length != 0){
-        //            strConvert += res[i];
-        //        }
-        //    }
-            
-        //    return strConvert.trim();
-        //}
+        function ConvertId(str) {
+            //var str = '1__43__ZpPHZC__47__PLK5VEuX5l3qJk37uCBHk3ubjzyyN6xTCw__61__';
+            for (i = 32; i <= 127; i++) {
+                var strRep = '__' + i.toString() + '__';
+                str = str.replace(new RegExp(strRep, 'g'), String.fromCharCode(i));
+            }
+            return str;
+        }
 
         function showDate() {
+            console.log(treeview._options.items);
             if (firstReLoad) {
                 firstReLoad = false;
                 var dataHead = $(".dx-treeview-item-content");
                 $(".dx-treeview-item-content")[0].innerHTML = $(".dx-treeview-item-content")[0].innerHTML + '<span class="badge badge-custom mt-1" style="float:right;font-size:12px;font-weight: normal;">Revision No.</span><span class="badge badge-custom mr-3 mt-1" style="float:right;font-size:12px;font-weight: normal;">Effective date</span>'
             }
-            var dataNode = $(".dx-treeview-node-is-leaf")
+            
+            var dataNode = $(".dx-treeview-node-is-leaf");
+           
+            //console.log(dataNode[2].dataset.itemId);
+            console.log(dataHead);
             for (var i = 0; i < dataNode.length; i++) {
                 var str = dataNode[i].innerHTML;
+
                 if (str.indexOf("badge") == -1) {
                     var positionStart = str.indexOf("<span>");
                     var positionEndStart = str.indexOf("</span>") + 7;
                     var subStr = str.substring(positionStart, positionEndStart);
-                    var eid = ConvertId(dataNode[i].dataset.itemId);
-                    var data_filter = treeview._options.items.filter(function (x) { return x.id === eid; })
-                    //var data_filter = treeview._options.items.filter(element => element.id == eid)
-                    console.log(eid);
-                    //console.log(dataNode[i].dataset.itemId);
+                    console.log(ConvertId(dataNode[i].dataset.itemId));
+                    var data_filter = treeview._options.items.filter(function (x) { return x.id === ConvertId(dataNode[i].dataset.itemId); })
+                    //var data_filter = treeview._options.items.filter(element => element.id == ConvertId(dataNode[i].dataset.itemId))
                     console.log(data_filter);
                     if (data_filter[0].start_date !== undefined && data_filter[0].start_date != null && data_filter[0].revision != null) {
-                        
                         if (data_filter[0].revision < 10) {
                             data_filter[0].revision = '&nbsp;&nbsp;' + data_filter[0].revision
                         }
-
                         $(".dx-treeview-node-is-leaf")[i].innerHTML = str.replace(subStr, subStr + '<span class="badge badge-light mr-4 mt-1" style="float:right;font-size:12px;font-weight: normal;">' + data_filter[0].revision + '</span><span class="badge badge-light mr-5 mt-1" data-toggle="tooltip" title="Effective date" style="float:right;font-size:12px;font-weight: normal;">' + moment(parseJsonDate(data_filter[0].start_date)).format('DD.MM.YYYY') + '</span>');
+                    } else {
+                        //$(".dx-treeview-node-is-leaf")[i].innerHTML = str.replace(subStr, subStr + '<span class="badge badge-primary ml-1 mt-1" data-toggle="tooltip" title="วันที่ประกาศใช้งาน" style="float:right;">11.20.2018</span>');
                     }
                 }
             }
         }
-        function parseJsonDate(jsonDateString) {
-            return new Date(parseInt(jsonDateString.replace('/Date(', '')));
-        }
+        //showDate();
         var treeview;
         var editTreeView, scrollable;
         getMenu();
@@ -326,12 +303,19 @@ End Code
             firstReLoad = true;
             $.ajax({
                 type: "POST",
-                url: '../Home/GetMenuIATF',
+                url: '../Home/GetMenuISO',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false,
                 success: function (data) {
-                    
+                    //for (var i = 0; i < data.length; i++) {
+                    //    if (data[i].parentDirId != '' && data[i].parentDirId !== undefined) {
+                    //        console.log(data[i].parentDirId);
+                    //        var name = data[i].name
+                    //        data[i].name = name + '<div class="ml-auto">2019-01-02</div>';
+                    //    }
+
+                    //}
                     treeview = $("#treeview").dxTreeView({
                         items: data,
                         dataStructure: "plain",
@@ -345,9 +329,6 @@ End Code
                             elementAttr: {
                                 //class: "ml-auto"
                             }
-                        },
-                        onInitialized: function(e) {
-                            //console.log(e);
                         },
                         onItemClick: function (e) {
                             var item = e.node.itemData;
@@ -365,11 +346,9 @@ End Code
                             //}
                         },
                         onItemContextMenu: function (e) {
-
                             var item = e.node.itemData;
-                            console.log(item);
                             if (item.id) {
-                                name = item.name;
+                                name = item.name
                                 s_date = item.start_date;
                                 idItem = item.id;
                                 if(item.type == 1)
@@ -383,9 +362,13 @@ End Code
                         },
                         onItemExpanded: function (e) {
                             var item = e.itemData;
+                            console.log(e);
                             showDate();
-                            //console.log(item);
-                            //ExpandedAndCollapsed(item.id, 1);                            
+
+
+                            //ExpandedAndCollapsed(item.id, 1);
+                            //console.log($(".dx-treeview-node"));
+                            //$(".dx-treeview-node")[2].innerHTML = '<div class="dx-item dx-treeview-item" aria-selected="false"><div class="dx-item-content dx-treeview-item-content"><img src="../img/pdf.png" class="dx-icon"><span>File3JP.pdf</span><span class="badge badge-primary ml-2 mt-1" style="float:right;">2019-01-05</span><span class="badge badge-success mt-1" style="float:right;">2019-01-02</span></div></div>'
                         },
                         onItemCollapsed: function (e) {
                             var item = e.itemData;
@@ -396,7 +379,7 @@ End Code
                             var $btnView = $('<div id="btnExpand">').dxButton({
                                 icon: 'exportpdf', //or your custom icon
                                 onClick: function () {
-                                    
+
                                 }
                             });
                             if (e.element.find('#btnExpand').length == 0) {
@@ -405,12 +388,12 @@ End Code
                                     .prepend($btnView);
                                 //console.log(e.element);
                             };
-                                
+
 
                             var $btnUpdate = $('<div id="btnCompress" class="mr-2">').dxButton({
                                 icon: 'upload',
                                 onClick: function () {
-                                    
+
                                 }
                             });
                             if (e.element.find('#btnCompress').length == 0)
@@ -423,16 +406,31 @@ End Code
                         //    editTreeView = e.component;
                         //    scrollable = editTreeView.element().find(".dx-scrollable").dxScrollable("instance");
                         //}
-                       
+
                     }).dxTreeView("instance");
                     showDate();
                 },
                 error: function (error) {
                     alert(error);
                 }
+
             });
         }
-        
+
+        //var currentNode = $("#treeview").find("[data-item-id=" + "osTnSpQafYD8nYgTY2NCb5nvFZo/PXGxHHTZdy+6+QU=" + "]");
+        //console.log(currentNode);
+        //console.log($(".dx-treeview-node-is-leaf"));
+        //showDate();
+
+        //var str = $(".dx-treeview-node-is-leaf")[0].innerHTML
+        //var positionStart = str.indexOf("<span>");
+        //var positionEndStart = str.indexOf("</span>");
+        //var subStr = str.substring(positionStart, positionEndStart);
+        //var res = str.replace(subStr, "<span>ttttt");
+        //console.log(res);
+        //$(".dx-treeview-node-is-leaf")[0].innerHTML = str.replace(subStr, "<span>ttttt");//'<div class="dx-item dx-treeview-item" aria-selected="false"><div class="dx-item-content dx-treeview-item-content"><img src="../img/pdf.png" class="dx-icon"><span>File1JP.pdf</span><span class="badge badge-primary ml-2 mt-1" style="float:right;">2019-01-05</span><span class="badge badge-success mt-1" style="float:right;">2019-01-02</span></div></div>'
+
+        //$(".dx-treeview-node")[2].innerHTML = '<div class="dx-item dx-treeview-item" aria-selected="false"><div class="dx-item-content dx-treeview-item-content"><img src="../img/pdf.png" class="dx-icon"><span>File3JP.pdf</span><span class="badge badge-primary ml-2 mt-1" style="float:right;">2019-01-05</span><span class="badge badge-success mt-1" style="float:right;">2019-01-02</span></div></div>'
 
         $("#btnExpand").dxButton({
             onClick: function (e) {
@@ -463,7 +461,7 @@ End Code
                 title: "Compress"
             }
         });
-        
+
         //function ExpandedAndCollapsed(id, expanded) {
         //    $.ajax({
         //        type: "POST",
@@ -502,7 +500,7 @@ End Code
                             document.getElementById('idDelete').innerHTML = idItem;
                             document.getElementById('lbDelete').value = name;
                             $("#mdDelete").modal();
-                        } else if (e.itemData.text == "Change Detail") {
+                        } else if (e.itemData.text == "Change Date") {
                             document.getElementById('idChangeDate').innerHTML = idItem;
                             document.getElementById('wgDateChange').value = s_date;
                             $("#mdChangeDate").modal();
@@ -517,12 +515,14 @@ End Code
         //Buttom In Modal
 
         function fnNewFolder() {
+            console.log("tr");
             var newName = document.getElementById('lbNewFolder').value;
             var id = document.getElementById('idNewFolder').innerHTML;
+
             if (newName != '') {
                 $.ajax({
                     type: "POST",
-                    url: "../Home/fnNewFolder",
+                    url: "../Home/fnNewFolderISO",
                     contentType: "application/json; charset=utf-8",
                     data: "{NewName:'" + newName + "', id:'" + id + "'}",
                     dataType: "json",
@@ -547,7 +547,7 @@ End Code
             if (newName != "") {
                 $.ajax({
                     type: "POST",
-                    url: "../Home/fnRename",
+                    url: "../Home/fnRenameISO",
                     contentType: "application/json; charset=utf-8",
                     data: "{newName:'" + newName + "', id:'" + id + "'}",
                     dataType: "json",
@@ -571,8 +571,8 @@ End Code
             var strPath = document.getElementById('customFile').files[0];
             var id = document.getElementById('idNewFile').innerHTML;
             var revision = document.getElementById('lbRevision').value;
-            console.log(strPath);
-            if (newName != '' && strPath != '' && st_date._options.text != '' && revision != 0) {
+            console.log(st_date._options.text);
+            if (newName != '' && strPath != '' && st_date._options.text != '') {
                 var formData = new FormData();
                 formData.append("newName", newName);
                 formData.append("strPath", strPath);
@@ -581,7 +581,7 @@ End Code
                 formData.append("revision", revision);
                 $.ajax({
                     type: "POST",
-                    url: "../Home/fnNewFile",
+                    url: "../Home/fnNewFileISO",
                     data: formData,
                     dataType: 'json',
                     contentType: false,
@@ -601,42 +601,13 @@ End Code
                 $('#mdNewFile').modal('hide');
                 alert("กรุณากรอกข้อมูลให้ครบ");
             }
-        }
 
-        function fnChangeDate() {
-            var id = document.getElementById('idChangeDate').innerHTML;
-            var revision = document.getElementById('lbRevisionChange').value;
-            
-            if (id != '' && st_date_change._options.text != '' && revision != 0) {
-                $.ajax({
-                    type: "POST",
-                    url: "../Home/fnChangeDateIATF",
-                    contentType: "application/json; charset=utf-8",
-                    data: "{ id:'" + id + "', start_date: '" + st_date_change._options.text + "', revision: '" + revision + "' }",
-                    dataType: "json",
-                    async: false,
-                    success: function (data) {
-                        document.getElementById('wgDateChange').value = '';
-                        document.getElementById('lbRevisionChange').value = 0;
-                        $('#mdChangeDate').modal('hide');
-                        getMenu();
-                    },
-                    error: function (error) {
-                        alert(error);
-                    }
-                });
-            } else {
-                $('#mdChangeDate').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
-            }
-            
         }
-
         function fnDelete() {
             var id = document.getElementById('idDelete').innerHTML;
             $.ajax({
                 type: "POST",
-                url: "../Home/fnDelete",
+                url: "../Home/fnDeleteISO",
                 contentType: "application/json; charset=utf-8",
                 data: "{ idDel:'" + id + "' }",
                 dataType: "json",
@@ -644,6 +615,28 @@ End Code
                 success: function (data) {
                     document.getElementById('lbDelete').value = '';
                     $('#mdDelete').modal('hide');
+                    getMenu();
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        }
+
+        function fnChangeDate() {
+            var id = document.getElementById('idChangeDate').innerHTML;
+            var revision = document.getElementById('lbRevisionChange').value;
+            $.ajax({
+                type: "POST",
+                url: "../Home/fnChangeDateISO",
+                contentType: "application/json; charset=utf-8",
+                data: "{ id:'" + id + "', start_date: '" + st_date_change._options.text + "', revision: '" + revision + "' }",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    document.getElementById('wgDateChange').value = '';
+                    document.getElementById('lbRevisionChange').value = 0;
+                    $('#mdChangeDate').modal('hide');
                     getMenu();
                 },
                 error: function (error) {
@@ -662,7 +655,7 @@ End Code
                 fnRename();
             }
         });
-        
+
         $("#lbNewFile").keypress(function (e) {
             if (event.which == 13) {
                 fnNewFile();
@@ -678,6 +671,7 @@ End Code
         });
         //New Folder
         $("#btnNewFolder").click(function () {
+            console.log("r");
             fnNewFolder();
         });
         //Rename
@@ -696,14 +690,10 @@ End Code
         $("#btnChangeDate").click(function () {
             fnChangeDate();
         });
-        //End Buttom In Modal
-    });
+        //End Buttom In
 
-</script>
-<script>
-    $(".doctest").next().toggle();
-    $(".doctest").click(function (e) {
-        e.stopPropagation();
-        $(".doctest").next().toggle();
+        function parseJsonDate(jsonDateString) {
+            return new Date(parseInt(jsonDateString.replace('/Date(', '')));
+        }
     });
 </script>

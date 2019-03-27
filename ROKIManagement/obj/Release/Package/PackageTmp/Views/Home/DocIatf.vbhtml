@@ -260,9 +260,6 @@ End Code
     //    e.preventDefault();
     //    return false;
     //});
-
-    
-
     function clearModal () {
         document.getElementById('lbPath').innerHTML = 'Choose file';
         document.getElementById('lbNewFile').value = '';
@@ -522,8 +519,6 @@ End Code
             document.getElementById("lbPath").innerHTML = fileName;
             document.getElementById("lbNewFile").value = document.getElementById('customFile').files[0].name;
         });
-
-
 
         $("#btnNewFile").click(function () {
             var name = document.getElementById('hiddenfile').innerHTML;

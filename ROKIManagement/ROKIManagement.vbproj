@@ -163,6 +163,7 @@
     <Content Include="Content\Toast.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="img\coming-soon.png" />
     <Content Include="img\excel.png" />
     <Content Include="img\fd.png" />
     <Content Include="img\index.png" />
@@ -176,6 +177,7 @@
     <Content Include="js\demo\datatables-demo.js" />
     <Content Include="js\sb-admin.js" />
     <Content Include="js\sb-admin.min.js" />
+    <Content Include="js\test.js" />
     <Content Include="js\toast.js" />
     <Compile Include="Models\FileTreeViewModel.vb" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
@@ -195,6 +197,9 @@
       <DependentUpon>DataSetManagement.xsd</DependentUpon>
     </Content>
     <None Include="My Project\PublishProfiles\ROKIManagement.pubxml" />
+    <None Include="My Project\PublishProfiles\t.pubxml" />
+    <None Include="My Project\PublishProfiles\TT1995App - FTP.pubxml" />
+    <None Include="My Project\PublishProfiles\TT1995App - Web Deploy.pubxml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
@@ -1738,6 +1743,8 @@
     <Content Include="Views\Home\DocIatf.vbhtml" />
     <Content Include="Views\Home\IATFFile.vbhtml" />
     <Content Include="Views\Home\IATF.vbhtml" />
+    <Content Include="Views\Home\ComingSoon.vbhtml" />
+    <Content Include="Views\Home\ISO.vbhtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
