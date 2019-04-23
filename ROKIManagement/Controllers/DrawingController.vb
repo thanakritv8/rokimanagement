@@ -79,7 +79,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathHATC(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/HATC/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -97,7 +97,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathHATC(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/HATC/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -147,7 +147,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathHATC(id)
-            Dim PathToDb As String = "../Files/Doc/HATC/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -179,7 +179,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathHATC(idDel)
-            Dim PathToDb As String = "../Files/Doc/HATC/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -268,7 +268,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathTHM(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/THM/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -286,7 +286,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathTHM(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/THM/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -350,7 +350,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathTHM(id)
-            Dim PathToDb As String = "../Files/Doc/THM/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -382,7 +382,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathTHM(idDel)
-            Dim PathToDb As String = "../Files/Doc/THM/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -471,7 +471,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathTSM(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/TSM/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -489,7 +489,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathTSM(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/TSM/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -553,7 +553,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathTSM(id)
-            Dim PathToDb As String = "../Files/Doc/TSM/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -585,7 +585,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathTSM(idDel)
-            Dim PathToDb As String = "../Files/Doc/TSM/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -674,7 +674,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathAAT(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/AAT/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -692,7 +692,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathAAT(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/AAT/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -742,7 +742,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathAAT(id)
-            Dim PathToDb As String = "../Files/Doc/AAT/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -774,7 +774,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathAAT(idDel)
-            Dim PathToDb As String = "../Files/Doc/AAT/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -862,7 +862,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathDUCATI(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/DUCATI/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -880,7 +880,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathDUCATI(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/DUCATI/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -930,7 +930,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathDUCATI(id)
-            Dim PathToDb As String = "../Files/Doc/DUCATI/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -962,7 +962,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathDUCATI(idDel)
-            Dim PathToDb As String = "../Files/Doc/DUCATI/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -1050,7 +1050,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathHRAP(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/HRAP/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -1068,7 +1068,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathHRAP(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/HRAP/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -1118,7 +1118,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathHRAP(id)
-            Dim PathToDb As String = "../Files/Doc/HRAP/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -1150,7 +1150,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathHRAP(idDel)
-            Dim PathToDb As String = "../Files/Doc/HRAP/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -1238,7 +1238,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathHRST(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/HRST/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -1256,7 +1256,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathHRST(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/HRST/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -1306,7 +1306,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathHRST(id)
-            Dim PathToDb As String = "../Files/Doc/HRST/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -1338,7 +1338,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathHRST(idDel)
-            Dim PathToDb As String = "../Files/Doc/HRST/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -1426,7 +1426,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathHTAS(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/HTAS/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -1444,7 +1444,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathHTAS(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/HTAS/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -1494,7 +1494,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathHTAS(id)
-            Dim PathToDb As String = "../Files/Doc/HTAS/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -1526,7 +1526,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathHTAS(idDel)
-            Dim PathToDb As String = "../Files/Doc/HTAS/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -1614,7 +1614,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathIMCT(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/IMCT/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -1632,7 +1632,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathIMCT(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/IMCT/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -1682,7 +1682,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathIMCT(id)
-            Dim PathToDb As String = "../Files/Doc/IMCT/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -1714,7 +1714,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathIMCT(idDel)
-            Dim PathToDb As String = "../Files/Doc/IMCT/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -1802,7 +1802,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathKMT(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/KMT/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -1820,7 +1820,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathKMT(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/KMT/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -1870,7 +1870,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathKMT(id)
-            Dim PathToDb As String = "../Files/Doc/KMT/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -1902,7 +1902,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathKMT(idDel)
-            Dim PathToDb As String = "../Files/Doc/KMT/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -1990,7 +1990,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathMAZDA(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/MAZDA/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -2008,7 +2008,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathMAZDA(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/MAZDA/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -2058,7 +2058,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathMAZDA(id)
-            Dim PathToDb As String = "../Files/Doc/MAZDA/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -2090,7 +2090,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathMAZDA(idDel)
-            Dim PathToDb As String = "../Files/Doc/MAZDA/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -2178,7 +2178,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathMETA(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/META/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -2196,7 +2196,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathMETA(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/META/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -2246,7 +2246,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathMETA(id)
-            Dim PathToDb As String = "../Files/Doc/META/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -2278,7 +2278,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathMETA(idDel)
-            Dim PathToDb As String = "../Files/Doc/META/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -2366,7 +2366,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathMMTH(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/MMTH/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -2384,7 +2384,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathMMTH(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/MMTH/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -2434,7 +2434,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathMMTH(id)
-            Dim PathToDb As String = "../Files/Doc/MMTH/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -2466,7 +2466,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathMMTH(idDel)
-            Dim PathToDb As String = "../Files/Doc/MMTH/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -2554,7 +2554,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathNMT(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/NMT/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -2572,7 +2572,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathNMT(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/NMT/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -2622,7 +2622,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathNMT(id)
-            Dim PathToDb As String = "../Files/Doc/NMT/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -2654,7 +2654,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathNMT(idDel)
-            Dim PathToDb As String = "../Files/Doc/NMT/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -2742,7 +2742,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathRJP(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/RJP/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -2760,7 +2760,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathRJP(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/RJP/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -2810,7 +2810,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathRJP(id)
-            Dim PathToDb As String = "../Files/Doc/RJP/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -2842,7 +2842,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathRJP(idDel)
-            Dim PathToDb As String = "../Files/Doc/RJP/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -2930,7 +2930,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathTMT(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/TMT/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -2948,7 +2948,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathTMT(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/TMT/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -2998,7 +2998,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathTMT(id)
-            Dim PathToDb As String = "../Files/Doc/TMT/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -3030,7 +3030,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathTMT(idDel)
-            Dim PathToDb As String = "../Files/Doc/TMT/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)
@@ -3118,7 +3118,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathTYM(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/TYM/" & Path & "/" & NewName)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path & "/" & NewName)
             If (Not System.IO.Directory.Exists(PathServer)) Then
                 System.IO.Directory.CreateDirectory(PathServer)
             End If
@@ -3136,7 +3136,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
             Dim Path As String = fnGetPathTYM(Id)
-            Dim PathServer As String = Server.MapPath("../Files/Doc/TYM/" & Path)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/Drawing/" & Path)
             Try
                 If Directory.Exists(PathServer) Then
                     FileIO.FileSystem.RenameDirectory(PathServer, NewName)
@@ -3186,7 +3186,7 @@ Namespace Controllers
                 End If
             Next
             Dim Path As String = fnGetPathTYM(id)
-            Dim PathToDb As String = "../Files/Doc/TYM/" & Path & "/" & newName
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path & "/" & newName
             Dim PathServer As String = Server.MapPath(PathToDb)
             For i As Integer = 0 To Request.Files.Count - 1
                 Dim file = Request.Files(i)
@@ -3218,7 +3218,7 @@ Namespace Controllers
             Dim dtSeq As DataTable = New DataTable
             Dim _SQL As String = String.Empty
             Dim Path As String = fnGetPathTYM(idDel)
-            Dim PathToDb As String = "../Files/Doc/TYM/" & Path
+            Dim PathToDb As String = "../Files/Doc/Drawing/" & Path
             Dim PathServer As String = Server.MapPath(PathToDb)
             If System.IO.File.Exists(PathServer) = True Then
                 System.IO.File.Delete(PathServer)

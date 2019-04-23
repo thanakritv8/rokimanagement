@@ -346,16 +346,37 @@ End Code
                             //}
                         },
                         onItemContextMenu: function (e) {
+                            //var item = e.node.itemData;
+                            //if (item.id) {
+                            //    name = item.name
+                            //    s_date = item.start_date;
+                            //    idItem = item.id;
+                            //    if(item.type == 1)
+                            //    {
+                            //        OptionsMenu = contextMenuItemsFile;
+                            //    } else {
+                            //        OptionsMenu = contextMenuItemsFolder;
+                            //    }
+                            //    getContextMenu();
+                            //}
                             var item = e.node.itemData;
                             if (item.id) {
                                 name = item.name
                                 s_date = item.start_date;
                                 idItem = item.id;
-                                if(item.type == 1)
-                                {
+                                if (item.type == 1) {
                                     OptionsMenu = contextMenuItemsFile;
                                 } else {
-                                    OptionsMenu = contextMenuItemsFolder;
+                                    if (item.id == 'hPZz7R9z8eTjqnuYqwXtQncB2jUzfHwuXjInN8ClIeY=') {
+                                        OptionsMenu = [
+                                            { text: 'New File' },
+                                            { text: 'New Folder' },
+                                            { text: 'Rename' }
+                                        ];
+
+                                    } else {
+                                        OptionsMenu = contextMenuItemsFolder;
+                                    }
                                 }
                                 getContextMenu();
                             }
