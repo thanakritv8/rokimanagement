@@ -136,7 +136,7 @@ End Code
     };
 
     function getApplication(UserId) {
-        console.log(UserId);
+        //console.log(UserId);
         $.ajax({
             type: "POST",
             url: "../Account/GetApplication",
@@ -144,7 +144,7 @@ End Code
             data: "{UserId:'" + UserId + "'}",
             dataType: "json",
             success: function (data) {
-                console.log(data);
+                //console.log(data);
                 var tblSomething = "";
                 var AppId = "";
                 $.each(data, function (idx, obj) {
@@ -162,7 +162,7 @@ End Code
                     tblSomething += "</tr>";
                 });
                 
-                console.log(tblSomething);
+                //console.log(tblSomething);
                 $('#dataRow').html(tblSomething);
             },
             error: function (jqXHR, textStatus, errorThrown) {

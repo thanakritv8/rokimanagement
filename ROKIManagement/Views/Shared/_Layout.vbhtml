@@ -64,10 +64,11 @@
     <div id="wrapper">
         @If Session("StatusLogin") = "OK" Then
             @<ul Class="sidebar navbar-nav" style="background-color:rgb(0,79,162)">
-                <li Class="nav-item dropdown">
+            @If Session("QMS") <> 0 Or Session("ISO") <> 0 Or Session("IATF") <> 0 Or Session("Admin") = 1 Then
+                @<li Class="nav-item dropdown">
                     <a Class="nav-link dropdown-toggle doctest" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i Class="fas fa-fw fa-folder"></i>
-                        <span class="text-light"> Document</span>
+                        <span Class="text-light"> Document</span>
                     </a>
                     <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
                         @If Session("QMS") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item QMS" id="h1" href="../Home/DocQms">QMS</a> End If
@@ -75,6 +76,35 @@
                         @If Session("IATF") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Home/IATF">IATF 16949-2016</a> End If
                     </div>
                 </li>
+                End if
+        @If Session("HATC") <> 0 Or Session("THM") <> 0 Or Session("TSM") <> 0 Or Session("AAT") <> 0 Or Session("Admin") = 1 Then
+                 @<li Class="nav-item dropdown">
+                     <a Class="nav-link dropdown-toggle doctest" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         <i Class="fas fa-drafting-compass"></i>
+                         <span Class="text-light"> Drawing</span>
+                     </a>
+                     <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
+                         @If Session("DUCATI") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/DUCATI">DUCATI</a> End If
+                         @If Session("HATC") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/HATC">HATC</a> End If
+                         @If Session("HRST") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/HRST">HRST</a> End If
+                         @If Session("HTAS") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/HTAS">HTAS</a> End If
+                         @If Session("KMT") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/KMT">KMT</a> End If
+                         @If Session("MAZDA") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/MAZDA">MAZDA</a> End If
+                         @If Session("META") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/META">META</a> End If
+                         @If Session("THM") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/THM">THM</a> End If
+                         @If Session("TYM") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/TYM">TYM</a> End If
+                         @If Session("HRAP") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/HRAP">HRAP</a> End If
+                         @If Session("IMCT") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/IMCT">IMCT</a> End If
+                         @If Session("NMT") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/NMT">NMT</a> End If
+                         @If Session("RJP") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/RJP">RJP</a> End If
+                         @If Session("TMT") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/TMT">TMT</a> End If
+                         @If Session("TSM") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/TSM">TSM</a> End If
+                         @If Session("AAT") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/AAT">AAT</a> End If
+                         @If Session("MMTH") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/MMTH">MMTH</a> End If
+                     </div>
+                 </li>
+                 end if
+
                 @If Session("Admin") = 1 Then
                     @<li Class="nav-item dropdown">
                     <a Class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

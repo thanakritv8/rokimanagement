@@ -262,7 +262,7 @@ End Code
         }
 
         function showDate() {
-            console.log(treeview._options.items);
+            //console.log(treeview._options.items);
             if (firstReLoad) {
                 firstReLoad = false;
                 var dataHead = $(".dx-treeview-item-content");
@@ -272,7 +272,7 @@ End Code
             var dataNode = $(".dx-treeview-node-is-leaf");
            
             //console.log(dataNode[2].dataset.itemId);
-            console.log(dataHead);
+            //console.log(dataHead);
             for (var i = 0; i < dataNode.length; i++) {
                 var str = dataNode[i].innerHTML;
 
@@ -280,10 +280,10 @@ End Code
                     var positionStart = str.indexOf("<span>");
                     var positionEndStart = str.indexOf("</span>") + 7;
                     var subStr = str.substring(positionStart, positionEndStart);
-                    console.log(ConvertId(dataNode[i].dataset.itemId));
+                    //console.log(ConvertId(dataNode[i].dataset.itemId));
                     var data_filter = treeview._options.items.filter(function (x) { return x.id === ConvertId(dataNode[i].dataset.itemId); })
                     //var data_filter = treeview._options.items.filter(element => element.id == ConvertId(dataNode[i].dataset.itemId))
-                    console.log(data_filter);
+                    //console.log(data_filter);
                     if (data_filter[0].start_date !== undefined && data_filter[0].start_date != null && data_filter[0].revision != null) {
                         if (data_filter[0].revision < 10) {
                             data_filter[0].revision = '&nbsp;&nbsp;' + data_filter[0].revision
@@ -362,7 +362,7 @@ End Code
                         },
                         onItemExpanded: function (e) {
                             var item = e.itemData;
-                            console.log(e);
+                            //console.log(e);
                             showDate();
 
 
@@ -515,7 +515,7 @@ End Code
         //Buttom In Modal
 
         function fnNewFolder() {
-            console.log("tr");
+            //console.log("tr");
             var newName = document.getElementById('lbNewFolder').value;
             var id = document.getElementById('idNewFolder').innerHTML;
 
@@ -571,7 +571,7 @@ End Code
             var strPath = document.getElementById('customFile').files[0];
             var id = document.getElementById('idNewFile').innerHTML;
             var revision = document.getElementById('lbRevision').value;
-            console.log(st_date._options.text);
+            //console.log(st_date._options.text);
             if (newName != '' && strPath != '' && st_date._options.text != '') {
                 var formData = new FormData();
                 formData.append("newName", newName);
@@ -664,14 +664,14 @@ End Code
 
         $('#customFile').on('change', function () {
             var fileName = $(this).val();
-            console.log(fileName);
+            //console.log(fileName);
             document.getElementById("lbFile").innerHTML = fileName;
             document.getElementById("lbNewFile").value = document.getElementById('customFile').files[0].name;
             $("#lbNewFile").focus();
         });
         //New Folder
         $("#btnNewFolder").click(function () {
-            console.log("r");
+            //console.log("r");
             fnNewFolder();
         });
         //Rename

@@ -390,7 +390,7 @@ End Code
             var strNameTH = document.getElementById('nameDocTHe').value;
             var strNoTH = document.getElementById('noDocTHe').value;
             var seq = document.getElementById('seq').innerHTML;
-            console.log(seq);
+            //console.log(seq);
             formData.append("pathJP", strPathJP);
             formData.append("nameJP", strNameJP);
             formData.append("noJP", strNoJP);
@@ -431,7 +431,7 @@ End Code
             var cbDelJP = document.getElementById('cbDelJP').checked;
             var cbDelTH = document.getElementById('cbDelTH').checked;
             var seq = document.getElementById('seqDel').innerHTML;
-            console.log(seq + '=>' + cbDelJP + '=>' + cbDelTH);
+            //console.log(seq + '=>' + cbDelJP + '=>' + cbDelTH);
             formData.append("cbDelJP", cbDelJP);
             formData.append("cbDelTH", cbDelTH);
             formData.append("seq", seq);
@@ -636,8 +636,6 @@ End Code
             }
         });
     }
-
-    
 
     function Toast(type, css, msg) {
         this.type = type;

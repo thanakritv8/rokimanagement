@@ -714,8 +714,8 @@ End Code
     $("#btnDelPer").click(function () {
         var PerId = document.getElementById("PerId").innerHTML;
         var UserId = document.getElementById("seq").innerHTML;
-        console.log(PerId);
-        console.log(UserId);
+        //console.log(PerId);
+        //console.log(UserId);
         if (PerId != '') {
             $.ajax({
                 type: "POST",
@@ -806,7 +806,7 @@ End Code
             data: "{UserId:'" + UserId + "'}",
             dataType: "json",
             success: function (data) {
-                console.log(data);
+                //console.log(data);
                 var tblSomething = "";
                 var AppId = "";
                 $.each(data, function (idx, obj) {

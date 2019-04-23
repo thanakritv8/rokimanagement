@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewData("Title") = "ISO"
+    ViewData("Title") = "TMT"
 End Code
 
 <style>
@@ -7,6 +7,7 @@ End Code
         font-size: 28px;
         color: #FCC33E;
     }
+
     .badge-custom {
         background-color: rgb(0,79,162);
         color: #ffffff;
@@ -150,16 +151,16 @@ End Code
                         <input type="text" class="form-control" id="lbNewFile" placeholder="File name" value="">
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <div class="col-sm">
-                        <div id="wgDate"></div>
-                    </div>                                       
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm">
-                        <input type="number" min="0" step="1" class="form-control" id="lbRevision" placeholder="Revision No." value="">
+                @*<div class="row mb-2">
+                        <div class="col-sm">
+                            <div id="wgDate"></div>
+                        </div>
                     </div>
-                </div>
+                    <div class="row mb-2">
+                        <div class="col-sm">
+                            <input type="number" min="0" step="1" class="form-control" id="lbRevision" placeholder="Revision No." value="">
+                        </div>
+                    </div>*@
             </div>
 
             <!-- Modal footer -->
@@ -177,25 +178,25 @@ End Code
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <!-- Modal body -->
-            <div class="modal-header">
-                <label hidden id="idChangeDate"></label>
-            </div>
+            @*<div class="modal-header">
+                    <label hidden id="idChangeDate"></label>
+                </div>*@
             <div class="modal-body">
                 <div class="row mb-2">
                     <div class="col-sm">
                         <div class="col-sm">Start Date</div>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <div class="col-sm">
-                        <div id="wgDateChange"></div>
+                @*<div class="row mb-2">
+                        <div class="col-sm">
+                            <div id="wgDateChange"></div>
+                        </div>
                     </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm">
-                        <input type="number" min="0" step="1" class="form-control" id="lbRevisionChange" placeholder="Revision No." value="">
-                    </div>
-                </div>
+                    <div class="row mb-2">
+                        <div class="col-sm">
+                            <input type="number" min="0" step="1" class="form-control" id="lbRevisionChange" placeholder="Revision No." value="">
+                        </div>
+                    </div>*@
             </div>
 
             <!-- Modal footer -->
@@ -203,7 +204,7 @@ End Code
                 <button type="button" id="btnChangeDate" class="btn btn-success">Save</button>
                 <button type="button" onclick="clearModal();" class="btn btn-danger">Close</button>
             </div>
-            
+
         </div>
     </div>
 </div>
@@ -213,8 +214,8 @@ End Code
         document.getElementById('lbFile').innerHTML = 'Choose file';
         document.getElementById('lbNewFile').value = '';
         document.getElementById('lbNewFolder').value = '';
-        document.getElementById('wgDate').value = '';
-        document.getElementById('wgDateChange').value = '';
+        //document.getElementById('wgDate').value = '';
+        //document.getElementById('wgDateChange').value = '';
         $("#mdNewFile").modal('hide');
         $("#mdNewFolder").modal('hide');
         $("#mdChangeDate").modal('hide');
@@ -229,7 +230,7 @@ End Code
     var contextMenuItemsFile = [
         { text: 'Rename' },
         { text: 'Delete' },
-        { text: 'Change Date' },
+        //{ text: 'Change Date' },
     ];
     var OptionsMenu = contextMenuItemsFolder;
     var idItem = '';
@@ -239,21 +240,16 @@ End Code
 
     $(function () {
 
+        //var st_date = $("#wgDate").dxDateBox({
 
-        //var permission_status = '@Session("")';
-        //console.log(permission_status);
-        var st_date = $("#wgDate").dxDateBox({
+        //}).dxDateBox('instance');
 
-        }).dxDateBox('instance');
-        //if (st_date._options.text == '') {
-        //    console.log('test');
-        //}
 
-        var st_date_change = $("#wgDateChange").dxDateBox({
+        //var st_date_change = $("#wgDateChange").dxDateBox({
 
-        }).dxDateBox('instance');
+        //}).dxDateBox('instance');
         function ConvertId(str) {
-            //var str = '1__43__ZpPHZC__47__PLK5VEuX5l3qJk37uCBHk3ubjzyyN6xTCw__61__';
+
             for (i = 32; i <= 127; i++) {
                 var strRep = '__' + i.toString() + '__';
                 str = str.replace(new RegExp(strRep, 'g'), String.fromCharCode(i));
@@ -261,41 +257,38 @@ End Code
             return str;
         }
 
-        function showDate() {
-            //console.log(treeview._options.items);
-            if (firstReLoad) {
-                firstReLoad = false;
-                var dataHead = $(".dx-treeview-item-content");
-                $(".dx-treeview-item-content")[0].innerHTML = $(".dx-treeview-item-content")[0].innerHTML + '<span class="badge badge-custom mt-1" style="float:right;font-size:12px;font-weight: normal;">Revision No.</span><span class="badge badge-custom mr-3 mt-1" style="float:right;font-size:12px;font-weight: normal;">Effective date</span>'
-            }
-            
-            var dataNode = $(".dx-treeview-node-is-leaf");
-           
-            //console.log(dataNode[2].dataset.itemId);
-            //console.log(dataHead);
-            for (var i = 0; i < dataNode.length; i++) {
-                var str = dataNode[i].innerHTML;
+        //function showDate() {
 
-                if (str.indexOf("badge") == -1) {
-                    var positionStart = str.indexOf("<span>");
-                    var positionEndStart = str.indexOf("</span>") + 7;
-                    var subStr = str.substring(positionStart, positionEndStart);
-                    //console.log(ConvertId(dataNode[i].dataset.itemId));
-                    var data_filter = treeview._options.items.filter(function (x) { return x.id === ConvertId(dataNode[i].dataset.itemId); })
-                    //var data_filter = treeview._options.items.filter(element => element.id == ConvertId(dataNode[i].dataset.itemId))
-                    //console.log(data_filter);
-                    if (data_filter[0].start_date !== undefined && data_filter[0].start_date != null && data_filter[0].revision != null) {
-                        if (data_filter[0].revision < 10) {
-                            data_filter[0].revision = '&nbsp;&nbsp;' + data_filter[0].revision
-                        }
-                        $(".dx-treeview-node-is-leaf")[i].innerHTML = str.replace(subStr, subStr + '<span class="badge badge-light mr-4 mt-1" style="float:right;font-size:12px;font-weight: normal;">' + data_filter[0].revision + '</span><span class="badge badge-light mr-5 mt-1" data-toggle="tooltip" title="Effective date" style="float:right;font-size:12px;font-weight: normal;">' + moment(parseJsonDate(data_filter[0].start_date)).format('DD.MM.YYYY') + '</span>');
-                    } else {
-                        //$(".dx-treeview-node-is-leaf")[i].innerHTML = str.replace(subStr, subStr + '<span class="badge badge-primary ml-1 mt-1" data-toggle="tooltip" title="วันที่ประกาศใช้งาน" style="float:right;">11.20.2018</span>');
-                    }
-                }
-            }
-        }
-        //showDate();
+        //    if (firstReLoad) {
+        //        firstReLoad = false;
+        //        var dataHead = $(".dx-treeview-item-content");
+        //        $(".dx-treeview-item-content")[0].innerHTML = $(".dx-treeview-item-content")[0].innerHTML + '<span class="badge badge-custom mt-1" style="float:right;font-size:12px;font-weight: normal;">Revision No.</span><span class="badge badge-custom mr-3 mt-1" style="float:right;font-size:12px;font-weight: normal;">Effective date</span>'
+        //    }
+
+        //    var dataNode = $(".dx-treeview-node-is-leaf");
+
+        //    for (var i = 0; i < dataNode.length; i++) {
+        //        var str = dataNode[i].innerHTML;
+
+        //        if (str.indexOf("badge") == -1) {
+        //            var positionStart = str.indexOf("<span>");
+        //            var positionEndStart = str.indexOf("</span>") + 7;
+        //            var subStr = str.substring(positionStart, positionEndStart);
+
+        //            var data_filter = treeview._options.items.filter(function (x) { return x.id === ConvertId(dataNode[i].dataset.itemId); })
+
+        //            if (data_filter[0].start_date !== undefined && data_filter[0].start_date != null && data_filter[0].revision != null) {
+        //                if (data_filter[0].revision < 10) {
+        //                    data_filter[0].revision = '&nbsp;&nbsp;' + data_filter[0].revision
+        //                }
+        //                $(".dx-treeview-node-is-leaf")[i].innerHTML = str.replace(subStr, subStr + '<span class="badge badge-light mr-4 mt-1" style="float:right;font-size:12px;font-weight: normal;">' + data_filter[0].revision + '</span><span class="badge badge-light mr-5 mt-1" data-toggle="tooltip" title="Effective date" style="float:right;font-size:12px;font-weight: normal;">' + moment(parseJsonDate(data_filter[0].start_date)).format('DD.MM.YYYY') + '</span>');
+        //            } else {
+
+        //            }
+        //        }
+        //    }
+        //}
+
         var treeview;
         var editTreeView, scrollable;
         getMenu();
@@ -303,19 +296,11 @@ End Code
             firstReLoad = true;
             $.ajax({
                 type: "POST",
-                url: '../Home/GetMenuISO',
+                url: '../Drawing/GetMenuTMT',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false,
                 success: function (data) {
-                    //for (var i = 0; i < data.length; i++) {
-                    //    if (data[i].parentDirId != '' && data[i].parentDirId !== undefined) {
-                    //        console.log(data[i].parentDirId);
-                    //        var name = data[i].name
-                    //        data[i].name = name + '<div class="ml-auto">2019-01-02</div>';
-                    //    }
-
-                    //}
                     treeview = $("#treeview").dxTreeView({
                         items: data,
                         dataStructure: "plain",
@@ -324,10 +309,9 @@ End Code
                         displayExpr: "name",
                         searchEnabled: true,
                         searchEditorOptions: {
-                            //placeholder: "Type search value here...",
                             width: '100%',
                             elementAttr: {
-                                //class: "ml-auto"
+
                             }
                         },
                         onItemClick: function (e) {
@@ -336,14 +320,6 @@ End Code
                             if (item.path) {
                                 window.open(item.path, '_blank');
                             }
-                            //var item = e.itemData;
-                            //if (item.path) {
-                            //    $("#product-details").removeClass("hidden");
-                            //    $("#product-details > .price").text("test1");
-                            //    $("#product-details > .name").text("test");
-                            //} else {
-                            //    $("#product-details").addClass("hidden");
-                            //}
                         },
                         onItemContextMenu: function (e) {
                             var item = e.node.itemData;
@@ -362,22 +338,15 @@ End Code
                         },
                         onItemExpanded: function (e) {
                             var item = e.itemData;
-                            //console.log(e);
-                            showDate();
-
-
-                            //ExpandedAndCollapsed(item.id, 1);
-                            //console.log($(".dx-treeview-node"));
-                            //$(".dx-treeview-node")[2].innerHTML = '<div class="dx-item dx-treeview-item" aria-selected="false"><div class="dx-item-content dx-treeview-item-content"><img src="../img/pdf.png" class="dx-icon"><span>File3JP.pdf</span><span class="badge badge-primary ml-2 mt-1" style="float:right;">2019-01-05</span><span class="badge badge-success mt-1" style="float:right;">2019-01-02</span></div></div>'
+                            //showDate();
                         },
                         onItemCollapsed: function (e) {
                             var item = e.itemData;
-                            //console.log(item);
-                            //ExpandedAndCollapsed(item.id, 0);
+
                         },
                         onContentReady: function (e) {
                             var $btnView = $('<div id="btnExpand">').dxButton({
-                                icon: 'exportpdf', //or your custom icon
+                                icon: 'exportpdf',
                                 onClick: function () {
 
                                 }
@@ -386,7 +355,6 @@ End Code
                                 e.element
                                     .find('.dx-toolbar-after')
                                     .prepend($btnView);
-                                //console.log(e.element);
                             };
 
 
@@ -402,13 +370,10 @@ End Code
                                     .prepend($btnUpdate);
                         },
                         expandAllEnabled: true,
-                        //onContentReady: function (e) {
-                        //    editTreeView = e.component;
-                        //    scrollable = editTreeView.element().find(".dx-scrollable").dxScrollable("instance");
-                        //}
+
 
                     }).dxTreeView("instance");
-                    showDate();
+                    //showDate();
                 },
                 error: function (error) {
                     alert(error);
@@ -417,34 +382,10 @@ End Code
             });
         }
 
-        //var currentNode = $("#treeview").find("[data-item-id=" + "osTnSpQafYD8nYgTY2NCb5nvFZo/PXGxHHTZdy+6+QU=" + "]");
-        //console.log(currentNode);
-        //console.log($(".dx-treeview-node-is-leaf"));
-        //showDate();
-
-        //var str = $(".dx-treeview-node-is-leaf")[0].innerHTML
-        //var positionStart = str.indexOf("<span>");
-        //var positionEndStart = str.indexOf("</span>");
-        //var subStr = str.substring(positionStart, positionEndStart);
-        //var res = str.replace(subStr, "<span>ttttt");
-        //console.log(res);
-        //$(".dx-treeview-node-is-leaf")[0].innerHTML = str.replace(subStr, "<span>ttttt");//'<div class="dx-item dx-treeview-item" aria-selected="false"><div class="dx-item-content dx-treeview-item-content"><img src="../img/pdf.png" class="dx-icon"><span>File1JP.pdf</span><span class="badge badge-primary ml-2 mt-1" style="float:right;">2019-01-05</span><span class="badge badge-success mt-1" style="float:right;">2019-01-02</span></div></div>'
-
-        //$(".dx-treeview-node")[2].innerHTML = '<div class="dx-item dx-treeview-item" aria-selected="false"><div class="dx-item-content dx-treeview-item-content"><img src="../img/pdf.png" class="dx-icon"><span>File3JP.pdf</span><span class="badge badge-primary ml-2 mt-1" style="float:right;">2019-01-05</span><span class="badge badge-success mt-1" style="float:right;">2019-01-02</span></div></div>'
-
         $("#btnExpand").dxButton({
             onClick: function (e) {
                 treeview.expandAll();
-                //editTreeView.expandItem(editTreeView.element().find(".dx-treeview-item")[0])
 
-                //var currentNode = $("#treeview").find("[data-item-id=" + "XUlbiBF8hOpKRdTbfa42eydIc1NuhSgHt9wQI+prB1Q=" + "]");
-
-                //$("#treeview").find(".dx-treeview-node").removeClass("dx-state-focused");
-                //currentNode.focus().addClass("dx-state-focused");
-                //setTimeout(function () {
-                //    scrollable.scrollToElement(currentNode);
-                //}, 300);
-                //treeview.selectItem("XUlbiBF8hOpKRdTbfa42eydIc1NuhSgHt9wQI+prB1Q=");
             },
             icon: "spindown",
             elementAttr: {
@@ -461,19 +402,6 @@ End Code
                 title: "Compress"
             }
         });
-
-        //function ExpandedAndCollapsed(id, expanded) {
-        //    $.ajax({
-        //        type: "POST",
-        //        url: '../Home/ExpandedAndCollapsed',
-        //        contentType: "application/json; charset=utf-8",
-        //        dataType: "json",
-        //        data: "{id:'" + id + "', expanded: '" + expanded + "'}",
-        //        async: false,
-        //        success: function (data) {
-        //        }
-        //    });
-        //}
 
         getContextMenu();
         function getContextMenu() {
@@ -500,13 +428,12 @@ End Code
                             document.getElementById('idDelete').innerHTML = idItem;
                             document.getElementById('lbDelete').value = name;
                             $("#mdDelete").modal();
-                        } else if (e.itemData.text == "Change Date") {
-                            document.getElementById('idChangeDate').innerHTML = idItem;
-                            document.getElementById('wgDateChange').value = s_date;
-                            $("#mdChangeDate").modal();
                         }
-
-                        //DevExpress.ui.notify("The \"" + e.itemData.text + "\" item was clicked id " + idItem, "success", 1500);
+                        //} else if (e.itemData.text == "Change Date") {
+                        //    document.getElementById('idChangeDate').innerHTML = idItem;
+                        //    document.getElementById('wgDateChange').value = s_date;
+                        //    $("#mdChangeDate").modal();
+                        //}
                     }
                 }
             });
@@ -515,14 +442,13 @@ End Code
         //Buttom In Modal
 
         function fnNewFolder() {
-            //console.log("tr");
             var newName = document.getElementById('lbNewFolder').value;
             var id = document.getElementById('idNewFolder').innerHTML;
 
             if (newName != '') {
                 $.ajax({
                     type: "POST",
-                    url: "../Home/fnNewFolderISO",
+                    url: "../Drawing/fnNewFolderTMT",
                     contentType: "application/json; charset=utf-8",
                     data: "{NewName:'" + newName + "', id:'" + id + "'}",
                     dataType: "json",
@@ -547,7 +473,7 @@ End Code
             if (newName != "") {
                 $.ajax({
                     type: "POST",
-                    url: "../Home/fnRenameISO",
+                    url: "../Drawing/fnRenameTMT",
                     contentType: "application/json; charset=utf-8",
                     data: "{newName:'" + newName + "', id:'" + id + "'}",
                     dataType: "json",
@@ -570,18 +496,17 @@ End Code
             var newName = document.getElementById('lbNewFile').value;
             var strPath = document.getElementById('customFile').files[0];
             var id = document.getElementById('idNewFile').innerHTML;
-            var revision = document.getElementById('lbRevision').value;
-            //console.log(st_date._options.text);
-            if (newName != '' && strPath != '' && st_date._options.text != '') {
+            //var revision = document.getElementById('lbRevision').value;
+            if (newName != '' && strPath != '') {
                 var formData = new FormData();
                 formData.append("newName", newName);
                 formData.append("strPath", strPath);
                 formData.append("id", id);
-                formData.append("start_date", st_date._options.text);
-                formData.append("revision", revision);
+                //formData.append("start_date", st_date._options.text);
+                //formData.append("revision", revision);
                 $.ajax({
                     type: "POST",
-                    url: "../Home/fnNewFileISO",
+                    url: "../Drawing/fnNewFileTMT",
                     data: formData,
                     dataType: 'json',
                     contentType: false,
@@ -589,7 +514,7 @@ End Code
                     success: function (data) {
                         document.getElementById('lbNewFile').value = '';
                         document.getElementById('lbFile').innerHTML = 'Choose file';
-                        document.getElementById('lbRevision').value = 0;
+                        //document.getElementById('lbRevision').value = 0;
                         $('#mdNewFile').modal('hide');
                         getMenu();
                     },
@@ -607,7 +532,7 @@ End Code
             var id = document.getElementById('idDelete').innerHTML;
             $.ajax({
                 type: "POST",
-                url: "../Home/fnDeleteISO",
+                url: "../Drawing/fnDeleteTMT",
                 contentType: "application/json; charset=utf-8",
                 data: "{ idDel:'" + id + "' }",
                 dataType: "json",
@@ -623,27 +548,27 @@ End Code
             });
         }
 
-        function fnChangeDate() {
-            var id = document.getElementById('idChangeDate').innerHTML;
-            var revision = document.getElementById('lbRevisionChange').value;
-            $.ajax({
-                type: "POST",
-                url: "../Home/fnChangeDateISO",
-                contentType: "application/json; charset=utf-8",
-                data: "{ id:'" + id + "', start_date: '" + st_date_change._options.text + "', revision: '" + revision + "' }",
-                dataType: "json",
-                async: false,
-                success: function (data) {
-                    document.getElementById('wgDateChange').value = '';
-                    document.getElementById('lbRevisionChange').value = 0;
-                    $('#mdChangeDate').modal('hide');
-                    getMenu();
-                },
-                error: function (error) {
-                    alert(error);
-                }
-            });
-        }
+        //function fnChangeDate() {
+        //    var id = document.getElementById('idChangeDate').innerHTML;
+        //    var revision = document.getElementById('lbRevisionChange').value;
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "../Drawing/fnChangeDateTMT",
+        //        contentType: "application/json; charset=utf-8",
+        //        data: "{ id:'" + id + "', start_date: '" + st_date_change._options.text + "', revision: '" + revision + "' }",
+        //        dataType: "json",
+        //        async: false,
+        //        success: function (data) {
+        //            document.getElementById('wgDateChange').value = '';
+        //            document.getElementById('lbRevisionChange').value = 0;
+        //            $('#mdChangeDate').modal('hide');
+        //            getMenu();
+        //        },
+        //        error: function (error) {
+        //            alert(error);
+        //        }
+        //    });
+        //}
 
         $("#lbNewFolder").keypress(function (e) {
             if (event.which == 13) {
@@ -664,14 +589,12 @@ End Code
 
         $('#customFile').on('change', function () {
             var fileName = $(this).val();
-            //console.log(fileName);
             document.getElementById("lbFile").innerHTML = fileName;
             document.getElementById("lbNewFile").value = document.getElementById('customFile').files[0].name;
             $("#lbNewFile").focus();
         });
         //New Folder
         $("#btnNewFolder").click(function () {
-            //console.log("r");
             fnNewFolder();
         });
         //Rename
@@ -688,7 +611,7 @@ End Code
         });
         //Change Date
         $("#btnChangeDate").click(function () {
-            fnChangeDate();
+            //fnChangeDate();
         });
         //End Buttom In
 

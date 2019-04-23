@@ -298,8 +298,12 @@ Namespace Controllers
             Session("ISO") = 0
             Session("IATF") = 0
             Session("Admin") = 0
+            Session("HATC") = 0
+            Session("THM") = 0
+            Session("TSM") = 0
+            Session("AAT") = 0
             'End Clear
-
+            Session.Abandon()
             Return View("../Account/Login")
         End Function
 
@@ -328,6 +332,14 @@ Namespace Controllers
                             Session("ISO") = _Item("AccessId")
                         ElseIf _Item("AppId") = 4 Then
                             Session("IATF") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 10 Then
+                            Session("HATC") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 11 Then
+                            Session("THM") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 12 Then
+                            Session("TSM") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 13 Then
+                            Session("AAT") = _Item("AccessId")
                         End If
                     Next
                     'End Permission

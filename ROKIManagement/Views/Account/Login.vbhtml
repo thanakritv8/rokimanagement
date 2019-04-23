@@ -19,6 +19,14 @@ End Code
 </div>
 <script>
     $("#btnLogin").click(function () {
+        checklogin();
+    });
+    $('#txtPassword').on('keypress', function (e) {
+        if (e.which === 13) {
+            checklogin();
+        }
+    });
+    function checklogin() {
         var strUsername = document.getElementById('txtUsername').value;
         var strPassword = document.getElementById('txtPassword').value;
         $.ajax({
@@ -55,6 +63,6 @@ End Code
                 });
             }
         });
-    });
+    }
 </script>
 

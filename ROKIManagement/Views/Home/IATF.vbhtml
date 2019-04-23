@@ -211,7 +211,7 @@ End Code
 </div>
 <script>
     var permission_status = '@Session("StatusLogin")';
-    console.log(permission_status);
+    //console.log(permission_status);
 </script>
 <script src="~/js/test.js"></script>
 <script>
@@ -302,9 +302,9 @@ End Code
                     var eid = ConvertId(dataNode[i].dataset.itemId);
                     var data_filter = treeview._options.items.filter(function (x) { return x.id === eid; })
                     //var data_filter = treeview._options.items.filter(element => element.id == eid)
-                    console.log(eid);
+                    //console.log(eid);
                     //console.log(dataNode[i].dataset.itemId);
-                    console.log(data_filter);
+                    //console.log(data_filter);
                     if (data_filter[0].start_date !== undefined && data_filter[0].start_date != null && data_filter[0].revision != null) {
                         
                         if (data_filter[0].revision < 10) {
@@ -351,7 +351,7 @@ End Code
                         },
                         onItemClick: function (e) {
                             var item = e.node.itemData;
-                            console.log(e);
+                            //console.log(e);
                             if (item.path) {
                                 window.open(item.path, '_blank');
                             }
@@ -367,7 +367,7 @@ End Code
                         onItemContextMenu: function (e) {
 
                             var item = e.node.itemData;
-                            console.log(item);
+                            //console.log(item);
                             if (item.id) {
                                 name = item.name;
                                 s_date = item.start_date;
@@ -571,8 +571,8 @@ End Code
             var strPath = document.getElementById('customFile').files[0];
             var id = document.getElementById('idNewFile').innerHTML;
             var revision = document.getElementById('lbRevision').value;
-            console.log(strPath);
-            if (newName != '' && strPath != '' && st_date._options.text != '' && revision != 0) {
+            console.log(revision);
+            if (newName != '' && strPath != '' && st_date._options.text != '') {
                 var formData = new FormData();
                 formData.append("newName", newName);
                 formData.append("strPath", strPath);
@@ -607,7 +607,7 @@ End Code
             var id = document.getElementById('idChangeDate').innerHTML;
             var revision = document.getElementById('lbRevisionChange').value;
             
-            if (id != '' && st_date_change._options.text != '' && revision != 0) {
+            if (id != '' && st_date_change._options.text != '') {
                 $.ajax({
                     type: "POST",
                     url: "../Home/fnChangeDateIATF",
@@ -671,7 +671,7 @@ End Code
 
         $('#customFile').on('change', function () {
             var fileName = $(this).val();
-            console.log(fileName);
+            //console.log(fileName);
             document.getElementById("lbFile").innerHTML = fileName;
             document.getElementById("lbNewFile").value = document.getElementById('customFile').files[0].name;
             $("#lbNewFile").focus();

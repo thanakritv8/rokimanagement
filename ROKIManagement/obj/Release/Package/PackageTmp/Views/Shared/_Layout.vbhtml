@@ -75,6 +75,21 @@
                         @If Session("IATF") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Home/IATF">IATF 16949-2016</a> End If
                     </div>
                 </li>
+        @If Session("HATC") <> 0 Or Session("THM") <> 0 Or Session("TSM") <> 0 Or Session("AAT") <> 0 Or Session("Admin") = 1 Then
+                 @<li Class="nav-item dropdown">
+                     <a Class="nav-link dropdown-toggle doctest" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                         <i Class="fas fa-drafting-compass"></i>
+                         <span Class="text-light"> Drawing</span>
+                     </a>
+                     <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
+                         @If Session("HATC") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item QMS" id="h1" href="../Drawing/HATC">HATC</a> End If
+                         @If Session("THM") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/THM">THM</a> End If
+                         @If Session("TSM") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/TSM">TSM</a> End If
+                         @If Session("AAT") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/AAT">AAT</a> End If
+                     </div>
+                 </li>
+                 end if
+
                 @If Session("Admin") = 1 Then
                     @<li Class="nav-item dropdown">
                     <a Class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
