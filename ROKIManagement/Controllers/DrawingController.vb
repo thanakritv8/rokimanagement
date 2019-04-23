@@ -161,6 +161,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedHATC()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[hatc] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -364,6 +370,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedTHM()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[thm] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -567,6 +579,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedTSM()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[tsm] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -756,6 +774,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedAAT()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[aat] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -944,6 +968,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedDUCATI()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[DUCATI] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -1132,6 +1162,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedHRAP()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[HRAP] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -1320,6 +1356,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedHRST()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[HRST] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -1508,6 +1550,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedHTAS()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[HTAS] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -1696,6 +1744,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedIMCT()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[IMCT] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -1884,6 +1938,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedKMT()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[KMT] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -2072,6 +2132,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedMAZDA()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[MAZDA] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -2260,6 +2326,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedMETA()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[META] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -2448,6 +2520,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedMMTH()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[MMTH] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -2636,6 +2714,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedNMT()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[NMT] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -2824,6 +2908,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedRJP()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[RJP] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -3012,6 +3102,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedTMT()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[TMT] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
@@ -3200,6 +3296,12 @@ Namespace Controllers
                 strIcon = "../img/word.png"
             ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
                 strIcon = "../img/excel.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".jpg") Or arrFile(arrFile.Length - 1).Contains(".png") Then
+                strIcon = "../img/pic.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".ppt") Then
+                strIcon = "../img/ppt.png"
+            Else
+                strIcon = "../img/paper.png"
             End If
             ClearExpandedTYM()
             Dim _SQL As String = "INSERT INTO [management].[dbo].[TYM] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1)"
