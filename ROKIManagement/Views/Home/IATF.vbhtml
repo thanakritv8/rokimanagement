@@ -391,8 +391,7 @@ End Code
                                     if (item.id == 'hPZz7R9z8eTjqnuYqwXtQncB2jUzfHwuXjInN8ClIeY=') {
                                         OptionsMenu = [
                                             { text: 'New File' },
-                                            { text: 'New Folder' },
-                                            { text: 'Rename' }
+                                            { text: 'New Folder' }
                                         ];
 
                                     } else {
