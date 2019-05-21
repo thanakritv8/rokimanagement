@@ -662,5 +662,10 @@ End Code
         toastr.options.positionClass = t.css;
         toastr[t.type](t.msg);
     }
+    $(".d1").next().toggle();
+    $(".d1").click(function (e) {
+        e.stopPropagation();
+        $(".d1").next().toggle();
+    });
 </script>
 

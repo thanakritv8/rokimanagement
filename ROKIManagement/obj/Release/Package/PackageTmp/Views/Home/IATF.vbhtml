@@ -727,9 +727,9 @@ End Code
         //End Buttom In Modal
     });
 
-    $(".doctest").next().toggle();
-    $(".doctest").click(function (e) {
+    $(".d1").next().toggle();
+    $(".d1").click(function (e) {
         e.stopPropagation();
-        $(".doctest").next().toggle();
+        $(".d1").next().toggle();
     });
 </script>

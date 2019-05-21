@@ -216,6 +216,7 @@ End Code
 </script>
 <script src="~/js/test.js"></script>
 <script>
+    
     function clearModal() {
         document.getElementById('lbFile').innerHTML = 'Choose file';
         document.getElementById('lbNewFile').value = '';
@@ -243,6 +244,7 @@ End Code
     var firstReLoad = true;
 
     $(function () {
+        
         //ConvertId('P8N+ZfR948WkEH7UWalbLqi__47__H__47__43x8g9KLv01DCYzag__61__');
         function ConvertId(str) {
             //var str = '1__43__ZpPHZC__47__PLK5VEuX5l3qJk37uCBHk3ubjzyyN6xTCw__61__';

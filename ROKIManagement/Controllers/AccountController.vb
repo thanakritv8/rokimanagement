@@ -398,6 +398,8 @@ Namespace Controllers
                         Session("StatusLogin") = "OK"
                         Session("UserId") = dtPer.Rows(0)("UserId")
                         Session("Admin") = dtPer.Rows(0)("Admin")
+                        Session("FirstLogin") = dtPer.Rows(0)("FirstLogin")
+                        Session("Name") = dtPer.Rows(0)("Name")
                     Else
                         Session("StatusLogin") = "Fail"
                     End If

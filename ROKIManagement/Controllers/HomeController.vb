@@ -726,7 +726,7 @@ Namespace Controllers
                 strIcon = "../img/excel.png"
             End If
             ClearExpanded()
-            Dim _SQL As String = "INSERT INTO [management].[dbo].[iatf] ([name],[id],[parentDirId],[type],[path],[icon],[expanded],[start_date], [revision]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1, '" & start_date & "', '" & revision & "')"
+            Dim _SQL As String = "INSERT INTO [management].[dbo].[iatf] ([name],[id],[parentDirId],[type],[path],[icon],[expanded],[start_date], [revision], [create_by]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1, '" & start_date & "', '" & revision & "', '" & Session("UserId") & "')"
             objDB.ExecuteSQL(_SQL, cn)
             dtStatus.Rows.Add("OK")
             objDB.DisconnectDB(cn)
@@ -934,7 +934,7 @@ Namespace Controllers
                 strIcon = "../img/excel.png"
             End If
             ClearExpandedISO()
-            Dim _SQL As String = "INSERT INTO [management].[dbo].[iso] ([name],[id],[parentDirId],[type],[path],[icon],[expanded],[start_date],[revision]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1, '" & start_date & "', '" & revision & "')"
+            Dim _SQL As String = "INSERT INTO [management].[dbo].[iso] ([name],[id],[parentDirId],[type],[path],[icon],[expanded],[start_date],[revision],[create_by_user_id]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1, '" & start_date & "', '" & revision & "', '" & Session("UserId") & "')"
             objDB.ExecuteSQL(_SQL, cn)
             dtStatus.Rows.Add("OK")
             objDB.DisconnectDB(cn)

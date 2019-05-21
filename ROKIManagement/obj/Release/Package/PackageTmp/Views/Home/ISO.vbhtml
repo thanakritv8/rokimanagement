@@ -720,4 +720,9 @@ End Code
             return new Date(parseInt(jsonDateString.replace('/Date(', '')));
         }
     });
+    $(".d1").next().toggle();
+    $(".d1").click(function (e) {
+        e.stopPropagation();
+        $(".d1").next().toggle();
+    });
 </script>

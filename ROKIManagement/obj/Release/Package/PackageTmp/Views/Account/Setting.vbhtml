@@ -16,7 +16,7 @@ End Code
                 </div>
                 <div class="row mb-2">
                     <div class="col-sm">
-                        <input type="text" class="form-control" style="background-color: #FCFBC8" id="name" placeholder="name" value="" required>
+                        <input type="text" class="form-control" style="background-color: #FCFBC8" id="name" placeholder="" value="" required>
                     </div>
                 </div>
                 <div class="row mb-2">
@@ -29,10 +29,10 @@ End Code
                 </div>
                 <div class="row mb-2">
                     <div class="col-sm">
-                        <input type="text" class="form-control" style="background-color: #FCFBC8" id="department" placeholder="department" value="" required>
+                        <input type="text" class="form-control" style="background-color: #FCFBC8" id="department" placeholder="" value="" required>
                     </div>
                     <div class="col-sm">
-                        <input type="text" class="form-control" style="background-color: #FCFBC8" id="sections" placeholder="sections" value="" required>
+                        <input type="text" class="form-control" style="background-color: #FCFBC8" id="sections" placeholder="" value="" required>
                     </div>
                 </div>
                 <div class="row mb-2">
@@ -42,7 +42,7 @@ End Code
                 </div>
                 <div class="row mb-2">
                     <div class="col-sm">
-                        <input type="text" class="form-control" style="background-color: #FCFBC8" id="email" placeholder="email" value="" required>
+                        <input type="text" class="form-control" style="background-color: #FCFBC8" id="email" placeholder="" value="" required>
                     </div>
                 </div>
                 <div class="row mb-2">
@@ -56,10 +56,10 @@ End Code
                 </div>
                 <div class="row mb-2">
                     <div class="col-sm">
-                        <input type="text" class="form-control" style="background-color: #FCFBC8" id="username" placeholder="username" value="" required>
+                        <input type="text" class="form-control" style="background-color: #FCFBC8" id="username" placeholder="" value="" required>
                     </div>
                     <div class="col-sm">
-                        <input type="password" class="form-control" style="background-color: #FCFBC8" id="password" placeholder="password" value="" required>
+                        <input type="password" class="form-control" style="background-color: #FCFBC8" id="password" placeholder="" value="" required>
                     </div>
 
                 </div>
@@ -115,7 +115,7 @@ End Code
                         } else if (key == "Username") {
                             document.getElementById("username").value = value;
                         } else if (key == "Password") {
-                            document.getElementById("password").value = value;
+                            document.getElementById("password").value = 'passwordempty';
                         } else if (key == "Department") {
                             document.getElementById("department").value = value;
                         } else if (key == "Sections") {

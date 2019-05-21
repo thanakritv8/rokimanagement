@@ -855,7 +855,7 @@ End Code
                         } else if (key == "Username") {
                             document.getElementById("usernamee").value = value;
                         } else if (key == "Password") {
-                            document.getElementById("passworde").value = value;
+                            document.getElementById("passworde").value = "passwordempty";
                         } else if (key == "Department") {
                             document.getElementById("departmente").value = value;
                         } else if (key == "Sections") {

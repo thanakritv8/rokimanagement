@@ -18,7 +18,7 @@
     <script src="~/vendor/jquery/jquery.min.js"></script>
     
     <!-- Custom styles for this template-->
-    <link href="~/Content/sb-admin.css" rel="stylesheet">
+    <link href="~/Content/sb-admin.min.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.common.css" />
     <link rel="dx-theme" data-theme="generic.light" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.light.css" />
@@ -146,16 +146,16 @@
 
                 @If Session("Admin") = 1 Then
                     @<li Class="nav-item dropdown">
-                    <a Class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <i class="fas fa-users-cog"></i>
-                        <span Class="text-light"> Permission</span>
-                    </a>
-                    <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
-                        <a Class="dropdown-item" id="h1" href="../Account/Group">Group</a>
-                        <a Class="dropdown-item" id="h1" href="../Account/Account">Account</a>
-                        @*<a Class="dropdown-item" id="h1" href="../Account/Application">Application</a>*@
-                    </div>
-                </li>
+                        <a Class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <i class="fas fa-users-cog"></i>
+                            <span Class="text-light"> Permission</span>
+                        </a>
+                        <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
+                            <a Class="dropdown-item" id="h1" href="../Account/Group">Group</a>
+                            <a Class="dropdown-item" id="h1" href="../Account/Account">Account</a>
+                            @*<a Class="dropdown-item" id="h1" href="../Account/Application">Application</a>*@
+                        </div>
+                    </li>
                 End If
                 @*@If Session("Admin") <> 1 Then
                 @<li Class="nav-item dropdown">
@@ -232,6 +232,8 @@
 <script>
     var permission_status = '@Session("StatusLogin")';
     var first_status = '@Session("FirstLogin")';
+    console.log('p=>' + permission_status);
+    console.log('f=>' + first_status);
     if (permission_status == 'OK' && first_status == 0) {
         $("#mdResetPassword").modal('show');
     }
@@ -243,30 +245,31 @@
         $("#mdResetPassword").modal('hide');
 
     };
-
-    $("#btnSave").click(function () {
-        var password = document.getElementById('lbPassword').value;
-        var password_confirm = document.getElementById('lbPasswordConfirm').value;
-        var userId = @Session("UserId");
-        if (password == password_confirm) {
-            $.ajax({
-                type: "POST",
-                url: "../Account/UpDatePassword",
-                contentType: "application/json; charset=utf-8",
-                data: "{ Password:'" + password + "', userId: "+ userId + " }",
-                dataType: "json",
-                async: false,
-                success: function (data) { 
-                    alert("เปลี่ยนรหัสผ่านเรียบร้อย");
-                    $('#mdResetPassword').modal('hide');                    
-                },
-                error: function (error) {
-                    alert(error);
-                }
-            });
-        } else {
-            alert("รหัสผ่านไม่ตรงกัน");
-        }
+    $(function () {        
+        $("#btnSave").click(function () {
+            var password = document.getElementById('lbPassword').value;
+            var password_confirm = document.getElementById('lbPasswordConfirm').value;
+            var userId = @Session("UserId");
+            if (password == password_confirm) {
+                $.ajax({
+                    type: "POST",
+                    url: "../Account/UpDatePassword",
+                    contentType: "application/json; charset=utf-8",
+                    data: "{ Password:'" + password + "', userId: "+ userId + " }",
+                    dataType: "json",
+                    async: false,
+                    success: function (data) { 
+                        DevExpress.ui.notify("เปลี่ยนรหัสผ่านเรียบร้อย", "success", 1000);                        
+                        $('#mdResetPassword').modal('hide');                    
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            } else {
+                alert("รหัสผ่านไม่ตรงกัน");
+            }
+        });
     });
 </script>
 
