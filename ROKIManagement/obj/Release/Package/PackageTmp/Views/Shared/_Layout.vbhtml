@@ -245,30 +245,31 @@
         $("#mdResetPassword").modal('hide');
 
     };
-
-    $("#btnSave").click(function () {
-        var password = document.getElementById('lbPassword').value;
-        var password_confirm = document.getElementById('lbPasswordConfirm').value;
-        var userId = @Session("UserId");
-        if (password == password_confirm) {
-            $.ajax({
-                type: "POST",
-                url: "../Account/UpDatePassword",
-                contentType: "application/json; charset=utf-8",
-                data: "{ Password:'" + password + "', userId: "+ userId + " }",
-                dataType: "json",
-                async: false,
-                success: function (data) { 
-                    alert("เปลี่ยนรหัสผ่านเรียบร้อย");
-                    $('#mdResetPassword').modal('hide');                    
-                },
-                error: function (error) {
-                    alert(error);
-                }
-            });
-        } else {
-            alert("รหัสผ่านไม่ตรงกัน");
-        }
+    $(function () {        
+        $("#btnSave").click(function () {
+            var password = document.getElementById('lbPassword').value;
+            var password_confirm = document.getElementById('lbPasswordConfirm').value;
+            var userId = @Session("UserId");
+            if (password == password_confirm) {
+                $.ajax({
+                    type: "POST",
+                    url: "../Account/UpDatePassword",
+                    contentType: "application/json; charset=utf-8",
+                    data: "{ Password:'" + password + "', userId: "+ userId + " }",
+                    dataType: "json",
+                    async: false,
+                    success: function (data) { 
+                        DevExpress.ui.notify("เปลี่ยนรหัสผ่านเรียบร้อย", "success", 1000);                        
+                        $('#mdResetPassword').modal('hide');                    
+                    },
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            } else {
+                alert("รหัสผ่านไม่ตรงกัน");
+            }
+        });
     });
 </script>
 

@@ -18,7 +18,7 @@
     <script src="~/vendor/jquery/jquery.min.js"></script>
     
     <!-- Custom styles for this template-->
-    <link href="~/Content/sb-admin.min.css" rel="stylesheet">
+    <link href="~/Content/sb-admin.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.common.css" />
     <link rel="dx-theme" data-theme="generic.light" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.light.css" />
@@ -251,23 +251,27 @@
             var password_confirm = document.getElementById('lbPasswordConfirm').value;
             var userId = @Session("UserId");
             if (password == password_confirm) {
-                $.ajax({
-                    type: "POST",
-                    url: "../Account/UpDatePassword",
-                    contentType: "application/json; charset=utf-8",
-                    data: "{ Password:'" + password + "', userId: "+ userId + " }",
-                    dataType: "json",
-                    async: false,
-                    success: function (data) { 
-                        DevExpress.ui.notify("เปลี่ยนรหัสผ่านเรียบร้อย", "success", 1000);                        
-                        $('#mdResetPassword').modal('hide');                    
-                    },
-                    error: function (error) {
-                        alert(error);
-                    }
-                });
+                if(password == '' || password_confirm == ''){
+                    DevExpress.ui.notify("กรุณากรอกรหัสผ่าน", "error", 1000); 
+                }else{
+                    $.ajax({
+                        type: "POST",
+                        url: "../Account/UpDatePassword",
+                        contentType: "application/json; charset=utf-8",
+                        data: "{ Password:'" + password + "', userId: "+ userId + " }",
+                        dataType: "json",
+                        async: false,
+                        success: function (data) { 
+                            DevExpress.ui.notify("เปลี่ยนรหัสผ่านเรียบร้อย", "success", 1000);                        
+                            $('#mdResetPassword').modal('hide');                    
+                        },
+                        error: function (error) {
+                            alert(error);
+                        }
+                    });
+                }
             } else {
-                alert("รหัสผ่านไม่ตรงกัน");
+                DevExpress.ui.notify("รหัสผ่านไม่ตรงกัน", "error", 1000); 
             }
         });
     });
