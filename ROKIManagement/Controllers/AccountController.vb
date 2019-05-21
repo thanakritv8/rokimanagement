@@ -124,13 +124,33 @@ Namespace Controllers
             Next
             Using cn = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
                 cn.Open()
-                Dim _SQL As String = "update [Auth].[dbo].[Account] set [Name] = '" & name & "',[Username] = '" & username & "',[Password] = '" & password & "',[Department] = '" & department & "',[Sections] = '" & sections & "',[Email] = '" & email & "' where UserId = " & userid
+                Dim _SQL As String = String.Empty
+                If password = "passwordempty" Then
+                    _SQL = "update [Auth].[dbo].[Account] set [Name] = '" & name & "',[Username] = '" & username & "',[Department] = '" & department & "',[Sections] = '" & sections & "',[Email] = '" & email & "' where UserId = " & userid
+                Else
+                    _SQL = "update [Auth].[dbo].[Account] set [FirstLogin] = 1, [Name] = '" & name & "',[Username] = '" & username & "',[Password] = '" & EncryptSHA256Managed(password) & "',[Department] = '" & department & "',[Sections] = '" & sections & "',[Email] = '" & email & "' where UserId = " & userid
+                End If
                 objDB.ExecuteSQL(_SQL, cn)
                 objDB.DisconnectDB(cn)
             End Using
             Dim dtStatus As DataTable = New DataTable
             dtStatus.Columns.Add("Status")
             dtStatus.Rows.Add("OK")
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+
+        Public Function UpDatePassword(ByVal Password As String, ByVal userId As Integer) As String
+
+            Using cn = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+                cn.Open()
+                Dim _SQL As String = "update [Auth].[dbo].[Account] set FirstLogin = 1, [Password] = '" & EncryptSHA256Managed(Password) & "' where UserId = " & userId
+                objDB.ExecuteSQL(_SQL, cn)
+                objDB.DisconnectDB(cn)
+            End Using
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            dtStatus.Rows.Add("OK")
+            Session("FirstLogin") = 1
             Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
         End Function
 
@@ -190,9 +210,8 @@ Namespace Controllers
                 Dim arrAppPer1() As String = AppPer.Split(",")
                 Using cn = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
                     cn.Open()
-                    Dim _SQL As String = "insert into [Auth].[dbo].[Account] ([Name],[Username],[Password],[Department],[Sections],[Email],[Admin]) OUTPUT Inserted.UserId values ('" & name & "', '" & username & "', '" & password & "', '" & department & "', '" & sections & "', '" & email & "',0)"
+                    Dim _SQL As String = "insert into [Auth].[dbo].[Account] ([Name],[Username],[Password],[Department],[Sections],[Email],[Admin]) OUTPUT Inserted.UserId values ('" & name & "', '" & username & "', '" & EncryptSHA256Managed(password) & "', '" & department & "', '" & sections & "', '" & email & "',0)"
                     Dim dtUserId As DataTable = objDB.SelectSQL(_SQL, cn)
-
                     If dtUserId.Rows.Count > 0 Then
                         Dim arrAppPer() As String = AppPer.Split(",")
                         Dim arrAccPer() As String = AccPer.Split(",")
@@ -318,12 +337,15 @@ Namespace Controllers
             Dim dtPer As DataTable = New DataTable
             Using cn = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
                 cn.Open()
-                Dim _SQL As String = "select acc.Admin, acc.UserId, per.AccessId, per.AppId from [Auth].[dbo].[Account] as acc join [Auth].[dbo].[permission] as per on acc.UserId = per.UserId where acc.Username = '" & Username & "' and acc.Password = '" & Password & "'"
+                Dim _SQL As String = "select acc.Admin, acc.UserId, per.AccessId, per.AppId, acc.Name, acc.FirstLogin from [Auth].[dbo].[Account] as acc join [Auth].[dbo].[permission] as per on acc.UserId = per.UserId where acc.Username = '" & Username & "' and acc.Password = '" & EncryptSHA256Managed(Password) & "'"
                 dtPer = objDB.SelectSQL(_SQL, cn)
                 If dtPer.Rows.Count > 0 Then
                     Session("StatusLogin") = "OK"
                     Session("UserId") = dtPer.Rows(0)("UserId")
-
+                    Session("Name") = dtPer.Rows(0)("Name")
+                    Session("FirstLogin") = dtPer.Rows(0)("FirstLogin")
+                    _SQL = "INSERT INTO [Auth].[dbo].[login_log] (AccessId) VALUES (" & dtPer.Rows(0)("UserId") & ")"
+                    objDB.ExecuteSQL(_SQL, cn)
                     'Permission App
                     For Each _Item In dtPer.Rows
                         If _Item("AppId") = 2 Then
@@ -340,11 +362,37 @@ Namespace Controllers
                             Session("TSM") = _Item("AccessId")
                         ElseIf _Item("AppId") = 13 Then
                             Session("AAT") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 14 Then
+                            Session("DUCATI") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 15 Then
+                            Session("HRAP") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 16 Then
+                            Session("HRST") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 17 Then
+                            Session("HTAS") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 18 Then
+                            Session("IMCT") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 19 Then
+                            Session("KMT") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 20 Then
+                            Session("MAZDA") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 21 Then
+                            Session("META") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 22 Then
+                            Session("MMTH") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 23 Then
+                            Session("NMT") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 24 Then
+                            Session("RJP") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 25 Then
+                            Session("TMT") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 26 Then
+                            Session("TYM") = _Item("AccessId")
                         End If
                     Next
                     'End Permission
                 Else
-                    _SQL = "select * from [Auth].[dbo].[Account] where Username = '" & Username & "' and Password = '" & Password & "'"
+                    _SQL = "select * from [Auth].[dbo].[Account] where Username = '" & Username & "' and Password = '" & EncryptSHA256Managed(Password) & "'"
                     dtPer = objDB.SelectSQL(_SQL, cn)
                     If dtPer.Rows.Count > 0 Then
                         Session("StatusLogin") = "OK"
@@ -360,6 +408,17 @@ Namespace Controllers
             Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtPer.Rows Select dtPer.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
         End Function
 
+#End Region
+
+#Region "Encrypt Password"
+        Public Function EncryptSHA256Managed(ByVal StrInput As String) As String
+            Dim uEncode As New UnicodeEncoding()
+            Dim bytClearString() As Byte = uEncode.GetBytes(StrInput)
+            Dim sha As New _
+            System.Security.Cryptography.SHA256Managed()
+            Dim hash() As Byte = sha.ComputeHash(bytClearString)
+            Return Convert.ToBase64String(hash)
+        End Function
 #End Region
 
     End Class

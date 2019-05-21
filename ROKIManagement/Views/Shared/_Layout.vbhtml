@@ -44,42 +44,81 @@
         #h1:hover {
             background-color: rgb(204, 204, 255);
         }
+        .text-custom{
+            color:rgb(0, 79, 162);
+        }
         
     </style>
 </head>
 
 <body id="page-top" style="font-size:14px">
+
+    <div class="modal" id="mdResetPassword">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <H2>Change Password</H2>
+                </div>                
+                <div class="modal-body">                    
+                    <div class="row mb-2">
+                        <div class="col-sm">
+                            <input type="password" class="form-control" id="lbPassword" placeholder="New Password" value="">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm">
+                            <input type="password" class="form-control" id="lbPasswordConfirm" placeholder="Confirm New Password" value="">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" id="btnSave" class="btn btn-success">Save</button>
+                    <button type="button" onclick="clearModal();" class="btn btn-danger">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <nav class="navbar navbar-expand navbar-dark bg-light static-top">
-        <a class="navbar-brand mr-1 text-muted" href="~/Home/Index">Document Management System</a>
-        <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-            <i class="fas fa-bars" style="color:rgb(16,91,172)"></i>
-        </button>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="navbar-brand" href="~/Home/Index"><img src="~/img/roki-th-02.png" width="170" height="50" alt="Responsive image" /></a>
-            </li>
-        </ul>
+
+        <a class="navbar-brand" href="~/Home/Index"><img src="~/img/roki-th-03.png" width="280" height="60" alt="Responsive image" /></a>
+        @*<div class="mx-auto"><a class="navbar-brand" href="index.html" style="color:rgb(118,120,123);">Document Management System</a></div>*@
+        
+        @If IsDBNull(Session("UserId")) = False AndAlso Session("UserId") <> 0 Then
+        @<a Class="nav-link text-custom ml-auto" href="#">
+            <span> <i Class="fas fa-user-circle fa-fw"></i> @Session("Name")</span>
+        </a>
+        @<a Class="nav-link text-custom" href="../Account/Setting">
+            <span> <i Class="fas fa-user-cog"></i> Setting</span>
+        </a>
+        @<a Class="nav-link text-custom" href="../Account/Logout">
+            <span> <i Class="fas fa-sign-out-alt"></i> Logout</span>
+        </a>
+        End If
         
     </nav>        
-    <div id="wrapper">
+    <div id = "wrapper" >
         @If Session("StatusLogin") = "OK" Then
             @<ul Class="sidebar navbar-nav" style="background-color:rgb(0,79,162)">
             @If Session("QMS") <> 0 Or Session("ISO") <> 0 Or Session("IATF") <> 0 Or Session("Admin") = 1 Then
                 @<li Class="nav-item dropdown">
-                    <a Class="nav-link dropdown-toggle doctest" href="#" id="pagesDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a Class="nav-link dropdown-toggle d1" href="#" id="pagesDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i Class="fas fa-fw fa-folder"></i>
                         <span Class="text-light"> Document</span>
                     </a>
                     <div Class="dropdown-menu" aria-labelledby="pagesDropdown1">
                         @If Session("QMS") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item QMS" id="h1" href="../Home/DocQms">QMS</a> End If
                         @If Session("ISO") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Home/ISO">ISO 14001-2015</a> End If
-                        @If Session("IATF") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Home/IATF">IATF 16949-2016</a> End If
+                        @If Session("IATF") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Home/IATF">IATF 16949-2016</a> End If
                     </div>
                 </li>
                 End if
         @If Session("HATC") <> 0 Or Session("THM") <> 0 Or Session("TSM") <> 0 Or Session("AAT") <> 0 Or Session("Admin") = 1 Then
                  @<li Class="nav-item dropdown">
-                     <a Class="nav-link dropdown-toggle doctest" href="#" id="pagesDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <a Class="nav-link dropdown-toggle d2" href="#" id="pagesDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                          <i Class="fas fa-drafting-compass"></i>
                          <span Class="text-light"> Drawing</span>
                      </a>
@@ -107,7 +146,7 @@
 
                 @If Session("Admin") = 1 Then
                     @<li Class="nav-item dropdown">
-                    <a Class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a Class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i class="fas fa-users-cog"></i>
                         <span Class="text-light"> Permission</span>
                     </a>
@@ -118,21 +157,23 @@
                     </div>
                 </li>
                 End If
-                <li Class="nav-item dropdown">
-                    <a Class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user-circle"></i>
+                @*@If Session("Admin") <> 1 Then
+                @<li Class="nav-item dropdown">
+                    <a Class="nav-link dropdown-toggle d3" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i Class="fas fa-user-circle"></i>
                         <span Class="text-light"> Profile</span>
                     </a>
                     <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
                         <a Class="dropdown-item" id="h1" href="../Account/Setting">Setting</a>
                     </div>
                 </li>
+                End If
                 <li Class="nav-item">
                     <a Class="nav-link" href="../Account/Logout">
                         <i Class="fas fa-sign-out-alt"></i>
                         <span Class="text-light"> Logout</span>
                     </a>
-                </li>
+                </li>*@
             </ul>
         End If
         <!-- Sidebar -->
@@ -147,7 +188,7 @@
             @<footer Class="sticky-footer">
                 <div Class="container my-auto">
                     <div Class="copyright text-center my-auto">
-                        <span> Copyright © Your Website 2018</span>
+                        <span class="text-custom"> Copyright © ROKI (THAILAND) Co.,Ltd. All rights reserved.</span>
                     </div>
                 </div>
             </footer>
@@ -188,5 +229,46 @@
     <script type="text/javascript" src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"></script>*@
 </body>
 </html>
+<script>
+    var permission_status = '@Session("StatusLogin")';
+    var first_status = '@Session("FirstLogin")';
+    if (permission_status == 'OK' && first_status == 0) {
+        $("#mdResetPassword").modal('show');
+    }
+
+    function clearModal() {
+
+        document.getElementById('lbPassword').value = '';
+
+        $("#mdResetPassword").modal('hide');
+
+    };
+
+    $("#btnSave").click(function () {
+        var password = document.getElementById('lbPassword').value;
+        var password_confirm = document.getElementById('lbPasswordConfirm').value;
+        var userId = @Session("UserId");
+        if (password == password_confirm) {
+            $.ajax({
+                type: "POST",
+                url: "../Account/UpDatePassword",
+                contentType: "application/json; charset=utf-8",
+                data: "{ Password:'" + password + "', userId: "+ userId + " }",
+                dataType: "json",
+                async: false,
+                success: function (data) { 
+                    alert("เปลี่ยนรหัสผ่านเรียบร้อย");
+                    $('#mdResetPassword').modal('hide');                    
+                },
+                error: function (error) {
+                    alert(error);
+                }
+            });
+        } else {
+            alert("รหัสผ่านไม่ตรงกัน");
+        }
+    });
+</script>
+
 
 

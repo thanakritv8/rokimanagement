@@ -243,13 +243,13 @@ End Code
         //var st_date = $("#wgDate").dxDateBox({
 
         //}).dxDateBox('instance');
-        
+
 
         //var st_date_change = $("#wgDateChange").dxDateBox({
 
         //}).dxDateBox('instance');
         function ConvertId(str) {
-            
+
             for (i = 32; i <= 127; i++) {
                 var strRep = '__' + i.toString() + '__';
                 str = str.replace(new RegExp(strRep, 'g'), String.fromCharCode(i));
@@ -258,7 +258,7 @@ End Code
         }
 
         //function showDate() {
-            
+
         //    if (firstReLoad) {
         //        firstReLoad = false;
         //        var dataHead = $(".dx-treeview-item-content");
@@ -274,16 +274,16 @@ End Code
         //            var positionStart = str.indexOf("<span>");
         //            var positionEndStart = str.indexOf("</span>") + 7;
         //            var subStr = str.substring(positionStart, positionEndStart);
-                    
+
         //            var data_filter = treeview._options.items.filter(function (x) { return x.id === ConvertId(dataNode[i].dataset.itemId); })
-                    
+
         //            if (data_filter[0].start_date !== undefined && data_filter[0].start_date != null && data_filter[0].revision != null) {
         //                if (data_filter[0].revision < 10) {
         //                    data_filter[0].revision = '&nbsp;&nbsp;' + data_filter[0].revision
         //                }
         //                $(".dx-treeview-node-is-leaf")[i].innerHTML = str.replace(subStr, subStr + '<span class="badge badge-light mr-4 mt-1" style="float:right;font-size:12px;font-weight: normal;">' + data_filter[0].revision + '</span><span class="badge badge-light mr-5 mt-1" data-toggle="tooltip" title="Effective date" style="float:right;font-size:12px;font-weight: normal;">' + moment(parseJsonDate(data_filter[0].start_date)).format('DD.MM.YYYY') + '</span>');
         //            } else {
-                        
+
         //            }
         //        }
         //    }
@@ -308,10 +308,10 @@ End Code
                         keyExpr: "id",
                         displayExpr: "name",
                         searchEnabled: true,
-                        searchEditorOptions: {                           
+                        searchEditorOptions: {
                             width: '100%',
                             elementAttr: {
-                                
+
                             }
                         },
                         onItemClick: function (e) {
@@ -319,7 +319,7 @@ End Code
                             console.log(e);
                             if (item.path) {
                                 window.open(item.path, '_blank');
-                            }                            
+                            }
                         },
                         onItemContextMenu: function (e) {
                             var item = e.node.itemData;
@@ -345,15 +345,15 @@ End Code
                         },
                         onItemExpanded: function (e) {
                             var item = e.itemData;
-                            //showDate();                           
+                            //showDate();
                         },
                         onItemCollapsed: function (e) {
                             var item = e.itemData;
-                            
+
                         },
                         onContentReady: function (e) {
                             var $btnView = $('<div id="btnExpand">').dxButton({
-                                icon: 'exportpdf', 
+                                icon: 'exportpdf',
                                 onClick: function () {
 
                                 }
@@ -377,7 +377,7 @@ End Code
                                     .prepend($btnUpdate);
                         },
                         expandAllEnabled: true,
-                        
+
 
                     }).dxTreeView("instance");
                     //showDate();
@@ -392,7 +392,7 @@ End Code
         $("#btnExpand").dxButton({
             onClick: function (e) {
                 treeview.expandAll();
-                
+
             },
             icon: "spindown",
             elementAttr: {
@@ -412,38 +412,42 @@ End Code
 
         getContextMenu();
         function getContextMenu() {
-            $("#context-menu").dxContextMenu({
-                dataSource: OptionsMenu,
-                width: 200,
-                target: "#treeview",
-                onItemClick: function (e) {
-                    if (!e.itemData.items) {
-                        if (e.itemData.text == "Rename") {
-                            document.getElementById('idRename').innerHTML = idItem;
-                            document.getElementById('lbRename').value = name;
-                            $("#mdRename").modal();
-                            $("#lbRename").focus();
-                        } else if (e.itemData.text == "New File") {
-                            document.getElementById('idNewFile').innerHTML = idItem;
-                            $("#mdNewFile").modal();
-                            $("#lbNewFile").focus();
-                        } else if (e.itemData.text == "New Folder") {
-                            document.getElementById('idNewFolder').innerHTML = idItem;
-                            $("#mdNewFolder").modal();
-                            $("#lbNewFolder").focus();
-                        } else if (e.itemData.text == "Delete") {
-                            document.getElementById('idDelete').innerHTML = idItem;
-                            document.getElementById('lbDelete').value = name;
-                            $("#mdDelete").modal();
+            var permission_edit = '@Session("HATC")';
+            if (permission_edit == 3) {
+                $("#context-menu").dxContextMenu({
+                    dataSource: OptionsMenu,
+                    width: 200,
+                    target: "#treeview",
+                    onItemClick: function (e) {
+                        if (!e.itemData.items) {
+                            if (e.itemData.text == "Rename") {
+                                document.getElementById('idRename').innerHTML = idItem;
+                                document.getElementById('lbRename').value = name;
+                                $("#mdRename").modal();
+                                $("#lbRename").focus();
+                            } else if (e.itemData.text == "New File") {
+                                document.getElementById('idNewFile').innerHTML = idItem;
+                                $("#mdNewFile").modal();
+                                $("#lbNewFile").focus();
+                            } else if (e.itemData.text == "New Folder") {
+                                document.getElementById('idNewFolder').innerHTML = idItem;
+                                $("#mdNewFolder").modal();
+                                $("#lbNewFolder").focus();
+                            } else if (e.itemData.text == "Delete") {
+                                document.getElementById('idDelete').innerHTML = idItem;
+                                document.getElementById('lbDelete').value = name;
+                                $("#mdDelete").modal();
+                            }
+                            //} else if (e.itemData.text == "Change Date") {
+                            //    document.getElementById('idChangeDate').innerHTML = idItem;
+                            //    document.getElementById('wgDateChange').value = s_date;
+                            //    $("#mdChangeDate").modal();
+                            //}
                         }
-                        //} else if (e.itemData.text == "Change Date") {
-                        //    document.getElementById('idChangeDate').innerHTML = idItem;
-                        //    document.getElementById('wgDateChange').value = s_date;
-                        //    $("#mdChangeDate").modal();
-                        //}                        
                     }
-                }
-            });
+                });
+            }
+            
         }
 
         //Buttom In Modal

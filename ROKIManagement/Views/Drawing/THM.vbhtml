@@ -412,38 +412,42 @@ End Code
 
         getContextMenu();
         function getContextMenu() {
-            $("#context-menu").dxContextMenu({
-                dataSource: OptionsMenu,
-                width: 200,
-                target: "#treeview",
-                onItemClick: function (e) {
-                    if (!e.itemData.items) {
-                        if (e.itemData.text == "Rename") {
-                            document.getElementById('idRename').innerHTML = idItem;
-                            document.getElementById('lbRename').value = name;
-                            $("#mdRename").modal();
-                            $("#lbRename").focus();
-                        } else if (e.itemData.text == "New File") {
-                            document.getElementById('idNewFile').innerHTML = idItem;
-                            $("#mdNewFile").modal();
-                            $("#lbNewFile").focus();
-                        } else if (e.itemData.text == "New Folder") {
-                            document.getElementById('idNewFolder').innerHTML = idItem;
-                            $("#mdNewFolder").modal();
-                            $("#lbNewFolder").focus();
-                        } else if (e.itemData.text == "Delete") {
-                            document.getElementById('idDelete').innerHTML = idItem;
-                            document.getElementById('lbDelete').value = name;
-                            $("#mdDelete").modal();
+            var permission_edit = '@Session("THM")';
+            if (permission_edit == 3) {
+                $("#context-menu").dxContextMenu({
+                    dataSource: OptionsMenu,
+                    width: 200,
+                    target: "#treeview",
+                    onItemClick: function (e) {
+                        if (!e.itemData.items) {
+                            if (e.itemData.text == "Rename") {
+                                document.getElementById('idRename').innerHTML = idItem;
+                                document.getElementById('lbRename').value = name;
+                                $("#mdRename").modal();
+                                $("#lbRename").focus();
+                            } else if (e.itemData.text == "New File") {
+                                document.getElementById('idNewFile').innerHTML = idItem;
+                                $("#mdNewFile").modal();
+                                $("#lbNewFile").focus();
+                            } else if (e.itemData.text == "New Folder") {
+                                document.getElementById('idNewFolder').innerHTML = idItem;
+                                $("#mdNewFolder").modal();
+                                $("#lbNewFolder").focus();
+                            } else if (e.itemData.text == "Delete") {
+                                document.getElementById('idDelete').innerHTML = idItem;
+                                document.getElementById('lbDelete').value = name;
+                                $("#mdDelete").modal();
+                            }
+                            //} else if (e.itemData.text == "Change Date") {
+                            //    document.getElementById('idChangeDate').innerHTML = idItem;
+                            //    document.getElementById('wgDateChange').value = s_date;
+                            //    $("#mdChangeDate").modal();
+                            //}
                         }
-                        //} else if (e.itemData.text == "Change Date") {
-                        //    document.getElementById('idChangeDate').innerHTML = idItem;
-                        //    document.getElementById('wgDateChange').value = s_date;
-                        //    $("#mdChangeDate").modal();
-                        //}
                     }
-                }
-            });
+                });
+            }
+            
         }
 
         //Buttom In Modal

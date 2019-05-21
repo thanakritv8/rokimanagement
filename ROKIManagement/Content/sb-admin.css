@@ -354,12 +354,12 @@ footer.sticky-footer {
   bottom: 0;
   width: 100%;
   /*width: calc(100% - 90px);*/
-  height: 80px;
+  height: 40px;
   background-color: #e9ecef;
 }
 
 footer.sticky-footer .copyright {
-  line-height: 80px;
+  line-height: 40px;
   font-size: 0.8rem;
 }
 

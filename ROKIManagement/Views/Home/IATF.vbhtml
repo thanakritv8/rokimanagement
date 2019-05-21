@@ -211,6 +211,7 @@ End Code
 </div>
 <script>
     var permission_status = '@Session("StatusLogin")';
+    var permission_edit = '@Session("IATF")';
     //console.log(permission_status);
 </script>
 <script src="~/js/test.js"></script>
@@ -323,6 +324,7 @@ End Code
         var editTreeView, scrollable;
         getMenu();
         function getMenu() {
+            console.log("test");
             firstReLoad = true;
             $.ajax({
                 type: "POST",
@@ -339,6 +341,7 @@ End Code
                         keyExpr: "id",
                         displayExpr: "name",
                         searchEnabled: true,
+                        searchMode: "startswith",
                         searchEditorOptions: {
                             //placeholder: "Type search value here...",
                             width: '100%',
@@ -380,6 +383,7 @@ End Code
                             //    }
                             //    getContextMenu();
                             //}
+                            
                             var item = e.node.itemData;
                             if (item.id) {
                                 name = item.name
@@ -402,13 +406,14 @@ End Code
                             }
                         },
                         onItemExpanded: function (e) {
-                            var item = e.itemData;
+                            //var item = e.itemData;
+                            
                             showDate();
                             //console.log(item);
                             //ExpandedAndCollapsed(item.id, 1);                            
                         },
                         onItemCollapsed: function (e) {
-                            var item = e.itemData;
+                            //var item = e.itemData;
                             //console.log(item);
                             //ExpandedAndCollapsed(item.id, 0);
                         },
@@ -499,39 +504,42 @@ End Code
 
         getContextMenu();
         function getContextMenu() {
-            $("#context-menu").dxContextMenu({
-                dataSource: OptionsMenu,
-                width: 200,
-                target: "#treeview",
-                onItemClick: function (e) {
-                    if (!e.itemData.items) {
-                        if (e.itemData.text == "Rename") {
-                            document.getElementById('idRename').innerHTML = idItem;
-                            document.getElementById('lbRename').value = name;
-                            $("#mdRename").modal();
-                            $("#lbRename").focus();
-                        } else if (e.itemData.text == "New File") {
-                            document.getElementById('idNewFile').innerHTML = idItem;
-                            $("#mdNewFile").modal();
-                            $("#lbNewFile").focus();
-                        } else if (e.itemData.text == "New Folder") {
-                            document.getElementById('idNewFolder').innerHTML = idItem;
-                            $("#mdNewFolder").modal();
-                            $("#lbNewFolder").focus();
-                        } else if (e.itemData.text == "Delete") {
-                            document.getElementById('idDelete').innerHTML = idItem;
-                            document.getElementById('lbDelete').value = name;
-                            $("#mdDelete").modal();
-                        } else if (e.itemData.text == "Change Detail") {
-                            document.getElementById('idChangeDate').innerHTML = idItem;
-                            document.getElementById('wgDateChange').value = s_date;
-                            $("#mdChangeDate").modal();
-                        }
+            if (permission_edit == 3) {
+                $("#context-menu").dxContextMenu({
+                    dataSource: OptionsMenu,
+                    width: 200,
+                    target: "#treeview",
+                    onItemClick: function (e) {
+                        if (!e.itemData.items) {
+                            if (e.itemData.text == "Rename") {
+                                document.getElementById('idRename').innerHTML = idItem;
+                                document.getElementById('lbRename').value = name;
+                                $("#mdRename").modal();
+                                $("#lbRename").focus();
+                            } else if (e.itemData.text == "New File") {
+                                document.getElementById('idNewFile').innerHTML = idItem;
+                                $("#mdNewFile").modal();
+                                $("#lbNewFile").focus();
+                            } else if (e.itemData.text == "New Folder") {
+                                document.getElementById('idNewFolder').innerHTML = idItem;
+                                $("#mdNewFolder").modal();
+                                $("#lbNewFolder").focus();
+                            } else if (e.itemData.text == "Delete") {
+                                document.getElementById('idDelete').innerHTML = idItem;
+                                document.getElementById('lbDelete').value = name;
+                                $("#mdDelete").modal();
+                            } else if (e.itemData.text == "Change Detail") {
+                                document.getElementById('idChangeDate').innerHTML = idItem;
+                                document.getElementById('wgDateChange').value = s_date;
+                                $("#mdChangeDate").modal();
+                            }
 
-                        //DevExpress.ui.notify("The \"" + e.itemData.text + "\" item was clicked id " + idItem, "success", 1500);
+                            //DevExpress.ui.notify("The \"" + e.itemData.text + "\" item was clicked id " + idItem, "success", 1500);
+                        }
                     }
-                }
-            });
+                });
+            }
+            
         }
 
         //Buttom In Modal
@@ -719,11 +727,9 @@ End Code
         //End Buttom In Modal
     });
 
-</script>
-<script>
-    $(".doctest").next().toggle();
-    $(".doctest").click(function (e) {
+    $(".d1").next().toggle();
+    $(".d1").click(function (e) {
         e.stopPropagation();
-        $(".doctest").next().toggle();
+        $(".d1").next().toggle();
     });
 </script>
