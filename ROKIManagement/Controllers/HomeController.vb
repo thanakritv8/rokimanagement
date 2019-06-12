@@ -9,6 +9,7 @@ Namespace Controllers
 
         Function Index() As ActionResult
             'fnMove("O3M/61iUpsdNVTLmzWFiMt6hCbgPpOxZqs+XGQM4MuM=", "/e1m9jxhN4/mGl8cqC121Kden4SITXkekrtj1bfEmYE=")
+
             If Session("StatusLogin") = "OK" Then
                 Return View()
             Else
@@ -680,7 +681,7 @@ Namespace Controllers
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
 
-            ClearExpandedISO()
+            ClearExpanded()
             Dim _SQL As String = "UPDATE [management].[dbo].[iatf] SET start_date = '" & start_date & "', revision = '" & revision & "' WHERE id = '" & id & "'"
             objDB.ExecuteSQL(_SQL, cn)
             dtStatus.Rows.Add("OK")
@@ -763,6 +764,422 @@ Namespace Controllers
                 _SQL = "SELECT id FROM [management].[dbo].[iatf] where parentDirId in (" & id & ")"
                 dtId = objDB.SelectSQL(_SQL, cn)
                 _SQL = "DELETE [management].[dbo].[iatf] WHERE id in (" & id & ")"
+                objDB.ExecuteSQL(_SQL, cn)
+            End While
+
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+#End Region
+
+#Region "SQM ROKI"
+        Function SQMROKI() As ActionResult
+            If Session("StatusLogin") = "OK" Then
+                ClearExpandedSqmRoki()
+                Return View()
+            Else
+                Return View("../Account/Login")
+            End If
+        End Function
+
+        Private Sub ClearExpandedSqmRoki()
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim _SQL As String = "UPDATE [management].[dbo].[sqm_roki] SET expanded = NULL WHERE parentDirId <> ''"
+            objDB.ExecuteSQL(_SQL, cn)
+            objDB.DisconnectDB(cn)
+        End Sub
+
+        Public Function GetMenuSqmRoki() As String
+            Dim dtMenu As DataTable = New DataTable
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim _SQL As String = "SELECT * FROM [management].[dbo].[sqm_roki] order by type desc, seq asc"
+            dtMenu = objDB.SelectSQL(_SQL, cn)
+            objDB.DisconnectDB(cn)
+
+            Dim strJson = New JavaScriptSerializer().Serialize(From dr As DataRow In dtMenu.Rows Select dtMenu.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+            Return strJson.Replace("""parentDirId"":"""",", "")
+        End Function
+
+        Private Function fnGetPathSqmRoki(ByVal Id As String) As String
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim _Path As String = String.Empty
+            Dim _SQL As String = "SELECT parentDirId, name FROM [management].[dbo].[sqm_roki] WHERE id = '" & Id & "'"
+            Dim dtPdi As DataTable = objDB.SelectSQL(_SQL, cn)
+            If dtPdi.Rows.Count > 0 Then
+                _Path = dtPdi.Rows(0)("name")
+                While dtPdi.Rows.Count > 0
+                    _SQL = "SELECT parentDirId, name FROM [management].[dbo].[sqm_roki] WHERE id = '" & dtPdi.Rows(0)("parentDirId") & "'"
+                    dtPdi = objDB.SelectSQL(_SQL, cn)
+                    If dtPdi.Rows.Count > 0 Then
+                        _Path = dtPdi.Rows(0)("name") & "/" & _Path
+                    End If
+                End While
+            End If
+            objDB.DisconnectDB(cn)
+            Return _Path
+        End Function
+
+        Public Function fnNewFolderSqmRoki(ByVal Id As String, ByVal NewName As String) As String
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim dtSeq As DataTable = New DataTable
+            Dim _SQL As String = String.Empty
+            Dim Path As String = fnGetPathSqmRoki(Id)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/" & Path & "/" & NewName)
+            If (Not System.IO.Directory.Exists(PathServer)) Then
+                System.IO.Directory.CreateDirectory(PathServer)
+            End If
+            ClearExpandedSqmRoki()
+            _SQL = "INSERT INTO [management].[dbo].[sqm_roki] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & NewName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & Id & "', '0','', '../img/fd.png', 1)"
+            objDB.ExecuteSQL(_SQL, cn)
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+
+        Public Function fnRenameSqmRoki(ByVal Id As String, ByVal NewName As String) As String
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim Path As String = fnGetPathSqmRoki(Id)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/" & Path)
+            Try
+                If Directory.Exists(PathServer) Then
+                    FileIO.FileSystem.RenameDirectory(PathServer, NewName)
+                Else
+                    If System.IO.File.Exists(PathServer) Then
+                        FileIO.FileSystem.RenameFile(PathServer, NewName)
+                    End If
+                End If
+            Catch ex As Exception
+
+            End Try
+
+            Dim ArrPath() As String = Path.Split("/")
+            Dim PathNew As String = String.Empty
+            For i As Integer = 0 To ArrPath.Length - 2
+                If i = ArrPath.Length - 2 Then
+                    PathNew &= ArrPath(i) & "/" & NewName
+                Else
+                    PathNew &= ArrPath(i) & "/"
+                End If
+            Next
+            ClearExpandedSqmRoki()
+            Dim _SQL As String = "Update [management].[dbo].[sqm_roki] SET name = N'" & NewName & "', expanded = 1 WHERE id = '" & Id & "'"
+            objDB.ExecuteSQL(_SQL, cn)
+
+            _SQL = "Update [management].[dbo].[sqm_roki] SET path = REPLACE(path,N'" & Path & "', N'" & PathNew & "') WHERE path like N'%" & Path & "%'"
+            objDB.ExecuteSQL(_SQL, cn)
+
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+
+        Function fnChangeDateSqmRoki(ByVal id As String, ByVal start_date As String, ByVal revision As String)
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+
+            ClearExpandedSqmRoki()
+            Dim _SQL As String = "UPDATE [management].[dbo].[sqm_roki] SET start_date = '" & start_date & "', revision = '" & revision & "' WHERE id = '" & id & "'"
+            objDB.ExecuteSQL(_SQL, cn)
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+
+        Public Function fnNewFileSqmRoki()
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim newName As String = String.Empty
+            Dim id As String = String.Empty
+            Dim start_date As String = String.Empty
+            Dim revision As String = String.Empty
+
+            For i As Integer = 0 To Request.Form.AllKeys.Length - 1
+                If Request.Form.AllKeys(i) = "newName" Then
+                    newName = Request.Form(i)
+                ElseIf Request.Form.AllKeys(i) = "id" Then
+                    id = Request.Form(i)
+                ElseIf Request.Form.AllKeys(i) = "start_date" Then
+                    start_date = Request.Form(i)
+                ElseIf Request.Form.AllKeys(i) = "revision" Then
+                    revision = Request.Form(i)
+                End If
+            Next
+            Dim Path As String = fnGetPathSqmRoki(id)
+            Dim PathToDb As String = "../Files/Doc/" & Path & "/" & newName
+            Dim PathServer As String = Server.MapPath(PathToDb)
+            For i As Integer = 0 To Request.Files.Count - 1
+                Dim file = Request.Files(i)
+                file.SaveAs(PathServer)
+            Next
+            Dim arrFile() As String = PathToDb.Split("/")
+            Dim strIcon As String = "doc"
+            If arrFile(arrFile.Length - 1).Contains(".pdf") Then
+                strIcon = "../img/pdf.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".doc") Then
+                strIcon = "../img/word.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
+                strIcon = "../img/excel.png"
+            End If
+            ClearExpandedSqmRoki()
+            Dim _SQL As String = "INSERT INTO [management].[dbo].[sqm_roki] ([name],[id],[parentDirId],[type],[path],[icon],[expanded],[start_date], [revision], [create_by]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1, '" & start_date & "', '" & revision & "', '" & Session("UserId") & "')"
+            objDB.ExecuteSQL(_SQL, cn)
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+
+        Public Function fnDeleteSqmRoki(ByVal idDel As String)
+
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim dtSeq As DataTable = New DataTable
+            Dim _SQL As String = String.Empty
+            Dim Path As String = fnGetPathSqmRoki(idDel)
+            Dim PathToDb As String = "../Files/Doc/" & Path
+            Dim PathServer As String = Server.MapPath(PathToDb)
+            If System.IO.File.Exists(PathServer) = True Then
+                System.IO.File.Delete(PathServer)
+            Else
+                Directory.Delete(PathServer, True)
+            End If
+            _SQL = "SELECT id FROM [management].[dbo].[sqm_roki] where id = '" & idDel & "'"
+            Dim dtId As DataTable = objDB.SelectSQL(_SQL, cn)
+            While dtId.Rows.Count > 0
+                Dim id As String = String.Empty
+                For i As Integer = 0 To dtId.Rows.Count - 1
+                    If i = dtId.Rows.Count - 1 Then
+                        id &= "'" & dtId.Rows(i)("id") & "'"
+                    Else
+                        id &= "'" & dtId.Rows(i)("id") & "',"
+                    End If
+                Next
+                _SQL = "SELECT id FROM [management].[dbo].[sqm_roki] where parentDirId in (" & id & ")"
+                dtId = objDB.SelectSQL(_SQL, cn)
+                _SQL = "DELETE [management].[dbo].[sqm_roki] WHERE id in (" & id & ")"
+                objDB.ExecuteSQL(_SQL, cn)
+            End While
+
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+#End Region
+
+#Region "SQM CUSTOMER"
+        Function SQMCUSTOMER() As ActionResult
+            If Session("StatusLogin") = "OK" Then
+                ClearExpandedSqmCustomer()
+                Return View()
+            Else
+                Return View("../Account/Login")
+            End If
+        End Function
+
+        Private Sub ClearExpandedSqmCustomer()
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim _SQL As String = "UPDATE [management].[dbo].[sqm_customer] SET expanded = NULL WHERE parentDirId <> ''"
+            objDB.ExecuteSQL(_SQL, cn)
+            objDB.DisconnectDB(cn)
+        End Sub
+
+        Public Function GetMenuSqmCustomer() As String
+            Dim dtMenu As DataTable = New DataTable
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim _SQL As String = "SELECT * FROM [management].[dbo].[sqm_customer] order by type desc, seq asc"
+            dtMenu = objDB.SelectSQL(_SQL, cn)
+            objDB.DisconnectDB(cn)
+
+            Dim strJson = New JavaScriptSerializer().Serialize(From dr As DataRow In dtMenu.Rows Select dtMenu.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+            Return strJson.Replace("""parentDirId"":"""",", "")
+        End Function
+
+        Private Function fnGetPathSqmCustomer(ByVal Id As String) As String
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim _Path As String = String.Empty
+            Dim _SQL As String = "SELECT parentDirId, name FROM [management].[dbo].[sqm_customer] WHERE id = '" & Id & "'"
+            Dim dtPdi As DataTable = objDB.SelectSQL(_SQL, cn)
+            If dtPdi.Rows.Count > 0 Then
+                _Path = dtPdi.Rows(0)("name")
+                While dtPdi.Rows.Count > 0
+                    _SQL = "SELECT parentDirId, name FROM [management].[dbo].[sqm_customer] WHERE id = '" & dtPdi.Rows(0)("parentDirId") & "'"
+                    dtPdi = objDB.SelectSQL(_SQL, cn)
+                    If dtPdi.Rows.Count > 0 Then
+                        _Path = dtPdi.Rows(0)("name") & "/" & _Path
+                    End If
+                End While
+            End If
+            objDB.DisconnectDB(cn)
+            Return _Path
+        End Function
+
+        Public Function fnNewFolderSqmCustomer(ByVal Id As String, ByVal NewName As String) As String
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim dtSeq As DataTable = New DataTable
+            Dim _SQL As String = String.Empty
+            Dim Path As String = fnGetPathSqmCustomer(Id)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/" & Path & "/" & NewName)
+            If (Not System.IO.Directory.Exists(PathServer)) Then
+                System.IO.Directory.CreateDirectory(PathServer)
+            End If
+            ClearExpandedSqmCustomer()
+            _SQL = "INSERT INTO [management].[dbo].[sqm_customer] ([name],[id],[parentDirId],[type],[path],[icon],[expanded]) VALUES (N'" & NewName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & Id & "', '0','', '../img/fd.png', 1)"
+            objDB.ExecuteSQL(_SQL, cn)
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+
+        Public Function fnRenameSqmCustomer(ByVal Id As String, ByVal NewName As String) As String
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim Path As String = fnGetPathSqmCustomer(Id)
+            Dim PathServer As String = Server.MapPath("../Files/Doc/" & Path)
+            Try
+                If Directory.Exists(PathServer) Then
+                    FileIO.FileSystem.RenameDirectory(PathServer, NewName)
+                Else
+                    If System.IO.File.Exists(PathServer) Then
+                        FileIO.FileSystem.RenameFile(PathServer, NewName)
+                    End If
+                End If
+            Catch ex As Exception
+
+            End Try
+
+            Dim ArrPath() As String = Path.Split("/")
+            Dim PathNew As String = String.Empty
+            For i As Integer = 0 To ArrPath.Length - 2
+                If i = ArrPath.Length - 2 Then
+                    PathNew &= ArrPath(i) & "/" & NewName
+                Else
+                    PathNew &= ArrPath(i) & "/"
+                End If
+            Next
+            ClearExpandedSqmCustomer()
+            Dim _SQL As String = "Update [management].[dbo].[sqm_customer] SET name = N'" & NewName & "', expanded = 1 WHERE id = '" & Id & "'"
+            objDB.ExecuteSQL(_SQL, cn)
+
+            _SQL = "Update [management].[dbo].[sqm_customer] SET path = REPLACE(path,N'" & Path & "', N'" & PathNew & "') WHERE path like N'%" & Path & "%'"
+            objDB.ExecuteSQL(_SQL, cn)
+
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+
+        Function fnChangeDateSqmCustomer(ByVal id As String, ByVal start_date As String, ByVal revision As String)
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+
+            ClearExpandedSqmCustomer()
+            Dim _SQL As String = "UPDATE [management].[dbo].[sqm_customer] SET start_date = '" & start_date & "', revision = '" & revision & "' WHERE id = '" & id & "'"
+            objDB.ExecuteSQL(_SQL, cn)
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+
+        Public Function fnNewFileSqmCustomer()
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim newName As String = String.Empty
+            Dim id As String = String.Empty
+            Dim start_date As String = String.Empty
+            Dim revision As String = String.Empty
+
+            For i As Integer = 0 To Request.Form.AllKeys.Length - 1
+                If Request.Form.AllKeys(i) = "newName" Then
+                    newName = Request.Form(i)
+                ElseIf Request.Form.AllKeys(i) = "id" Then
+                    id = Request.Form(i)
+                ElseIf Request.Form.AllKeys(i) = "start_date" Then
+                    start_date = Request.Form(i)
+                ElseIf Request.Form.AllKeys(i) = "revision" Then
+                    revision = Request.Form(i)
+                End If
+            Next
+            Dim Path As String = fnGetPathSqmCustomer(id)
+            Dim PathToDb As String = "../Files/Doc/" & Path & "/" & newName
+            Dim PathServer As String = Server.MapPath(PathToDb)
+            For i As Integer = 0 To Request.Files.Count - 1
+                Dim file = Request.Files(i)
+                file.SaveAs(PathServer)
+            Next
+            Dim arrFile() As String = PathToDb.Split("/")
+            Dim strIcon As String = "doc"
+            If arrFile(arrFile.Length - 1).Contains(".pdf") Then
+                strIcon = "../img/pdf.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".doc") Then
+                strIcon = "../img/word.png"
+            ElseIf arrFile(arrFile.Length - 1).Contains(".xl") Then
+                strIcon = "../img/excel.png"
+            End If
+            ClearExpandedSqmCustomer()
+            Dim _SQL As String = "INSERT INTO [management].[dbo].[sqm_customer] ([name],[id],[parentDirId],[type],[path],[icon],[expanded],[start_date], [revision], [create_by]) VALUES (N'" & newName & "', '" & EncryptSHA256Managed(Format(Now, "yyyyMMddHHmmss")) & "', '" & id & "', '1',N'" & PathToDb & "', '" & strIcon & "', 1, '" & start_date & "', '" & revision & "', '" & Session("UserId") & "')"
+            objDB.ExecuteSQL(_SQL, cn)
+            dtStatus.Rows.Add("OK")
+            objDB.DisconnectDB(cn)
+            Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
+        End Function
+
+        Public Function fnDeleteSqmCustomer(ByVal idDel As String)
+
+            Dim dtStatus As DataTable = New DataTable
+            dtStatus.Columns.Add("Status")
+            Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
+            cn.Open()
+            Dim dtSeq As DataTable = New DataTable
+            Dim _SQL As String = String.Empty
+            Dim Path As String = fnGetPathSqmCustomer(idDel)
+            Dim PathToDb As String = "../Files/Doc/" & Path
+            Dim PathServer As String = Server.MapPath(PathToDb)
+            If System.IO.File.Exists(PathServer) = True Then
+                System.IO.File.Delete(PathServer)
+            Else
+                Directory.Delete(PathServer, True)
+            End If
+            _SQL = "SELECT id FROM [management].[dbo].[sqm_customer] where id = '" & idDel & "'"
+            Dim dtId As DataTable = objDB.SelectSQL(_SQL, cn)
+            While dtId.Rows.Count > 0
+                Dim id As String = String.Empty
+                For i As Integer = 0 To dtId.Rows.Count - 1
+                    If i = dtId.Rows.Count - 1 Then
+                        id &= "'" & dtId.Rows(i)("id") & "'"
+                    Else
+                        id &= "'" & dtId.Rows(i)("id") & "',"
+                    End If
+                Next
+                _SQL = "SELECT id FROM [management].[dbo].[sqm_customer] where parentDirId in (" & id & ")"
+                dtId = objDB.SelectSQL(_SQL, cn)
+                _SQL = "DELETE [management].[dbo].[sqm_customer] WHERE id in (" & id & ")"
                 objDB.ExecuteSQL(_SQL, cn)
             End While
 

@@ -18,7 +18,7 @@
     <script src="~/vendor/jquery/jquery.min.js"></script>
     
     <!-- Custom styles for this template-->
-    <link href="~/Content/sb-admin.min.css" rel="stylesheet">
+    <link href="~/Content/sb-admin.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.common.css" />
     <link rel="dx-theme" data-theme="generic.light" href="https://cdn3.devexpress.com/jslib/18.2.4/css/dx.light.css" />
@@ -41,12 +41,13 @@
         .bg-custom {
             background-color: #1a52c6;
         }
-        #h1:hover {
+        #h1:hover, #pagesDropdown11:hover {
             background-color: rgb(204, 204, 255);
         }
         .text-custom{
             color:rgb(0, 79, 162);
         }
+        /*#level-tree {border-style: none;}*/
         
     </style>
 </head>
@@ -75,15 +76,14 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" id="btnSave" class="btn btn-success">Save</button>
-                    <button type="button" onclick="clearModal();" class="btn btn-danger">Close</button>
+                    <button type="button" onclick="clearModalMain();" class="btn btn-danger">Close</button>
                 </div>
 
             </div>
         </div>
     </div>
 
-    <nav class="navbar navbar-expand navbar-dark bg-light static-top">
-
+    <nav class="navbar navbar-expand navbar-dark bg-light static-top">        
         <a class="navbar-brand" href="~/Home/Index"><img src="~/img/roki-th-03.png" width="280" height="60" alt="Responsive image" /></a>
         @*<div class="mx-auto"><a class="navbar-brand" href="index.html" style="color:rgb(118,120,123);">Document Management System</a></div>*@
         
@@ -91,10 +91,10 @@
         @<a Class="nav-link text-custom ml-auto" href="#">
             <span> <i Class="fas fa-user-circle fa-fw"></i> @Session("Name")</span>
         </a>
-        @<a Class="nav-link text-custom" href="../Account/Setting">
+        @<a Class="nav-link text-custom" href="~/Account/Setting">
             <span> <i Class="fas fa-user-cog"></i> Setting</span>
         </a>
-        @<a Class="nav-link text-custom" href="../Account/Logout">
+        @<a Class="nav-link text-custom" href="~/Account/Logout">
             <span> <i Class="fas fa-sign-out-alt"></i> Logout</span>
         </a>
         End If
@@ -110,12 +110,48 @@
                         <span Class="text-light"> Document</span>
                     </a>
                     <div Class="dropdown-menu" aria-labelledby="pagesDropdown1">
-                        @If Session("QMS") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item QMS" id="h1" href="../Home/DocQms">QMS</a> End If
-                        @If Session("ISO") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Home/ISO">ISO 14001-2015</a> End If
-                        @If Session("IATF") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Home/IATF">IATF 16949-2016</a> End If
+                        @Code 
+'Dim arrId() As String = Session("AppId").ToString.Split(",")
+'For i As Integer = 0 To 
+
+                        End Code
+                        @If Session("QMS") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item QMS" id="h1" href="~/Home/DocQms">QMS</a> End If
+                        @If Session("ISO") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Home/ISO">ISO 14001-2015</a> End If
+                        @If Session("IATF") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Home/IATF">IATF 16949-2016</a> End If
+                        @If Session("SQM_ROKI") <> 0 Or Session("SQM_CUSTOMER") <> 0 Or Session("Admin") = 1 Then @<a class="dropdown-toggle dropdown-item sqm" href="#" id="pagesDropdown11" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">SQM</a>End if
+                            <ul class="nav nav-third-level">
+                            <li>
+                                <div Class="dropdown-menu mt-2" id="level-tree" aria-labelledby="pagesDropdown11">
+                                    @If Session("SQM_ROKI") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Home/SQMROKI">ROKI</a>End If
+                                    @If Session("SQM_CUSTOMER") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Home/SQMCUSTOMER">CUSTOMER</a>End If
+                                    @*<a Class="dropdown-item" id="h1" href="#">HRST</a>
+                                    <a Class="dropdown-item" id="h1" href="#">HTAS</a>
+                                    <a Class="dropdown-item" id="h1" href="#">KMT</a>
+                                    <a Class="dropdown-item" id="h1" href="#">MAZDA</a>
+                                    <a Class="dropdown-item" id="h1" href="#">META</a>
+                                    <a Class="dropdown-item" id="h1" href="#">THM</a>
+                                    <a Class="dropdown-item" id="h1" href="#">TYM</a>
+                                    <a Class="dropdown-item" id="h1" href="#">HRAP</a>
+                                    <a Class="dropdown-item" id="h1" href="#">IMCT</a>
+                                    <a Class="dropdown-item" id="h1" href="#">NMT</a>
+                                    <a Class="dropdown-item" id="h1" href="#">RJP</a>
+                                    <a Class="dropdown-item" id="h1" href="#">TMT</a>
+                                    <a Class="dropdown-item" id="h1" href="#">TSM</a>
+                                    <a Class="dropdown-item" id="h1" href="#">AAT</a>
+                                    <a Class="dropdown-item" id="h1" href="#">MMTH</a>*@
+                                </div>
+                            </li>
+                        </ul>
+                        @*<li class="nav-item dropdown">
+                            <a Then Class="nav-link dropdown-toggle d11" href="#" id="pagesDropdown11" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">SQM Customer</a>
+                            <div Class="dropdown-menu" aria-labelledby="pagesDropdown1">
+                                <a Class="dropdown-item" id="h1" href="../Drawing/DUCATI">DUCATI</a>
+                            </div>
+                        </li>*@
+                        
                     </div>
                 </li>
-                End if
+                            End if
         @If Session("HATC") <> 0 Or Session("THM") <> 0 Or Session("TSM") <> 0 Or Session("AAT") <> 0 Or Session("Admin") = 1 Then
                  @<li Class="nav-item dropdown">
                      <a Class="nav-link dropdown-toggle d2" href="#" id="pagesDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -123,23 +159,23 @@
                          <span Class="text-light"> Drawing</span>
                      </a>
                      <div Class="dropdown-menu" aria-labelledby="pagesDropdown2">
-                         @If Session("DUCATI") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/DUCATI">DUCATI</a> End If
-                         @If Session("HATC") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/HATC">HATC</a> End If
-                         @If Session("HRST") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/HRST">HRST</a> End If
-                         @If Session("HTAS") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/HTAS">HTAS</a> End If
-                         @If Session("KMT") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/KMT">KMT</a> End If
-                         @If Session("MAZDA") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/MAZDA">MAZDA</a> End If
-                         @If Session("META") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/META">META</a> End If
-                         @If Session("THM") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/THM">THM</a> End If
-                         @If Session("TYM") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/TYM">TYM</a> End If
-                         @If Session("HRAP") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/HRAP">HRAP</a> End If
-                         @If Session("IMCT") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/IMCT">IMCT</a> End If
-                         @If Session("NMT") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/NMT">NMT</a> End If
-                         @If Session("RJP") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/RJP">RJP</a> End If
-                         @If Session("TMT") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="../Drawing/TMT">TMT</a> End If
-                         @If Session("TSM") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/TSM">TSM</a> End If
-                         @If Session("AAT") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/AAT">AAT</a> End If
-                         @If Session("MMTH") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="../Drawing/MMTH">MMTH</a> End If
+                         @If Session("DUCATI") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Drawing/DUCATI">DUCATI</a> End If
+                         @If Session("HATC") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="~/Drawing/HATC">HATC</a> End If
+                         @If Session("HRST") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Drawing/HRST">HRST</a> End If
+                         @If Session("HTAS") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Drawing/HTAS">HTAS</a> End If
+                         @If Session("KMT") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Drawing/KMT">KMT</a> End If
+                         @If Session("MAZDA") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Drawing/MAZDA">MAZDA</a> End If
+                         @If Session("META") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Drawing/META">META</a> End If
+                         @If Session("THM") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="~/Drawing/THM">THM</a> End If
+                         @If Session("TYM") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="~/Drawing/TYM">TYM</a> End If
+                         @If Session("HRAP") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="~/Drawing/HRAP">HRAP</a> End If
+                         @If Session("IMCT") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="~/Drawing/IMCT">IMCT</a> End If
+                         @If Session("NMT") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="~/Drawing/NMT">NMT</a> End If
+                         @If Session("RJP") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="~/Drawing/RJP">RJP</a> End If
+                         @If Session("TMT") <> 0 Or Session("Admin") = 1 Then @<a Then Class="dropdown-item" id="h1" href="~/Drawing/TMT">TMT</a> End If
+                         @If Session("TSM") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Drawing/TSM">TSM</a> End If
+                         @If Session("AAT") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Drawing/AAT">AAT</a> End If
+                         @If Session("MMTH") <> 0 Or Session("Admin") = 1 Then @<a Class="dropdown-item" id="h1" href="~/Drawing/MMTH">MMTH</a> End If
                      </div>
                  </li>
                  end if
@@ -151,9 +187,9 @@
                             <span Class="text-light"> Permission</span>
                         </a>
                         <div Class="dropdown-menu" aria-labelledby="pagesDropdown">
-                            <a Class="dropdown-item" id="h1" href="../Account/Group">Group</a>
-                            <a Class="dropdown-item" id="h1" href="../Account/Account">Account</a>
-                            @*<a Class="dropdown-item" id="h1" href="../Account/Application">Application</a>*@
+                            <a Class="dropdown-item" id="h1" href="~/Account/Group">Group</a>
+                            <a Class="dropdown-item" id="h1" href="~/Account/Account">Account</a>
+                            @*<a Class="dropdown-item" id="h1" href="~/Account/Application">Application</a>*@
                         </div>
                     </li>
                 End If
@@ -238,7 +274,7 @@
         $("#mdResetPassword").modal('show');
     }
 
-    function clearModal() {
+    function clearModalMain() {
 
         document.getElementById('lbPassword').value = '';
 
@@ -251,23 +287,27 @@
             var password_confirm = document.getElementById('lbPasswordConfirm').value;
             var userId = @Session("UserId");
             if (password == password_confirm) {
-                $.ajax({
-                    type: "POST",
-                    url: "../Account/UpDatePassword",
-                    contentType: "application/json; charset=utf-8",
-                    data: "{ Password:'" + password + "', userId: "+ userId + " }",
-                    dataType: "json",
-                    async: false,
-                    success: function (data) { 
-                        DevExpress.ui.notify("เปลี่ยนรหัสผ่านเรียบร้อย", "success", 1000);                        
-                        $('#mdResetPassword').modal('hide');                    
-                    },
-                    error: function (error) {
-                        alert(error);
-                    }
-                });
+                if(password == '' || password_confirm == ''){
+                    DevExpress.ui.notify("กรุณากรอกรหัสผ่าน", "error", 1000); 
+                }else{
+                    $.ajax({
+                        type: "POST",
+                        url: "../Account/UpDatePassword",
+                        contentType: "application/json; charset=utf-8",
+                        data: "{ Password:'" + password + "', userId: "+ userId + " }",
+                        dataType: "json",
+                        async: false,
+                        success: function (data) { 
+                            DevExpress.ui.notify("เปลี่ยนรหัสผ่านเรียบร้อย", "success", 1000);                        
+                            $('#mdResetPassword').modal('hide');                    
+                        },
+                        error: function (error) {
+                            alert(error);
+                        }
+                    });
+                }
             } else {
-                alert("รหัสผ่านไม่ตรงกัน");
+                DevExpress.ui.notify("รหัสผ่านไม่ตรงกัน", "error", 1000); 
             }
         });
     });

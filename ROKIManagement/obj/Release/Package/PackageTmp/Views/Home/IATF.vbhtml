@@ -218,6 +218,7 @@ End Code
 <script>
     
     function clearModal() {
+        
         document.getElementById('lbFile').innerHTML = 'Choose file';
         document.getElementById('lbNewFile').value = '';
         document.getElementById('lbNewFolder').value = '';

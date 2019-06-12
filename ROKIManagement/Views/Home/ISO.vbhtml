@@ -211,6 +211,7 @@ End Code
 <script>
     var permission_edit = '@Session("ISO")';
     function clearModal() {
+        console.log("test");
         document.getElementById('lbFile').innerHTML = 'Choose file';
         document.getElementById('lbNewFile').value = '';
         document.getElementById('lbNewFolder').value = '';
@@ -562,7 +563,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fnRename() {
@@ -587,7 +588,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fnNewFile() {
@@ -623,7 +624,7 @@ End Code
                 });
             } else {
                 $('#mdNewFile').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
 
         }

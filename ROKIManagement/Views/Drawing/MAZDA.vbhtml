@@ -475,7 +475,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fnRename() {
@@ -500,7 +500,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fnNewFile() {
@@ -535,7 +535,7 @@ End Code
                 });
             } else {
                 $('#mdNewFile').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
 
         }
@@ -629,5 +629,10 @@ End Code
         function parseJsonDate(jsonDateString) {
             return new Date(parseInt(jsonDateString.replace('/Date(', '')));
         }
+    });
+    $(".d2").next().toggle();
+    $(".d2").click(function (e) {
+        e.stopPropagation();
+        $(".d2").next().toggle();
     });
 </script>

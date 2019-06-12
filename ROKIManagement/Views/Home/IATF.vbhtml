@@ -218,6 +218,7 @@ End Code
 <script>
     
     function clearModal() {
+        
         document.getElementById('lbFile').innerHTML = 'Choose file';
         document.getElementById('lbNewFile').value = '';
         document.getElementById('lbNewFolder').value = '';
@@ -568,7 +569,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fnRename() {
@@ -593,7 +594,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fnNewFile() {
@@ -629,7 +630,7 @@ End Code
                 });
             } else {
                 $('#mdNewFile').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
 
@@ -657,7 +658,7 @@ End Code
                 });
             } else {
                 $('#mdChangeDate').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
             
         }

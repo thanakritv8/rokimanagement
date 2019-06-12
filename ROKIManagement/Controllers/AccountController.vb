@@ -347,9 +347,16 @@ Namespace Controllers
                     _SQL = "INSERT INTO [Auth].[dbo].[login_log] (AccessId) VALUES (" & dtPer.Rows(0)("UserId") & ")"
                     objDB.ExecuteSQL(_SQL, cn)
                     'Permission App
+                    'Dim ls As List(Of SessionModels) = New List(Of SessionModels)
+                    'Dim sm As SessionModels = New SessionModels
+                    'sm.QMS = 2
+                    'sm.ISO = 1
+                    'ls.Add(sm)
+                    'Session("AppName") = "QMS,ISO,IATF"
+                    'Session("AppId") = "2,3,2"
                     For Each _Item In dtPer.Rows
                         If _Item("AppId") = 2 Then
-                            Session("QMS") = _Item("AccessId")
+                            Session("QMS") = _Item("AccessId") '_Item("AccessId") & ", " & 2
                         ElseIf _Item("AppId") = 3 Then
                             Session("ISO") = _Item("AccessId")
                         ElseIf _Item("AppId") = 4 Then
@@ -388,6 +395,10 @@ Namespace Controllers
                             Session("TMT") = _Item("AccessId")
                         ElseIf _Item("AppId") = 26 Then
                             Session("TYM") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 27 Then
+                            Session("SQM_ROKI") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 28 Then
+                            Session("SQM_CUSTOMER") = _Item("AccessId")
                         End If
                     Next
                     'End Permission

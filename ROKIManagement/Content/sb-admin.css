@@ -103,12 +103,12 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
   vertical-align: 0;
   border: 0;
   font-weight: 900;
-  content: '\f105';
+  /*content: '\f105';*/
   font-family: 'Helvetica';
 }
 
 .navbar-nav .nav-item.dropdown.show .dropdown-toggle::after {
-  content: '\f107';
+  /*content: '\f107';*/
 }
 
 .navbar-nav .nav-item.dropdown.no-arrow .dropdown-toggle::after {

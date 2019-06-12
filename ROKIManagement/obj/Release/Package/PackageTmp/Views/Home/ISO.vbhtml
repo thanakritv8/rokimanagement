@@ -211,6 +211,7 @@ End Code
 <script>
     var permission_edit = '@Session("ISO")';
     function clearModal() {
+        console.log("test");
         document.getElementById('lbFile').innerHTML = 'Choose file';
         document.getElementById('lbNewFile').value = '';
         document.getElementById('lbNewFolder').value = '';

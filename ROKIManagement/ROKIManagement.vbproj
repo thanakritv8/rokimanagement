@@ -180,6 +180,7 @@
     <Content Include="js\test.js" />
     <Content Include="js\toast.js" />
     <Compile Include="Controllers\DrawingController.vb" />
+    <Compile Include="Controllers\SQMController.vb" />
     <Compile Include="Models\FileTreeViewModel.vb" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
@@ -1626,6 +1627,7 @@
       <DependentUpon>DataSetManagement.xsd</DependentUpon>
     </Compile>
     <Compile Include="Models\objDB.vb" />
+    <Compile Include="Models\SessionModels.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -1763,6 +1765,9 @@
     <Content Include="Views\Drawing\MMTH.vbhtml" />
     <Content Include="Views\Drawing\TMT.vbhtml" />
     <Content Include="Views\Drawing\RJP.vbhtml" />
+    <Content Include="Views\SQM\SQM.vbhtml" />
+    <Content Include="Views\Home\SqmRoki.vbhtml" />
+    <Content Include="Views\Home\SqmCustomer.vbhtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
