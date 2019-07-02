@@ -100,9 +100,9 @@ C:\Users\thanakrit.j\Documents\Visual Studio 2015\Projects\DMS\ROKIManagement\bi
 C:\Users\thanakrit.j\Documents\Visual Studio 2015\Projects\DMS\ROKIManagement\bin\System.Web.Webpages.Razor.xml
 C:\Users\thanakrit.j\Documents\Visual Studio 2015\Projects\DMS\ROKIManagement\bin\System.Web.Helpers.xml
 C:\Users\thanakrit.j\Documents\Visual Studio 2015\Projects\DMS\ROKIManagement\bin\System.Web.Mvc.xml
-C:\Users\thanakrit.j\Documents\Visual Studio 2015\Projects\DMS\ROKIManagement\obj\Debug\ROKIManagement.vbprojResolveAssemblyReference.cache
 C:\Users\thanakrit.j\Documents\Visual Studio 2015\Projects\DMS\ROKIManagement\obj\Debug\ROKIManagement.Resources.resources
 C:\Users\thanakrit.j\Documents\Visual Studio 2015\Projects\DMS\ROKIManagement\obj\Debug\ROKIManagement.vbproj.GenerateResource.Cache
 C:\Users\thanakrit.j\Documents\Visual Studio 2015\Projects\DMS\ROKIManagement\obj\Debug\ROKIManagement.dll
 C:\Users\thanakrit.j\Documents\Visual Studio 2015\Projects\DMS\ROKIManagement\obj\Debug\ROKIManagement.xml
 C:\Users\thanakrit.j\Documents\Visual Studio 2015\Projects\DMS\ROKIManagement\obj\Debug\ROKIManagement.pdb
+C:\Users\thanakrit.j\Documents\Visual Studio 2015\Projects\DMS\ROKIManagement\obj\Debug\ROKIManagement.vbprojResolveAssemblyReference.cache

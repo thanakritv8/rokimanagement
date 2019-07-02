@@ -443,7 +443,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function newFolder() {
@@ -475,7 +475,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fndelete(){
@@ -564,7 +564,7 @@ End Code
                 });
             } else {
                 $('#mdNewFile').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         });
     });

@@ -335,13 +335,15 @@ End Code
                                 if (item.type == 1) {
                                     OptionsMenu = contextMenuItemsFile;
                                 } else {
-                                    if (item.id == 'hPZz7R9z8eTjqnuYqwXtQncB2jUzfHwuXjInN8ClIeY=' || item.parentDirId == 'hPZz7R9z8eTjqnuYqwXtQncB2jUzfHwuXjInN8ClIeY=') {
+                                    if (item.parentDirId == 'hPZz7R9z8eTjqnuYqwXtQncB2jUzfHwuXjInN8ClIeY=') {
                                         OptionsMenu = [
                                             { text: 'New File' },
                                             { text: 'New Folder' }
                                         ];
 
-                                    } else {
+                                    } else if (item.id == 'hPZz7R9z8eTjqnuYqwXtQncB2jUzfHwuXjInN8ClIeY=') {
+                                        OptionsMenu = [];
+                                    } else if(item.id != 'hPZz7R9z8eTjqnuYqwXtQncB2jUzfHwuXjInN8ClIeY=') {
                                         OptionsMenu = contextMenuItemsFolder;
                                     }
                                 }
@@ -482,7 +484,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fnRename() {
@@ -507,7 +509,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fnNewFile() {
@@ -543,7 +545,7 @@ End Code
                 });
             } else {
                 $('#mdNewFile').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
 
@@ -571,7 +573,7 @@ End Code
                 });
             } else {
                 $('#mdChangeDate').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
             
         }
@@ -648,4 +650,5 @@ End Code
         e.stopPropagation();
         $(".d1").next().toggle();
     });
+    $("#level-tree").addClass("show");
 </script>

@@ -335,13 +335,15 @@ End Code
                                 if (item.type == 1) {
                                     OptionsMenu = contextMenuItemsFile;
                                 } else {
-                                    if (item.id == 'hPZz7R9z8eTjqnuYqwXtQncB2jUzfHwuXjInN8ClIeY=' || item.parentDirId == 'hPZz7R9z8eTjqnuYqwXtQncB2jUzfHwuXjInN8ClIeY=') {
+                                    if (item.parentDirId == 'hPZz7R9z8eTjqnuYqwXtQncB2jUzfHwuXjInN8ClIeY=') {
                                         OptionsMenu = [
                                             { text: 'New File' },
                                             { text: 'New Folder' }
                                         ];
 
-                                    } else {
+                                    } else if (item.id == 'hPZz7R9z8eTjqnuYqwXtQncB2jUzfHwuXjInN8ClIeY=') {
+                                        OptionsMenu = [];
+                                    } else if(item.id != 'hPZz7R9z8eTjqnuYqwXtQncB2jUzfHwuXjInN8ClIeY=') {
                                         OptionsMenu = contextMenuItemsFolder;
                                     }
                                 }

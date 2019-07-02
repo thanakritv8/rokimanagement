@@ -158,7 +158,7 @@ Namespace Controllers
             Dim dtApp As DataTable = New DataTable
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()
-            Dim _SQL As String = " select * from [Auth].[dbo].[Application] where appId not in (select AppId from [Auth].[dbo].[Permission] where UserId = '" & UserId & "')"
+            Dim _SQL As String = " select * from [Auth].[dbo].[Application] where [Enable] = 1 and appId not in (select AppId from [Auth].[dbo].[Permission] where UserId = '" & UserId & "')"
             dtApp = objDB.SelectSQL(_SQL, cn)
             objDB.DisconnectDB(cn)
             Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtApp.Rows Select dtApp.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
@@ -298,6 +298,7 @@ Namespace Controllers
 #Region "Login && Logout"
 
         Function Login() As ActionResult
+            'Dim a = EncryptSHA256Managed("201906131656")
             '''''' TEST AD '''''''''
             'GetUsers()
             ''''''''''''''''''''''''
@@ -313,14 +314,14 @@ Namespace Controllers
             Session("StatusLogin") = "Fail"
 
             'Clear Application
-            Session("QMS") = 0
-            Session("ISO") = 0
-            Session("IATF") = 0
-            Session("Admin") = 0
-            Session("HATC") = 0
-            Session("THM") = 0
-            Session("TSM") = 0
-            Session("AAT") = 0
+            'Session("QMS") = 0
+            'Session("ISO") = 0
+            'Session("IATF") = 0
+            'Session("Admin") = 0
+            'Session("HATC") = 0
+            'Session("THM") = 0
+            'Session("TSM") = 0
+            'Session("AAT") = 0
             'End Clear
             Session.Abandon()
             Return View("../Account/Login")
@@ -330,8 +331,8 @@ Namespace Controllers
         Function CheckLogin(ByVal Username As String, ByVal Password As String) As String
             'Init App
             Session("QMS") = 0
-            Session("ISO") = 0
-            Session("IATF") = 0
+            'Session("ISO") = 0
+            'Session("IATF") = 0
             Session("Admin") = 0
 
             Dim dtPer As DataTable = New DataTable
@@ -361,44 +362,46 @@ Namespace Controllers
                             Session("ISO") = _Item("AccessId")
                         ElseIf _Item("AppId") = 4 Then
                             Session("IATF") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 10 Then
-                            Session("HATC") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 11 Then
-                            Session("THM") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 12 Then
-                            Session("TSM") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 13 Then
-                            Session("AAT") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 14 Then
-                            Session("DUCATI") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 15 Then
-                            Session("HRAP") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 16 Then
-                            Session("HRST") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 17 Then
-                            Session("HTAS") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 18 Then
-                            Session("IMCT") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 19 Then
-                            Session("KMT") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 20 Then
-                            Session("MAZDA") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 21 Then
-                            Session("META") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 22 Then
-                            Session("MMTH") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 23 Then
-                            Session("NMT") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 24 Then
-                            Session("RJP") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 25 Then
-                            Session("TMT") = _Item("AccessId")
-                        ElseIf _Item("AppId") = 26 Then
-                            Session("TYM") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 10 Then
+                            '    Session("HATC") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 11 Then
+                            '    Session("THM") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 12 Then
+                            '    Session("TSM") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 13 Then
+                            '    Session("AAT") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 14 Then
+                            '    Session("DUCATI") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 15 Then
+                            '    Session("HRAP") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 16 Then
+                            '    Session("HRST") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 17 Then
+                            '    Session("HTAS") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 18 Then
+                            '    Session("IMCT") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 19 Then
+                            '    Session("KMT") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 20 Then
+                            '    Session("MAZDA") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 21 Then
+                            '    Session("META") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 22 Then
+                            '    Session("MMTH") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 23 Then
+                            '    Session("NMT") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 24 Then
+                            '    Session("RJP") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 25 Then
+                            '    Session("TMT") = _Item("AccessId")
+                            'ElseIf _Item("AppId") = 26 Then
+                            '    Session("TYM") = _Item("AccessId")
                         ElseIf _Item("AppId") = 27 Then
                             Session("SQM_ROKI") = _Item("AccessId")
                         ElseIf _Item("AppId") = 28 Then
                             Session("SQM_CUSTOMER") = _Item("AccessId")
+                        ElseIf _Item("AppId") = 29 Then
+                            Session("Drawing") = _Item("AccessId")
                         End If
                     Next
                     'End Permission

@@ -1043,6 +1043,10 @@ End Code
         toastr.options.positionClass = t.css;
         toastr[t.type](t.msg);
     }
-
+    $(".d3").next().toggle();
+    $(".d3").click(function (e) {
+        e.stopPropagation();
+        $(".d3").next().toggle();
+    });
 </script>
 

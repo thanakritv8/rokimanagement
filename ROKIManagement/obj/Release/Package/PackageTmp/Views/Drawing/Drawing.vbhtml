@@ -1,7 +1,12 @@
-﻿@Code
-    ViewData("Title") = "MMTH"
-End Code
+﻿<script>
+    var obj_id = '@ViewBag.Obj_ID';
 
+    $(".d2").next().toggle();
+    $(".d2").click(function (e) {
+        e.stopPropagation();
+        $(".d2").next().toggle();
+    });
+</script>
 <style>
     .icon {
         font-size: 28px;
@@ -12,6 +17,10 @@ End Code
         background-color: rgb(0,79,162);
         color: #ffffff;
     }
+
+    .bg {
+        background-color: rgb(0,79,162);
+    }
 </style>
 
 <div class="demo-container mb-2">
@@ -20,18 +29,10 @@ End Code
             <div id="treeview"></div>
             <div id="context-menu"></div>
         </div>
-        @*<div class="col-6">
-                <div id="product-details" class="hidden">
-                    <div class="name"></div>
-                    <div class="price"></div>
-                </div>
-            </div>*@
         <div class="col-1">
             <div class="btn-group" role="group">
-
                 <div class="btn" id="btnExpand"></div>
                 <div class="btn" id="btnCompress"></div>
-
             </div>
         </div>
 
@@ -128,7 +129,6 @@ End Code
         </div>
     </div>
 </div>
-
 <!--New File-->
 <div class="modal" id="mdNewFile">
     <div class="modal-dialog modal-dialog-centered">
@@ -151,16 +151,6 @@ End Code
                         <input type="text" class="form-control" id="lbNewFile" placeholder="File name" value="">
                     </div>
                 </div>
-                @*<div class="row mb-2">
-                        <div class="col-sm">
-                            <div id="wgDate"></div>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-sm">
-                            <input type="number" min="0" step="1" class="form-control" id="lbRevision" placeholder="Revision No." value="">
-                        </div>
-                    </div>*@
             </div>
 
             <!-- Modal footer -->
@@ -173,52 +163,18 @@ End Code
     </div>
 </div>
 
-<!--Change Date-->
-<div class="modal" id="mdChangeDate">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <!-- Modal body -->
-            @*<div class="modal-header">
-                    <label hidden id="idChangeDate"></label>
-                </div>*@
-            <div class="modal-body">
-                <div class="row mb-2">
-                    <div class="col-sm">
-                        <div class="col-sm">Start Date</div>
-                    </div>
-                </div>
-                @*<div class="row mb-2">
-                        <div class="col-sm">
-                            <div id="wgDateChange"></div>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-sm">
-                            <input type="number" min="0" step="1" class="form-control" id="lbRevisionChange" placeholder="Revision No." value="">
-                        </div>
-                    </div>*@
-            </div>
-
-            <!-- Modal footer -->
-            <div class="modal-footer">
-                <button type="button" id="btnChangeDate" class="btn btn-success">Save</button>
-                <button type="button" onclick="clearModal();" class="btn btn-danger">Close</button>
-            </div>
-
-        </div>
-    </div>
-</div>
-
+<script>
+    var permission_status = '@Session("StatusLogin")';
+    var permission_edit = '@Session("Drawing")';
+    //console.log(permission_status);
+</script>
 <script>
     function clearModal() {
         document.getElementById('lbFile').innerHTML = 'Choose file';
         document.getElementById('lbNewFile').value = '';
         document.getElementById('lbNewFolder').value = '';
-        //document.getElementById('wgDate').value = '';
-        //document.getElementById('wgDateChange').value = '';
         $("#mdNewFile").modal('hide');
         $("#mdNewFolder").modal('hide');
-        $("#mdChangeDate").modal('hide');
     };
 
     var contextMenuItemsFolder = [
@@ -230,7 +186,6 @@ End Code
     var contextMenuItemsFile = [
         { text: 'Rename' },
         { text: 'Delete' },
-        //{ text: 'Change Date' },
     ];
     var OptionsMenu = contextMenuItemsFolder;
     var idItem = '';
@@ -239,17 +194,7 @@ End Code
     var firstReLoad = true;
 
     $(function () {
-
-        //var st_date = $("#wgDate").dxDateBox({
-
-        //}).dxDateBox('instance');
-
-
-        //var st_date_change = $("#wgDateChange").dxDateBox({
-
-        //}).dxDateBox('instance');
         function ConvertId(str) {
-
             for (i = 32; i <= 127; i++) {
                 var strRep = '__' + i.toString() + '__';
                 str = str.replace(new RegExp(strRep, 'g'), String.fromCharCode(i));
@@ -257,38 +202,9 @@ End Code
             return str;
         }
 
-        //function showDate() {
-
-        //    if (firstReLoad) {
-        //        firstReLoad = false;
-        //        var dataHead = $(".dx-treeview-item-content");
-        //        $(".dx-treeview-item-content")[0].innerHTML = $(".dx-treeview-item-content")[0].innerHTML + '<span class="badge badge-custom mt-1" style="float:right;font-size:12px;font-weight: normal;">Revision No.</span><span class="badge badge-custom mr-3 mt-1" style="float:right;font-size:12px;font-weight: normal;">Effective date</span>'
-        //    }
-
-        //    var dataNode = $(".dx-treeview-node-is-leaf");
-
-        //    for (var i = 0; i < dataNode.length; i++) {
-        //        var str = dataNode[i].innerHTML;
-
-        //        if (str.indexOf("badge") == -1) {
-        //            var positionStart = str.indexOf("<span>");
-        //            var positionEndStart = str.indexOf("</span>") + 7;
-        //            var subStr = str.substring(positionStart, positionEndStart);
-
-        //            var data_filter = treeview._options.items.filter(function (x) { return x.id === ConvertId(dataNode[i].dataset.itemId); })
-
-        //            if (data_filter[0].start_date !== undefined && data_filter[0].start_date != null && data_filter[0].revision != null) {
-        //                if (data_filter[0].revision < 10) {
-        //                    data_filter[0].revision = '&nbsp;&nbsp;' + data_filter[0].revision
-        //                }
-        //                $(".dx-treeview-node-is-leaf")[i].innerHTML = str.replace(subStr, subStr + '<span class="badge badge-light mr-4 mt-1" style="float:right;font-size:12px;font-weight: normal;">' + data_filter[0].revision + '</span><span class="badge badge-light mr-5 mt-1" data-toggle="tooltip" title="Effective date" style="float:right;font-size:12px;font-weight: normal;">' + moment(parseJsonDate(data_filter[0].start_date)).format('DD.MM.YYYY') + '</span>');
-        //            } else {
-
-        //            }
-        //        }
-        //    }
-        //}
-
+        function parseJsonDate(jsonDateString) {
+            return new Date(parseInt(jsonDateString.replace('/Date(', '')));
+        }
         var treeview;
         var editTreeView, scrollable;
         getMenu();
@@ -296,11 +212,13 @@ End Code
             firstReLoad = true;
             $.ajax({
                 type: "POST",
-                url: '../Drawing/GetMenuMMTH',
+                url: '../Drawing/GetMenuDMS',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
+                data: "{obj_id: '" + obj_id + "'}",
                 async: false,
                 success: function (data) {
+                    console.log(data);
                     treeview = $("#treeview").dxTreeView({
                         items: data,
                         dataStructure: "plain",
@@ -308,15 +226,13 @@ End Code
                         keyExpr: "id",
                         displayExpr: "name",
                         searchEnabled: true,
+                        searchMode: "startswith",
                         searchEditorOptions: {
                             width: '100%',
-                            elementAttr: {
-
-                            }
                         },
                         onItemClick: function (e) {
                             var item = e.node.itemData;
-                            console.log(e);
+
                             if (item.path) {
                                 window.open(item.path, '_blank');
                             }
@@ -344,16 +260,11 @@ End Code
                             }
                         },
                         onItemExpanded: function (e) {
-                            var item = e.itemData;
                             //showDate();
-                        },
-                        onItemCollapsed: function (e) {
-                            var item = e.itemData;
-
                         },
                         onContentReady: function (e) {
                             var $btnView = $('<div id="btnExpand">').dxButton({
-                                icon: 'exportpdf',
+                                icon: 'exportpdf', //or your custom icon
                                 onClick: function () {
 
                                 }
@@ -363,7 +274,6 @@ End Code
                                     .find('.dx-toolbar-after')
                                     .prepend($btnView);
                             };
-
 
                             var $btnUpdate = $('<div id="btnCompress" class="mr-2">').dxButton({
                                 icon: 'upload',
@@ -378,21 +288,18 @@ End Code
                         },
                         expandAllEnabled: true,
 
-
                     }).dxTreeView("instance");
-                    //showDate();
+
                 },
                 error: function (error) {
                     alert(error);
                 }
-
             });
         }
 
         $("#btnExpand").dxButton({
             onClick: function (e) {
                 treeview.expandAll();
-
             },
             icon: "spindown",
             elementAttr: {
@@ -412,7 +319,6 @@ End Code
 
         getContextMenu();
         function getContextMenu() {
-            var permission_edit = '@Session("MMTH")';
             if (permission_edit == 3) {
                 $("#context-menu").dxContextMenu({
                     dataSource: OptionsMenu,
@@ -437,17 +343,16 @@ End Code
                                 document.getElementById('idDelete').innerHTML = idItem;
                                 document.getElementById('lbDelete').value = name;
                                 $("#mdDelete").modal();
+                            } else if (e.itemData.text == "Change Detail") {
+                                document.getElementById('idChangeDate').innerHTML = idItem;
+                                document.getElementById('wgDateChange').value = s_date;
+                                $("#mdChangeDate").modal();
                             }
-                            //} else if (e.itemData.text == "Change Date") {
-                            //    document.getElementById('idChangeDate').innerHTML = idItem;
-                            //    document.getElementById('wgDateChange').value = s_date;
-                            //    $("#mdChangeDate").modal();
-                            //}
                         }
                     }
                 });
             }
-            
+
         }
 
         //Buttom In Modal
@@ -455,13 +360,12 @@ End Code
         function fnNewFolder() {
             var newName = document.getElementById('lbNewFolder').value;
             var id = document.getElementById('idNewFolder').innerHTML;
-
             if (newName != '') {
                 $.ajax({
                     type: "POST",
-                    url: "../Drawing/fnNewFolderMMTH",
+                    url: "../Drawing/fnNewFolderDMS",
                     contentType: "application/json; charset=utf-8",
-                    data: "{NewName:'" + newName + "', id:'" + id + "'}",
+                    data: "{NewName:'" + newName + "', Id:'" + id + "', obj_id: '" + obj_id + "'}",
                     dataType: "json",
                     async: false,
                     success: function (data) {
@@ -475,7 +379,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fnRename() {
@@ -484,9 +388,9 @@ End Code
             if (newName != "") {
                 $.ajax({
                     type: "POST",
-                    url: "../Drawing/fnRenameMMTH",
+                    url: "../Drawing/fnRenameDMS",
                     contentType: "application/json; charset=utf-8",
-                    data: "{newName:'" + newName + "', id:'" + id + "'}",
+                    data: "{newName:'" + newName + "', id:'" + id + "', obj_id: '" + obj_id + "'}",
                     dataType: "json",
                     async: false,
                     success: function (data) {
@@ -500,24 +404,23 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fnNewFile() {
             var newName = document.getElementById('lbNewFile').value;
             var strPath = document.getElementById('customFile').files[0];
             var id = document.getElementById('idNewFile').innerHTML;
-            //var revision = document.getElementById('lbRevision').value;
+
             if (newName != '' && strPath != '') {
                 var formData = new FormData();
                 formData.append("newName", newName);
                 formData.append("strPath", strPath);
                 formData.append("id", id);
-                //formData.append("start_date", st_date._options.text);
-                //formData.append("revision", revision);
+                formData.append("obj_id", obj_id);
                 $.ajax({
                     type: "POST",
-                    url: "../Drawing/fnNewFileMMTH",
+                    url: "../Drawing/fnNewFileDMS",
                     data: formData,
                     dataType: 'json',
                     contentType: false,
@@ -525,7 +428,6 @@ End Code
                     success: function (data) {
                         document.getElementById('lbNewFile').value = '';
                         document.getElementById('lbFile').innerHTML = 'Choose file';
-                        //document.getElementById('lbRevision').value = 0;
                         $('#mdNewFile').modal('hide');
                         getMenu();
                     },
@@ -535,17 +437,17 @@ End Code
                 });
             } else {
                 $('#mdNewFile').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
-
         }
+
         function fnDelete() {
             var id = document.getElementById('idDelete').innerHTML;
             $.ajax({
                 type: "POST",
-                url: "../Drawing/fnDeleteMMTH",
+                url: "../Drawing/fnDeleteDMS",
                 contentType: "application/json; charset=utf-8",
-                data: "{ idDel:'" + id + "' }",
+                data: "{ idDel:'" + id + "', obj_id: '" + obj_id + "' }",
                 dataType: "json",
                 async: false,
                 success: function (data) {
@@ -558,28 +460,6 @@ End Code
                 }
             });
         }
-
-        //function fnChangeDate() {
-        //    var id = document.getElementById('idChangeDate').innerHTML;
-        //    var revision = document.getElementById('lbRevisionChange').value;
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "../Drawing/fnChangeDateMMTH",
-        //        contentType: "application/json; charset=utf-8",
-        //        data: "{ id:'" + id + "', start_date: '" + st_date_change._options.text + "', revision: '" + revision + "' }",
-        //        dataType: "json",
-        //        async: false,
-        //        success: function (data) {
-        //            document.getElementById('wgDateChange').value = '';
-        //            document.getElementById('lbRevisionChange').value = 0;
-        //            $('#mdChangeDate').modal('hide');
-        //            getMenu();
-        //        },
-        //        error: function (error) {
-        //            alert(error);
-        //        }
-        //    });
-        //}
 
         $("#lbNewFolder").keypress(function (e) {
             if (event.which == 13) {
@@ -600,6 +480,7 @@ End Code
 
         $('#customFile').on('change', function () {
             var fileName = $(this).val();
+            //console.log(fileName);
             document.getElementById("lbFile").innerHTML = fileName;
             document.getElementById("lbNewFile").value = document.getElementById('customFile').files[0].name;
             $("#lbNewFile").focus();
@@ -620,14 +501,8 @@ End Code
         $("#btnDelete").click(function () {
             fnDelete();
         });
-        //Change Date
-        $("#btnChangeDate").click(function () {
-            //fnChangeDate();
-        });
-        //End Buttom In
 
-        function parseJsonDate(jsonDateString) {
-            return new Date(parseInt(jsonDateString.replace('/Date(', '')));
-        }
+        //End Buttom In Modal
     });
 </script>
+

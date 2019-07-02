@@ -76,6 +76,10 @@ End Code
             }
         });
     }
-
+    $(".d3").next().toggle();
+    $(".d3").click(function (e) {
+        e.stopPropagation();
+        $(".d3").next().toggle();
+    });
 </script>
 

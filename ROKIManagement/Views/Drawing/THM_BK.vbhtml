@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewData("Title") = "TMT"
+    ViewData("Title") = "THM"
 End Code
 
 <style>
@@ -239,15 +239,6 @@ End Code
     var firstReLoad = true;
 
     $(function () {
-
-        //var st_date = $("#wgDate").dxDateBox({
-
-        //}).dxDateBox('instance');
-
-
-        //var st_date_change = $("#wgDateChange").dxDateBox({
-
-        //}).dxDateBox('instance');
         function ConvertId(str) {
 
             for (i = 32; i <= 127; i++) {
@@ -255,39 +246,7 @@ End Code
                 str = str.replace(new RegExp(strRep, 'g'), String.fromCharCode(i));
             }
             return str;
-        }
-
-        //function showDate() {
-
-        //    if (firstReLoad) {
-        //        firstReLoad = false;
-        //        var dataHead = $(".dx-treeview-item-content");
-        //        $(".dx-treeview-item-content")[0].innerHTML = $(".dx-treeview-item-content")[0].innerHTML + '<span class="badge badge-custom mt-1" style="float:right;font-size:12px;font-weight: normal;">Revision No.</span><span class="badge badge-custom mr-3 mt-1" style="float:right;font-size:12px;font-weight: normal;">Effective date</span>'
-        //    }
-
-        //    var dataNode = $(".dx-treeview-node-is-leaf");
-
-        //    for (var i = 0; i < dataNode.length; i++) {
-        //        var str = dataNode[i].innerHTML;
-
-        //        if (str.indexOf("badge") == -1) {
-        //            var positionStart = str.indexOf("<span>");
-        //            var positionEndStart = str.indexOf("</span>") + 7;
-        //            var subStr = str.substring(positionStart, positionEndStart);
-
-        //            var data_filter = treeview._options.items.filter(function (x) { return x.id === ConvertId(dataNode[i].dataset.itemId); })
-
-        //            if (data_filter[0].start_date !== undefined && data_filter[0].start_date != null && data_filter[0].revision != null) {
-        //                if (data_filter[0].revision < 10) {
-        //                    data_filter[0].revision = '&nbsp;&nbsp;' + data_filter[0].revision
-        //                }
-        //                $(".dx-treeview-node-is-leaf")[i].innerHTML = str.replace(subStr, subStr + '<span class="badge badge-light mr-4 mt-1" style="float:right;font-size:12px;font-weight: normal;">' + data_filter[0].revision + '</span><span class="badge badge-light mr-5 mt-1" data-toggle="tooltip" title="Effective date" style="float:right;font-size:12px;font-weight: normal;">' + moment(parseJsonDate(data_filter[0].start_date)).format('DD.MM.YYYY') + '</span>');
-        //            } else {
-
-        //            }
-        //        }
-        //    }
-        //}
+        }        
 
         var treeview;
         var editTreeView, scrollable;
@@ -296,7 +255,7 @@ End Code
             firstReLoad = true;
             $.ajax({
                 type: "POST",
-                url: '../Drawing/GetMenuTMT',
+                url: '../Home/GetMenuDMS',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 async: false,
@@ -412,7 +371,7 @@ End Code
 
         getContextMenu();
         function getContextMenu() {
-            var permission_edit = '@Session("TMT")';
+            var permission_edit = '@Session("THM")';
             if (permission_edit == 3) {
                 $("#context-menu").dxContextMenu({
                     dataSource: OptionsMenu,
@@ -459,7 +418,7 @@ End Code
             if (newName != '') {
                 $.ajax({
                     type: "POST",
-                    url: "../Drawing/fnNewFolderTMT",
+                    url: "../Drawing/fnNewFolderTHM",
                     contentType: "application/json; charset=utf-8",
                     data: "{NewName:'" + newName + "', id:'" + id + "'}",
                     dataType: "json",
@@ -475,7 +434,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fnRename() {
@@ -484,7 +443,7 @@ End Code
             if (newName != "") {
                 $.ajax({
                     type: "POST",
-                    url: "../Drawing/fnRenameTMT",
+                    url: "../Drawing/fnRenameTHM",
                     contentType: "application/json; charset=utf-8",
                     data: "{newName:'" + newName + "', id:'" + id + "'}",
                     dataType: "json",
@@ -500,7 +459,7 @@ End Code
                 });
             } else {
                 $('#mdNewFolder').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
         }
         function fnNewFile() {
@@ -517,7 +476,7 @@ End Code
                 //formData.append("revision", revision);
                 $.ajax({
                     type: "POST",
-                    url: "../Drawing/fnNewFileTMT",
+                    url: "../Drawing/fnNewFileTHM",
                     data: formData,
                     dataType: 'json',
                     contentType: false,
@@ -535,7 +494,7 @@ End Code
                 });
             } else {
                 $('#mdNewFile').modal('hide');
-                alert("กรุณากรอกข้อมูลให้ครบ");
+                alert("Please complete the information.");
             }
 
         }
@@ -543,7 +502,7 @@ End Code
             var id = document.getElementById('idDelete').innerHTML;
             $.ajax({
                 type: "POST",
-                url: "../Drawing/fnDeleteTMT",
+                url: "../Drawing/fnDeleteTHM",
                 contentType: "application/json; charset=utf-8",
                 data: "{ idDel:'" + id + "' }",
                 dataType: "json",
@@ -564,7 +523,7 @@ End Code
         //    var revision = document.getElementById('lbRevisionChange').value;
         //    $.ajax({
         //        type: "POST",
-        //        url: "../Drawing/fnChangeDateTMT",
+        //        url: "../Drawing/fnChangeDateTHM",
         //        contentType: "application/json; charset=utf-8",
         //        data: "{ id:'" + id + "', start_date: '" + st_date_change._options.text + "', revision: '" + revision + "' }",
         //        dataType: "json",
@@ -629,5 +588,10 @@ End Code
         function parseJsonDate(jsonDateString) {
             return new Date(parseInt(jsonDateString.replace('/Date(', '')));
         }
+    });
+    $(".d2").next().toggle();
+    $(".d2").click(function (e) {
+        e.stopPropagation();
+        $(".d2").next().toggle();
     });
 </script>

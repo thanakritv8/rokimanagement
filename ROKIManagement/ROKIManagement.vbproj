@@ -181,6 +181,14 @@
     <Content Include="js\toast.js" />
     <Compile Include="Controllers\DrawingController.vb" />
     <Compile Include="Controllers\SQMController.vb" />
+    <Compile Include="Models\DataSetDMS.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSetDMS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DataSetManagement.vb">
+      <DependentUpon>DataSetManagement.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Models\FileTreeViewModel.vb" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
@@ -190,6 +198,17 @@
       <DependentUpon>DataSetManagement.xsd</DependentUpon>
     </Content>
     <Content Include="fonts\Helvetica Condens.ttf" />
+    <Content Include="Models\DataSetDMS.xsc">
+      <DependentUpon>DataSetDMS.xsd</DependentUpon>
+    </Content>
+    <None Include="Models\DataSetDMS.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetDMS.Designer.vb</LastGenOutput>
+    </None>
+    <Content Include="Models\DataSetDMS.xss">
+      <DependentUpon>DataSetDMS.xsd</DependentUpon>
+    </Content>
     <None Include="Models\DataSetManagement.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
@@ -1748,26 +1767,10 @@
     <Content Include="Views\Home\IATF.vbhtml" />
     <Content Include="Views\Home\ComingSoon.vbhtml" />
     <Content Include="Views\Home\ISO.vbhtml" />
-    <Content Include="Views\Drawing\HATC.vbhtml" />
-    <Content Include="Views\Drawing\THM.vbhtml" />
-    <Content Include="Views\Drawing\TSM.vbhtml" />
-    <Content Include="Views\Drawing\AAT.vbhtml" />
-    <Content Include="Views\Drawing\DUCATI.vbhtml" />
-    <Content Include="Views\Drawing\HRST.vbhtml" />
-    <Content Include="Views\Drawing\HTAS.vbhtml" />
-    <Content Include="Views\Drawing\KMT.vbhtml" />
-    <Content Include="Views\Drawing\MAZDA.vbhtml" />
-    <Content Include="Views\Drawing\META.vbhtml" />
-    <Content Include="Views\Drawing\TYM.vbhtml" />
-    <Content Include="Views\Drawing\HRAP.vbhtml" />
-    <Content Include="Views\Drawing\NMT.vbhtml" />
-    <Content Include="Views\Drawing\IMCT.vbhtml" />
-    <Content Include="Views\Drawing\MMTH.vbhtml" />
-    <Content Include="Views\Drawing\TMT.vbhtml" />
-    <Content Include="Views\Drawing\RJP.vbhtml" />
     <Content Include="Views\SQM\SQM.vbhtml" />
     <Content Include="Views\Home\SqmRoki.vbhtml" />
     <Content Include="Views\Home\SqmCustomer.vbhtml" />
+    <Content Include="Views\Drawing\Drawing.vbhtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

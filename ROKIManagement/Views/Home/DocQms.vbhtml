@@ -110,7 +110,7 @@ End Code
 
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <button type="button" id="btnSave" class="btn btn-success">Save</button>
+                            <button type="button" id="btnSave2" class="btn btn-success">Save</button>
                             <button type="button" id="btnClose" class="btn btn-danger" data-dismiss="modal">Close</button>
                         </div>
 
@@ -324,140 +324,154 @@ End Code
         myReload();
     });
 
-    $(document).ready(function () {
-        //$('#dataTable').DataTable( {
-        //    "scrollX": true
-        //} );
-        $('[data-tooltip="tooltip"]').tooltip();
-        $("#btnSave").click(function () {
-            $('#docAdd').modal('hide');
-            var formData = new FormData();
-            var strPathJP = document.getElementById('customFileJP').files[0];
-            var strNameJP = document.getElementById('nameDocJP').value;
-            var strNoJP = document.getElementById('noDocJP').value;
-            var strPathTH = document.getElementById('customFileTH').files[0];
-            var strNameTH = document.getElementById('nameDocTH').value;
-            var strNoTH = document.getElementById('noDocTH').value;
+    function saveQMS(){
+        $('#docAdd').modal('hide');
+        var formData = new FormData();
+        var strPathJP = document.getElementById('customFileJP').files[0];
+        var strNameJP = document.getElementById('nameDocJP').value;
+        var strNoJP = document.getElementById('noDocJP').value;
+        var strPathTH = document.getElementById('customFileTH').files[0];
+        var strNameTH = document.getElementById('nameDocTH').value;
+        var strNoTH = document.getElementById('noDocTH').value;
 
-            if (strNameJP == '' && strNameTH == '') {
-                showToast(0);
-            } else {
-                formData.append("pathJP", strPathJP);
-                formData.append("nameJP", strNameJP);
-                formData.append("noJP", strNoJP);
-                formData.append("pathTH", strPathTH);
-                formData.append("nameTH", strNameTH);
-                formData.append("noTH", strNoTH);
-
-                $.ajax({
-                    type: "POST",
-                    url: '../Home/UploadDocQMS',
-                    data: formData,
-                    dataType: 'json',
-                    //async: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        document.getElementById('lbPathJP').innerHTML = 'Choose file';
-                        document.getElementById('nameDocJP').value = '';
-                        document.getElementById('noDocJP').value = '';
-                        document.getElementById('lbPathTH').innerHTML = 'Choose file';
-                        document.getElementById('nameDocTH').value = '';
-                        document.getElementById('noDocTH').value = '';
-                        //showToast(2);
-                        document.getElementById('idAlert').innerHTML = "Recorded file success.";
-                        $("#AlertShow").modal();
-                        //setTimeout(myReload, 15000)
-                        //getDoc();
-                    },
-                    error: function (error) {
-                        alert(error);
-                    },
-                    
-                });
-
-                //getDoc();
-                //window.location.href = '../Home/DocQms';
-            }
-        });
-
-        $("#btnEdit").click(function () {
-            var formData = new FormData();
-            var strPathJP = document.getElementById('customFileJPe').files[0];
-            var strNameJP = document.getElementById('nameDocJPe').value;
-            var strNoJP = document.getElementById('noDocJPe').value;
-            var strPathTH = document.getElementById('customFileTHe').files[0];
-            var strNameTH = document.getElementById('nameDocTHe').value;
-            var strNoTH = document.getElementById('noDocTHe').value;
-            var seq = document.getElementById('seq').innerHTML;
-            //console.log(seq);
+        if (strNameJP == '' && strNameTH == '') {
+            showToast(0);
+        } else {
             formData.append("pathJP", strPathJP);
             formData.append("nameJP", strNameJP);
             formData.append("noJP", strNoJP);
             formData.append("pathTH", strPathTH);
             formData.append("nameTH", strNameTH);
             formData.append("noTH", strNoTH);
-            formData.append("seq", seq);
 
             $.ajax({
                 type: "POST",
-                url: '../Home/UpDateDocQMS',
+                url: '../Home/UploadDocQMS',
                 data: formData,
                 dataType: 'json',
+                //async: false,
                 contentType: false,
                 processData: false,
                 success: function (response) {
-                    document.getElementById('lbPathJPe').innerHTML = 'Choose file';
-                    document.getElementById('nameDocJPe').value = '';
-                    document.getElementById('noDocJPe').value = '';
-                    document.getElementById('lbPathTHe').innerHTML = 'Choose file';
-                    document.getElementById('nameDocTHe').value = '';
-                    document.getElementById('noDocTHe').value = '';
-                    document.getElementById('seq').innerHTML = '';
-                    //getDoc();
+                    document.getElementById('lbPathJP').innerHTML = 'Choose file';
+                    document.getElementById('nameDocJP').value = '';
+                    document.getElementById('noDocJP').value = '';
+                    document.getElementById('lbPathTH').innerHTML = 'Choose file';
+                    document.getElementById('nameDocTH').value = '';
+                    document.getElementById('noDocTH').value = '';
                     //showToast(2);
-                    document.getElementById('idAlert').innerHTML = "Update file success.";
+                    document.getElementById('idAlert').innerHTML = "Recorded file success.";
                     $("#AlertShow").modal();
+                    //setTimeout(myReload, 15000)
+                    //getDoc();
                 },
                 error: function (error) {
                     alert(error);
-                }
+                },
+                    
             });
+
+            //getDoc();
             //window.location.href = '../Home/DocQms';
+        }
+    }
+
+    function editQMS(){
+        var formData = new FormData();
+        var strPathJP = document.getElementById('customFileJPe').files[0];
+        var strNameJP = document.getElementById('nameDocJPe').value;
+        var strNoJP = document.getElementById('noDocJPe').value;
+        var strPathTH = document.getElementById('customFileTHe').files[0];
+        var strNameTH = document.getElementById('nameDocTHe').value;
+        var strNoTH = document.getElementById('noDocTHe').value;
+        var seq = document.getElementById('seq').innerHTML;
+        //console.log(seq);
+        formData.append("pathJP", strPathJP);
+        formData.append("nameJP", strNameJP);
+        formData.append("noJP", strNoJP);
+        formData.append("pathTH", strPathTH);
+        formData.append("nameTH", strNameTH);
+        formData.append("noTH", strNoTH);
+        formData.append("seq", seq);
+
+        $.ajax({
+            type: "POST",
+            url: '../Home/UpDateDocQMS',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                document.getElementById('lbPathJPe').innerHTML = 'Choose file';
+                document.getElementById('nameDocJPe').value = '';
+                document.getElementById('noDocJPe').value = '';
+                document.getElementById('lbPathTHe').innerHTML = 'Choose file';
+                document.getElementById('nameDocTHe').value = '';
+                document.getElementById('noDocTHe').value = '';
+                document.getElementById('seq').innerHTML = '';
+                //getDoc();
+                //showToast(2);
+                document.getElementById('idAlert').innerHTML = "Update file success.";
+                $("#AlertShow").modal();
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+        //window.location.href = '../Home/DocQms';
+    }
+
+    function delQMS(){
+        var formData = new FormData();
+        var cbDelJP = document.getElementById('cbDelJP').checked;
+        var cbDelTH = document.getElementById('cbDelTH').checked;
+        var seq = document.getElementById('seqDel').innerHTML;
+        //console.log(seq + '=>' + cbDelJP + '=>' + cbDelTH);
+        formData.append("cbDelJP", cbDelJP);
+        formData.append("cbDelTH", cbDelTH);
+        formData.append("seq", seq);
+
+        $.ajax({
+            type: "POST",
+            url: '../Home/DelDocQMS',
+            data: formData,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                document.getElementById('cbDelJP').checked = true;
+                document.getElementById('cbDelTH').checked = true;
+                document.getElementById('seqDel').innerHTML = '';
+                document.getElementById('idAlert').innerHTML = "Delete file success.";
+                $("#AlertShow").modal();
+                //showToast(2);
+                //getDoc();
+                //setTimeout(myReload, 3000)
+            },
+            error: function (error) {
+                alert(error);
+            }
+        });
+        //window.location.href = '../Home/DocQms';
+    } 
+
+    
+
+    $(document).ready(function () {
+        //$('#dataTable').DataTable( {
+        //    "scrollX": true
+        //} );
+        $('[data-tooltip="tooltip"]').tooltip();
+        $("#btnSave2").click(function () {
+            //console.log("test");
+            saveQMS();
+        });
+        $("#btnEdit").click(function () {
+            editQMS();
         });
 
         $("#btnDel").click(function () {
-            var formData = new FormData();
-            var cbDelJP = document.getElementById('cbDelJP').checked;
-            var cbDelTH = document.getElementById('cbDelTH').checked;
-            var seq = document.getElementById('seqDel').innerHTML;
-            //console.log(seq + '=>' + cbDelJP + '=>' + cbDelTH);
-            formData.append("cbDelJP", cbDelJP);
-            formData.append("cbDelTH", cbDelTH);
-            formData.append("seq", seq);
-
-            $.ajax({
-                type: "POST",
-                url: '../Home/DelDocQMS',
-                data: formData,
-                dataType: 'json',
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    document.getElementById('cbDelJP').checked = true;
-                    document.getElementById('cbDelTH').checked = true;
-                    document.getElementById('seqDel').innerHTML = '';
-                    document.getElementById('idAlert').innerHTML = "Delete file success.";
-                    $("#AlertShow").modal();
-                    //showToast(2);
-                    //getDoc();
-                    //setTimeout(myReload, 3000)
-                },
-                error: function (error) {
-                    alert(error);
-                }
-            });
-            //window.location.href = '../Home/DocQms';
+            delQMS();
         });
     });
 
