@@ -27,6 +27,7 @@ Namespace Controllers
 #Region "ActionResult"
 
         Function Drawing(ByVal id As Integer) As ActionResult
+            ClearExpandedDMS(id)
             If Session("StatusLogin") = "OK" Then
                 Dim Dt As DataTable = GetObjMenu(id)
                 If Dt.Rows.Count > 0 Then
@@ -84,7 +85,6 @@ Namespace Controllers
 #Region "Public Function"
 
         Public Function GetMenuDMS(ByVal obj_id As String) As String
-            ClearExpandedDMS(obj_id)
             Dim dtMenu As DataTable = New DataTable
             Dim cn As SqlConnection = objDB.ConnectDB(My.Settings.IPServer, My.Settings.User, My.Settings.Pass)
             cn.Open()

@@ -900,7 +900,6 @@ Namespace Controllers
                 Dim _SQL As String = "insert into [dms].[dbo].[log_error] (remark) values ('" & ex.Message & "')"
             End Try
 
-
             dtStatus.Rows.Add("OK")
             objDB.DisconnectDB(cn)
             Return New JavaScriptSerializer().Serialize(From dr As DataRow In dtStatus.Rows Select dtStatus.Columns.Cast(Of DataColumn)().ToDictionary(Function(col) col.ColumnName, Function(col) dr(col)))
